@@ -64,6 +64,15 @@ export default function CatalogBrowser({
   /* --- an open card ----------------------------------------------------- */
 
   if (selected) {
+    // Name the list you came from, not the path that produced it: "Back to
+    // Healings" beats "Back to by theme".
+    const cameFrom =
+      (state.path === 'theme' && state.theme
+        ? themes.find((t) => t.id === state.theme)?.label
+        : state.path === 'era' && state.era
+          ? eras.find((e) => e.id === state.era)?.label
+          : null) ?? PATH_LABELS[state.path]
+
     return (
       <div className="space-y-3.5">
         <button
@@ -72,7 +81,7 @@ export default function CatalogBrowser({
           className="flex min-h-9 items-center gap-1 rounded-lg px-2 font-sans text-xs font-medium btn-surface hover:shadow-md"
         >
           <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
-          Back to {PATH_LABELS[state.path].toLowerCase()}
+          Back to {cameFrom}
         </button>
         <WonderCardBody wonder={selected} onOpenPassage={onOpenPassage} />
       </div>

@@ -72,6 +72,26 @@ export function populatedEras(): Era[] {
   return ERA_ORDER.filter((era) => WONDERS.some((w) => w.era === era))
 }
 
+/**
+ * A wonder read aloud, in the order the card presents it.
+ *
+ * Card prose is optional on a catalog row, so anything a not-yet-written
+ * wonder is missing is skipped rather than narrated as "undefined".
+ */
+export function narrationForWonder(w: Wonder): string[] {
+  return [
+    w.location ? `${w.title}. ${w.location}.` : `${w.title}.`,
+    `Reading ${w.passage.label}.`,
+    w.distinctive ? `What ${w.passage.bookName} notices.` : '',
+    w.distinctive ?? '',
+    w.quote ? `${w.quote} ${w.quoteRef ?? ''}.` : '',
+    w.whatHappened ?? '',
+    w.hopeMeaning ?? '',
+    w.reflectionQuestion ? 'Something to consider.' : '',
+    w.reflectionQuestion ?? '',
+  ].filter(Boolean)
+}
+
 export function searchWonders(query: string): Wonder[] {
   const q = query.trim().toLowerCase()
   if (!q) return []

@@ -43,7 +43,11 @@ import {
 import { chapterIdOf, type PassageRef } from '@/lib/passages'
 import WonderCardBody from '@/components/WonderCardBody'
 import CatalogBrowser from '@/components/CatalogBrowser'
-import { WONDER_COUNT, wonderById } from '@/lib/wonders/catalog'
+import {
+  WONDER_COUNT,
+  narrationForWonder,
+  wonderById,
+} from '@/lib/wonders/catalog'
 import {
   DEFAULT_PATH_STATE,
   PATH_BLURBS,
@@ -328,7 +332,12 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
    * the chapter first (see NARRATION_DELAY).
    */
   const segmentsForStep = useCallback(() => {
-    const tour = narrationForMiracleStep(miracleStep)
+    // A card opened from the catalog reads as itself; the tour reads its step.
+    const tour = isTour
+      ? narrationForMiracleStep(miracleStep)
+      : selectedWonder
+        ? narrationForWonder(selectedWonder)
+        : []
     if (speechMode === 'tour') return tour
 
     const verses = Array.from(
@@ -344,7 +353,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
     if (!verses.length) return tour
 
     return speechMode === 'passage' ? verses : [...tour, 'The passage.', ...verses]
-  }, [miracleStep, speechMode])
+  }, [miracleStep, speechMode, isTour, selectedWonder])
 
   // Held in a ref so the narration effect keys off the settings, not identity.
   const segmentsRef = useRef(segmentsForStep)
@@ -356,7 +365,9 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
    * be heard straight away.
    */
   useEffect(() => {
-    if (!open || !speechOn || view !== 'tour') return
+    if (!open || !speechOn) return
+    // Nothing to read on the overview or a bare list.
+    if (!isTour && !selectedWonder) return
 
     const timer = window.setTimeout(() => {
       speakRef.current(segmentsRef.current())
@@ -364,7 +375,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
 
     return () => window.clearTimeout(timer)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, speechOn, speechMode, speechRate, voiceURI, stepIndex, view])
+  }, [open, speechOn, speechMode, speechRate, voiceURI, stepIndex, view, selectedWonder])
 
   // Move focus to the new step's heading so screen readers follow along.
   useEffect(() => {
@@ -548,7 +559,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
               </p>
             </div>
             <div className="flex shrink-0 items-center gap-1">
-              {isTour && narration.supported && (
+              {(isTour || selectedWonder) && narration.supported && (
                 <div className="tour-speech-control flex items-center">
                   <button
                     type="button"
@@ -625,7 +636,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
 
           {/* What to narrate. Sits on its own row rather than in the voice
               sheet, so switching stays one click and never gets buried. */}
-          {isTour && narration.supported && speechOn && (
+          {(isTour || selectedWonder) && narration.supported && speechOn && (
             <div
               role="radiogroup"
               aria-label="What to narrate"

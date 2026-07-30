@@ -385,7 +385,7 @@ export default function ReadAloudToolbar() {
           ) : status === 'paused' ? (
             <Play className="relative h-6 w-6 translate-x-0.5 text-white" />
           ) : (
-            <Headphones className="relative h-6 w-6 text-pine-900 transition-transform group-hover:scale-105 dark:text-ocean-100" />
+            <Headphones className="relative h-6 w-6 text-pine-50 transition-transform group-hover:scale-105 dark:text-ocean-100" />
           )}
           <span className="absolute -right-1 -top-1 flex h-5 items-center rounded-full bg-pine-100 px-1.5 text-[9px] font-bold uppercase tracking-wide text-pine-900 shadow-sm dark:bg-ocean-100 dark:text-ocean-900">
             Listen

@@ -15,7 +15,7 @@
  */
 
 import { chapterIdOf, ref, type PassageRef } from './passages'
-import { wonderById } from './wonders/catalog'
+import { narrationForWonder, wonderById } from './wonders/catalog'
 import type { TestamentId, Wonder } from './wonders/types'
 
 export type { TestamentId }
@@ -227,19 +227,9 @@ export function narrationForMiracleStep(step: MiracleTourStep): string[] {
     case 'miracle': {
       const miracle =
         TESTAMENT_SECTIONS[step.sectionIndex].miracles[step.miracleIndex]
-      // Card prose is optional on a catalog row, so read past anything a
-      // not-yet-written wonder is missing rather than narrating "undefined".
-      return [
-        miracle.location
-          ? `${miracle.title}. ${miracle.location}.`
-          : `${miracle.title}.`,
-        `Reading ${miracle.passage.label}.`,
-        miracle.quote ? `${miracle.quote} ${miracle.quoteRef ?? ''}.` : '',
-        miracle.whatHappened ?? '',
-        miracle.hopeMeaning ?? '',
-        miracle.reflectionQuestion ? 'Something to consider.' : '',
-        miracle.reflectionQuestion ?? '',
-      ].filter(Boolean)
+      // Same builder the catalog browser reads a card with, so a wonder
+      // sounds the same however you reached it.
+      return narrationForWonder(miracle)
     }
 
     case 'section-synthesis': {
