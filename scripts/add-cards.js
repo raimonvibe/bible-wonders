@@ -61,13 +61,21 @@ function render(card) {
   return lines.join('\n')
 }
 
-/** Locate one wonder's object literal by id, returning its body span. */
+/**
+ * Locate one wonder's object literal by id.
+ *
+ * `end` is where prose gets inserted — after the identity fields, just before
+ * the closing brace — so every entry reads id/title/passage/tags first and
+ * prose second, the way the hand-written ones do.
+ */
 function findEntry(src, id) {
   const re = new RegExp(
     `(\\n  \\{\\n(?:.*?\\n)*?    id: '${id.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}',\\n)((?:.*?\\n)*?)(  \\},\\n)`,
   )
   const m = re.exec(src)
-  return m ? { head: m.index + m[1].length, body: m[2] } : null
+  if (!m) return null
+  const bodyStart = m.index + m[1].length
+  return { head: bodyStart, end: bodyStart + m[2].length, body: m[2] }
 }
 
 let added = 0
@@ -110,7 +118,7 @@ for (const file of SOURCES) {
       )
     }
 
-    src = src.slice(0, found.head) + render(card) + '\n' + body + src.slice(found.head + found.body.length)
+    src = src.slice(0, found.head) + body + render(card) + '\n' + src.slice(found.end)
     touched = true
     added += 1
   }
