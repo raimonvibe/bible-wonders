@@ -64,12 +64,13 @@ const structuredData = {
 // import PrayerChatWidget from '../components/PrayerChatWidget'
 
 export const metadata: Metadata = {
-  title: 'Holy Bible Reader - Old & New Testament',
-  description: 'Read the complete Holy Bible with a beautiful, modern interface. 66 books, 1,189 chapters from the World English Bible - Old Testament and New Testament.',
-  keywords: ['Bible', 'Old Testament', 'New Testament', 'Scripture', 'Christian', 'Reading', 'World English Bible', 'Gospel', 'Holy Bible'],
-  authors: [{ name: 'Holy Bible Reader' }],
-  creator: 'Holy Bible Reader',
-  publisher: 'Holy Bible Reader',
+  title: 'Wonders and Hope — the Bible’s miracles, passage by passage',
+  description:
+    "178 wonders from the World English Bible, each with a short card and the passage open beside it. Read the whole Bible too — 66 books, 1,189 chapters.",
+  keywords: ['Bible', 'miracles', 'wonders', 'Old Testament', 'New Testament', 'Scripture', 'World English Bible', 'Gospel', 'hope'],
+  authors: [{ name: 'raimonvibe' }],
+  creator: 'raimonvibe',
+  publisher: 'raimonvibe',
   metadataBase: new URL(SITE_URL),
   applicationName: SITE_NAME,
   category: 'reference',
@@ -93,8 +94,9 @@ export const metadata: Metadata = {
     telephone: false,
   },
   openGraph: {
-    title: 'Holy Bible Reader - Old & New Testament',
-    description: 'Read the complete Holy Bible with a beautiful, modern interface. 66 books, 1,189 chapters from the World English Bible.',
+    title: 'Wonders and Hope — the Bible’s miracles, passage by passage',
+    description:
+      "178 wonders from the World English Bible, each with a short card and the passage open beside it. Read the whole Bible too — 66 books, 1,189 chapters.",
     url: SITE_URL,
     siteName: SITE_NAME,
     images: [
@@ -102,7 +104,7 @@ export const metadata: Metadata = {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Holy Bible Reader - Read the complete Bible online',
+        alt: 'Wonders and Hope — a green Bible beside the words “178 moments when the impossible gave way”',
       },
     ],
     locale: 'en_US',
@@ -110,8 +112,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Holy Bible Reader - Old & New Testament',
-    description: 'Read the complete Holy Bible with a beautiful, modern interface. 66 books, 1,189 chapters from the World English Bible.',
+    title: 'Wonders and Hope — the Bible’s miracles, passage by passage',
+    description:
+      "178 wonders from the World English Bible, each with a short card and the passage open beside it. Read the whole Bible too — 66 books, 1,189 chapters.",
     images: ['/og-image.png'],
   },
   icons: {
@@ -119,15 +122,13 @@ export const metadata: Metadata = {
       { url: '/favicon.ico' },
       { url: '/favicon.png', type: 'image/png' },
     ],
-    apple: [
-      { url: '/apple-touch-icon.png' },
-    ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
   },
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'Holy Bible',
+    title: 'Wonders and Hope',
   },
 }
 

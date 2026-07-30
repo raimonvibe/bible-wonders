@@ -1,4 +1,4 @@
-[![Wonders and Hope](bible.png)](https://github.com/raimonvibe/bible-wonders)
+[![Wonders and Hope](public/og-image.png)](https://github.com/raimonvibe/bible-wonders)
 
 # Wonders and Hope
 
