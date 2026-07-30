@@ -772,6 +772,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('JOS', 'Joshua', '3', 14, 17),
     theme: 'rescue',
     era: 'conquest',
+    quote:
+      'The priests who bore the ark of Yahweh’s covenant stood firm on dry ground in the middle of the Jordan; and all Israel crossed over on dry ground, until all the nation had passed completely over the Jordan.',
+    quoteRef: 'Joshua 3:17',
+    details: [
+      'The Jordan was at its fullest — the account notes it overflows its banks all through harvest.',
+      'The water did not stop until the priests’ feet were already in it.',
+      'The priests then stood in the riverbed while the entire nation walked past them.',
+    ],
+    whatHappened:
+      'The river was in full flood when Israel came to cross it. The water only stopped once the priests carrying the ark had stepped into the edge of it — and then it piled up far upstream, and the whole nation walked across on dry ground while the priests stood in the middle.',
+    hopeMeaning:
+      'The order of events is the hard part. The river did not part and then invite them in; they had to put their feet in a flooded river first. Some things do not open until you are already committed to them.',
+    reflectionQuestion:
+      'What are you waiting to see open before you step towards it?',
   },
   {
     id: 'jericho',
@@ -804,6 +818,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('JOS', 'Joshua', '10', 9, 11),
     theme: 'judgment',
     era: 'conquest',
+    quote:
+      'There were more who died from the hailstones than those whom the children of Israel killed with the sword.',
+    quoteRef: 'Joshua 10:11',
+    details: [
+      'Israel had marched all night to reach the battle.',
+      'The stones fell on the fleeing army as it ran down the pass at Beth Horon.',
+      'The account is explicit that the sky did more damage than the army did.',
+    ],
+    whatHappened:
+      'After an all-night march, Israel routed the Amorite kings. As the enemy fled down the descent of Beth Horon, great stones fell out of the sky on them — and the record notes plainly that more died from the hail than from Israel’s swords.',
+    hopeMeaning:
+      'Israel had done the hard part: the night march, the fight. And the account still insists that the larger share of the outcome was not theirs. Effort and outcome are related here, but they are not the same thing, and the text is careful to say so.',
+    reflectionQuestion:
+      'Where might you be quietly taking credit for an outcome that was not all your doing?',
   },
   {
     id: 'sun-stands-still',
@@ -812,6 +840,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('JOS', 'Joshua', '10', 12, 14),
     theme: 'nature',
     era: 'conquest',
+    quote:
+      'There was no day like that before it or after it, that Yahweh listened to the voice of a man; for Yahweh fought for Israel.',
+    quoteRef: 'Joshua 10:14',
+    details: [
+      'Joshua spoke it out loud, in front of everyone, rather than praying quietly.',
+      'The account cites an older book, Jashar, as its source.',
+      'What the writer finds remarkable is not the sun, but that a man was listened to.',
+    ],
+    whatHappened:
+      'In the middle of a battle that was running out of daylight, Joshua said out loud, in front of Israel, that the sun should stand still — and the day held. The account quotes an older book for it, and then adds its own astonishment.',
+    hopeMeaning:
+      'Notice where the writer puts the wonder. Not on the sky: on the fact that God listened to the voice of a man. The largest thing in the story, to the person telling it, is that somebody asked and was heard.',
+    reflectionQuestion:
+      'Do you find it easier to believe that God can act, or that God would listen to you specifically?',
   },
   {
     id: 'gideon-fire-rock',
@@ -820,6 +862,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('JDG', 'Judges', '6', 19, 24),
     theme: 'sign',
     era: 'conquest',
+    quote:
+      'Then Yahweh’s angel stretched out the end of the staff that was in His hand, and touched the meat and the unleavened cakes; and fire went up out of the rock and consumed the meat and the unleavened cakes.',
+    quoteRef: 'Judges 6:21',
+    details: [
+      'Gideon had been threshing wheat in a winepress to hide it from raiders.',
+      'He prepared a meal for his visitor, not an offering.',
+      'The moment the food was consumed, the angel was gone.',
+    ],
+    whatHappened:
+      'Gideon, hiding his grain from raiders, was told he would save Israel — and asked for something to confirm it. He brought out a meal. His visitor touched it with the end of a staff, fire came up out of the rock and consumed it, and the angel vanished.',
+    hopeMeaning:
+      'What Gideon brought was hospitality, not sacrifice: a meal for a guest. It was accepted anyway, and turned into the sign he had asked for. The ordinary thing he had to offer was enough to work with.',
+    reflectionQuestion:
+      'What ordinary thing could you offer, if you stopped waiting until you had something more impressive?',
   },
   {
     id: 'gideon-fleece',
@@ -828,6 +884,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('JDG', 'Judges', '6', 36, 40),
     theme: 'sign',
     era: 'conquest',
+    quote:
+      'God did so that night; for it was dry on the fleece only, and there was dew on all the ground.',
+    quoteRef: 'Judges 6:40',
+    details: [
+      'Gideon had already been given a sign, and asked for another.',
+      'Then he asked for the same test again, reversed, apologising as he asked.',
+      'Both times, he got exactly what he asked for.',
+    ],
+    whatHappened:
+      'Having already been given one sign, Gideon asked for another: dew on a fleece and dry ground around it. He got it. Then he asked for the reverse — dry fleece, wet ground — apologising for asking twice. He got that too.',
+    hopeMeaning:
+      'Gideon is not rebuked for double-checking. He asks, gets an answer, doubts the answer, asks again in the opposite direction, and is answered again. Whatever faith is in this story, it evidently has room for someone who needs to be sure.',
+    reflectionQuestion:
+      'Have you been treating your need for reassurance as a failure of faith?',
   },
   {
     id: 'gideon-three-hundred',
@@ -836,6 +906,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('JDG', 'Judges', '7', 19, 22),
     theme: 'rescue',
     era: 'conquest',
+    quote:
+      'They each stood in his place around the camp, and all the army ran; and they shouted, and put them to flight.',
+    quoteRef: 'Judges 7:21',
+    details: [
+      'Gideon’s army had been cut from twenty-two thousand to three hundred on purpose.',
+      'Their weapons were trumpets, clay jars and torches — no swords are mentioned.',
+      'The enemy camp defeated itself in the dark.',
+    ],
+    whatHappened:
+      'Gideon’s force had been deliberately reduced from twenty-two thousand men to three hundred. At night they surrounded the camp, broke jars, held up torches and blew trumpets — and the army inside turned on itself in the confusion and fled.',
+    hopeMeaning:
+      'The army was made smaller on purpose, so that nobody could mistake where the outcome came from. Being reduced is not always being weakened; here it is the whole point of how the story works.',
+    reflectionQuestion:
+      'Is there something you have lost that you have assumed leaves you less able, rather than differently placed?',
   },
   {
     id: 'manoah-flame',
@@ -844,6 +928,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('JDG', 'Judges', '13', 15, 21),
     theme: 'sign',
     era: 'conquest',
+    quote:
+      'For when the flame went up toward the sky from off the altar, Yahweh’s angel ascended in the flame of the altar.',
+    quoteRef: 'Judges 13:20',
+    details: [
+      'Manoah and his wife had asked their visitor’s name and been refused.',
+      'They were watching the fire when the visitor went up in it.',
+      'Only then did Manoah understand who had been talking to them.',
+    ],
+    whatHappened:
+      'Manoah made an offering on a rock while he and his wife watched. As the flame rose, their visitor ascended in it — and the two of them fell on their faces. Only afterwards did Manoah realise who they had been speaking with.',
+    hopeMeaning:
+      'They worked out what had happened after it had finished, not during. That is often how it goes. The understanding arrives late, looking backwards, and it is no less real for arriving that way.',
+    reflectionQuestion:
+      'Looking back, is there a moment you only understood much later?',
   },
   {
     id: 'samson-lion',
@@ -852,6 +950,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('JDG', 'Judges', '14', 5, 6),
     theme: 'sign',
     era: 'conquest',
+    quote:
+      'Yahweh’s Spirit came mightily on him, and He tore him as He would have torn a young goat with His bare hands, but He didn’t tell His father or His mother what He had done.',
+    quoteRef: 'Judges 14:6',
+    details: [
+      'Samson was walking to Timnah with his parents when the lion came at him.',
+      'He had nothing in his hands.',
+      'He told nobody about it — not even his father or mother.',
+    ],
+    whatHappened:
+      'Walking through the vineyards of Timnah, a young lion came roaring at Samson. He tore it apart with nothing in his hands, and then said nothing about it to anyone, including his parents.',
+    hopeMeaning:
+      'The strangest detail is the silence afterwards. Something extraordinary happened and he did not tell a soul. Not everything that God does in a life is for an audience, and some of it is never explained to anyone.',
+    reflectionQuestion:
+      'Is there something in your life you have never told anyone, that mattered more than you let on?',
   },
   {
     id: 'samson-jawbone',
@@ -860,6 +972,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('JDG', 'Judges', '15', 14, 17),
     theme: 'rescue',
     era: 'conquest',
+    quote:
+      'Then Yahweh’s Spirit came mightily on him, and the ropes that were on His arms became as flax that was burned with fire; and His bands dropped from off His hands.',
+    quoteRef: 'Judges 15:14',
+    details: [
+      'Samson had been handed over to the Philistines, tied with new ropes.',
+      'The ropes fell apart as though burnt.',
+      'The weapon he picked up was a jawbone lying on the ground.',
+    ],
+    whatHappened:
+      'Bound with new ropes and handed over to the Philistines, Samson felt the ropes come apart on his arms like burnt threads. He picked up a jawbone from the ground and fought off a thousand men with it.',
+    hopeMeaning:
+      'He had no weapon and no plan, and what he ended up with was whatever was lying nearby. It is not a dignified picture. It is a reminder that being unequipped and being finished are not the same condition.',
+    reflectionQuestion:
+      'What would you attempt if you stopped waiting to feel properly equipped for it?',
   },
   {
     id: 'samson-water',
@@ -868,6 +994,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('JDG', 'Judges', '15', 18, 19),
     theme: 'provision',
     era: 'conquest',
+    quote:
+      'But God split the hollow place that is in Lehi, and water came out of it. When he had drunk, his spirit came again, and he revived.',
+    quoteRef: 'Judges 15:19',
+    details: [
+      'This happens immediately after his greatest victory, not after a defeat.',
+      'His complaint is blunt: am I going to win like that and then die of thirst?',
+      'The place is renamed after the man who called out there.',
+    ],
+    whatHappened:
+      'Straight after the fight, Samson was desperately thirsty, and said so bluntly — was he really going to be given a victory like that and then die of thirst? God split open the ground at Lehi, water came out, he drank, and he revived.',
+    hopeMeaning:
+      'The crash comes right after the triumph, which is exactly when people assume they have no right to ask for anything. He asked anyway, without dressing it up, and was answered.',
+    reflectionQuestion:
+      'Do you find it harder to ask for help after something has gone well than after it has gone badly?',
   },
   {
     id: 'samson-pillars',
@@ -876,11 +1016,39 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('JDG', 'Judges', '16', 28, 30),
     theme: 'rescue',
     era: 'conquest',
+    quote:
+      'Samson called to Yahweh, and said, “Lord Yahweh, remember me, please, and strengthen me, please, only this once, God, that I may be at once avenged of the Philistines for my two eyes.”',
+    quoteRef: 'Judges 16:28',
+    details: [
+      'He was blinded, shackled, and being displayed for entertainment.',
+      'His prayer asks for one thing, once — and says "please" twice.',
+      'The account does not tidy up his motive: he asks to be avenged for his eyes.',
+    ],
+    whatHappened:
+      'Blinded and put on display for a crowd, Samson asked to be remembered and strengthened one last time. He braced against the two central pillars and brought the building down on himself and everyone in it.',
+    hopeMeaning:
+      'This is not a clean ending, and the text does not pretend otherwise — his stated motive is revenge for his own eyes. What it does record is that a man at the very bottom of his life prayed a short, undignified prayer, and was heard.',
+    reflectionQuestion:
+      'Would you still pray if the only prayer you had left was not a noble one?',
   },
 
   /* --- Kingdoms --------------------------------------------------------- */
   {
     id: 'hannah-answered',
+    quote:
+      'When the time had come, Hannah conceived, and bore a son; and she named him Samuel, saying, “Because I have asked him of Yahweh.”',
+    quoteRef: '1 Samuel 1:20',
+    details: [
+      'Hannah had been childless for years and taunted for it at home.',
+      'She prayed so intently at the sanctuary that the priest assumed she was drunk.',
+      'The name she gave her son is a permanent reminder of the asking, not of the answer.',
+    ],
+    whatHappened:
+      'Hannah had been childless for years, and mocked for it. She prayed at the sanctuary so intensely and so silently that the priest took her for a drunk woman. She conceived, bore a son, and named him for the fact that she had asked.',
+    hopeMeaning:
+      "She named the child after the request rather than the gift. Whatever else that says, it means the years of asking were not something to be forgotten once the answer arrived — they became part of the answer's name.",
+    reflectionQuestion:
+      'If something you have been asking for arrived, would you want to remember the waiting, or forget it?',
     title: "Hannah's Prayer Answered",
     testament: 'old',
     passage: ref('1SA', '1 Samuel', '1', 19, 20),
@@ -889,6 +1057,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'dagon-falls',
+    quote:
+      'When they arose early on the following morning, behold, Dagon had fallen on his face to the ground before Yahweh’s ark; and the head of Dagon and both the palms of His hands were cut off on the threshold.',
+    quoteRef: '1 Samuel 5:4',
+    details: [
+      'The Philistines had captured the ark and set it up as a trophy beside their own god.',
+      'They found Dagon face down, stood him back up, and found him face down again the next morning.',
+      "The second time, the statue's head and hands were broken off.",
+    ],
+    whatHappened:
+      'The Philistines captured the ark and stood it in the temple of Dagon as a trophy. The next morning Dagon was face down in front of it. They set the statue upright again. The following morning he was face down once more, this time with his head and hands broken off.',
+    hopeMeaning:
+      "Israel had lost the battle and lost the ark, and from the outside it looked like their God had lost too. The story is told from inside the enemy's temple, at night, where nobody from Israel could see it. Defeat in public is not always defeat.",
+    reflectionQuestion:
+      'Is there a situation you have written off as lost, where you may simply not be able to see what is happening?',
     title: 'Dagon Falls before the Ark',
     testament: 'old',
     passage: ref('1SA', '1 Samuel', '5', 1, 5),
@@ -897,6 +1079,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'philistine-tumors',
+    quote:
+      'But Yahweh’s hand was heavy on the people of Ashdod, and He destroyed them and struck them with tumors, even Ashdod and its borders.',
+    quoteRef: '1 Samuel 5:6',
+    details: [
+      'The affliction followed the ark from city to city as the Philistines moved it around.',
+      'Each city in turn begged to have it sent somewhere else.',
+      'In the end they sent it back to Israel with a guilt offering.',
+    ],
+    whatHappened:
+      'Wherever the captured ark was taken, the people of that city were struck with tumors. City after city passed it on, until the Philistines decided to send it back to Israel altogether, with an offering.',
+    hopeMeaning:
+      'This is a grim story, and its point is uncomfortable: what looked like a prize turned into something nobody could hold onto. Some things we win are not worth keeping, and being unable to keep them can be a mercy in disguise.',
+    reflectionQuestion:
+      'Is there something you fought to get that you would now be relieved to be rid of?',
     title: 'Tumors on the Philistines',
     testament: 'old',
     passage: ref('1SA', '1 Samuel', '5', 6, 12),
@@ -905,6 +1101,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'thunder-at-mizpah',
+    quote:
+      'Yahweh thundered with a great thunder on that day on the Philistines and confused them; and they were struck down before Israel.',
+    quoteRef: '1 Samuel 7:10',
+    details: [
+      'Israel was gathered to confess and pray, not to fight.',
+      'The Philistines attacked precisely because Israel had gathered.',
+      'The rescue arrives while Samuel is still in the middle of the offering.',
+    ],
+    whatHappened:
+      'Israel had gathered at Mizpah to confess and pray, and the Philistines took the gathering as an opportunity to attack. While Samuel was still making the offering, thunder broke over the attacking army, and they were routed.',
+    hopeMeaning:
+      'The attack came because they had stopped to pray — doing the right thing made them vulnerable. And the answer came before the prayer was even finished. Both halves of that are worth holding: obedience can expose you, and help can be already on its way.',
+    reflectionQuestion:
+      'Has doing the right thing ever left you more exposed rather than less?',
     title: 'Thunder at Mizpah',
     testament: 'old',
     passage: ref('1SA', '1 Samuel', '7', 7, 11),
@@ -913,6 +1123,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'thunder-in-harvest',
+    quote:
+      'So Samuel called to Yahweh, and Yahweh sent thunder and rain that day. Then all the people greatly feared Yahweh and Samuel.',
+    quoteRef: '1 Samuel 12:18',
+    details: [
+      'Thunder and rain during the wheat harvest were close to unheard of.',
+      'The sign was given to a people who had just insisted on having a king.',
+      'It frightened them — and Samuel immediately told them not to be afraid.',
+    ],
+    whatHappened:
+      "Israel had insisted on a king, against Samuel's warning. At harvest time, when rain was almost unknown, Samuel called out and thunder and rain came. The people were badly frightened, and Samuel's next words were to tell them not to be.",
+    hopeMeaning:
+      'The sign confirms they had chosen badly — and then the immediate message is "don\'t be afraid". Being shown you were wrong and being told not to fear arrive in the same breath here.',
+    reflectionQuestion:
+      'When you realise you have chosen badly, what do you usually expect to hear next?',
     title: 'Thunder and Rain in Wheat Harvest',
     testament: 'old',
     passage: ref('1SA', '1 Samuel', '12', 16, 18),
@@ -921,6 +1145,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'uzzah-and-the-ark',
+    quote:
+      'Yahweh’s anger burned against Uzzah, and God struck him there for His error; and He died there by God’s ark.',
+    quoteRef: '2 Samuel 6:7',
+    details: [
+      'The ark was being moved on a cart, which was not how it was meant to be carried.',
+      'The cattle stumbled and Uzzah reached out to steady it.',
+      'David was angry, and then afraid, and left the ark where it was for three months.',
+    ],
+    whatHappened:
+      'The ark was being carried to Jerusalem on a new cart. The cattle stumbled, Uzzah put out his hand to steady it, and he died there beside it. David was first angry and then frightened, and abandoned the journey for three months.',
+    hopeMeaning:
+      "There is no comfortable reading of this and it would be dishonest to manufacture one. What the account does preserve is David's reaction — anger first, then fear — without correcting him for it. Scripture keeps the record of a man furious at God, and does not tidy it away.",
+    reflectionQuestion:
+      'Is there anger at God you have felt you were not allowed to admit to?',
     title: 'Uzzah and the Ark',
     testament: 'old',
     passage: ref('2SA', '2 Samuel', '6', 6, 8),
@@ -929,6 +1167,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'census-plague',
+    quote:
+      'Yahweh relented of the disaster, and said to the angel who destroyed the people, “It is enough. Now withdraw your hand.”',
+    quoteRef: '2 Samuel 24:16',
+    details: [
+      'David had ordered a census against advice, and admitted afterwards that it was his own doing.',
+      'The consequence fell on the people rather than on the king who ordered it.',
+      'The stopping point is not reached by argument — it is simply declared.',
+    ],
+    whatHappened:
+      'David ordered a census he had been warned against, and a plague followed. As the destroying angel reached Jerusalem, it was stopped mid-motion, with two words: it is enough.',
+    hopeMeaning:
+      "The account is honest that the wrong was the king's and the cost fell on others; it does not pretend that is fair. What it puts at the centre is the moment something stops. The disaster has a limit, and the limit is set from above rather than reached by exhaustion.",
+    reflectionQuestion:
+      'Do you believe the hard thing you are in has a limit, or does it feel open-ended?',
     title: "The Plague after David's Census",
     testament: 'old',
     passage: ref('2SA', '2 Samuel', '24', 15, 17),
@@ -937,6 +1189,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'jeroboam-hand',
+    quote:
+      'The man of God interceded with Yahweh, and the king’s hand was restored to him again, and became as it was before.',
+    quoteRef: '1 Kings 13:6',
+    details: [
+      'Jeroboam stretched out his hand to have the prophet seized, and it dried up mid-gesture.',
+      'The king asked the very prophet he had tried to arrest to pray for him.',
+      'The hand was restored completely — as it was before.',
+    ],
+    whatHappened:
+      'King Jeroboam pointed at a prophet and ordered him seized, and his hand withered where it was, stuck out in front of him. He asked that same prophet to pray for him. The prophet did, and the hand was restored exactly as it had been.',
+    hopeMeaning:
+      'The king is not required to repent, apologise, or change his religious policy first. He asks, and the prophet he had just tried to arrest prays for him, and he is restored completely. The help arrives well before the character does.',
+    reflectionQuestion:
+      'Do you assume you have to become better before you can ask for help?',
     title: "Jeroboam's Withered Hand Restored",
     testament: 'old',
     passage: ref('1KI', '1 Kings', '13', 1, 6),
@@ -945,6 +1211,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'ravens-feed-elijah',
+    quote:
+      'The ravens brought him bread and meat in the morning, and bread and meat in the evening; and he drank from the brook.',
+    quoteRef: '1 Kings 17:6',
+    details: [
+      'Elijah was in hiding during a drought he himself had announced.',
+      'Ravens were birds Israel counted as unclean.',
+      'The food came twice a day, and the brook eventually dried up anyway.',
+    ],
+    whatHappened:
+      'Hiding by a brook during the drought he had announced, Elijah was fed by ravens — bread and meat morning and evening — and drank from the stream, until the stream dried up and he was sent elsewhere.',
+    hopeMeaning:
+      'The delivery service is a bird Israel classed as unclean, and the arrangement was always temporary. Provision here is neither dignified nor permanent, and it is still provision.',
+    reflectionQuestion:
+      'Would you recognise help if it arrived through something you had already dismissed?',
     title: 'Ravens Feed Elijah',
     testament: 'old',
     passage: ref('1KI', '1 Kings', '17', 2, 6),
@@ -953,6 +1233,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'zarephath-flour-and-oil',
+    quote:
+      'The jar of meal didn’t run out and the jar of oil didn’t fail, according to Yahweh’s word, which He spoke by Elijah.',
+    quoteRef: '1 Kings 17:16',
+    details: [
+      'The widow was gathering sticks to cook a last meal for herself and her son before dying.',
+      'Elijah asked her to feed him first, out of the little she had.',
+      'The jars never emptied — but they never overflowed either.',
+    ],
+    whatHappened:
+      'Elijah met a widow collecting firewood to cook the last of her flour and oil, after which she expected she and her son would starve. He asked her to make him something first. She did — and from then on the jar of meal and the jar of oil simply never ran out.',
+    hopeMeaning:
+      'She was never given a full storehouse. The jars stayed almost empty and never quite emptied, day after day. That is a different promise from abundance, and for a lot of people it is the more recognisable one.',
+    reflectionQuestion:
+      'Could you live with enough for today, if it kept arriving?',
     title: "The Widow's Flour and Oil Do Not Run Out",
     testament: 'old',
     passage: ref('1KI', '1 Kings', '17', 8, 16),
@@ -961,6 +1255,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'zarephath-son-raised',
+    quote:
+      'Yahweh listened to the voice of Elijah; and the soul of the child came into him again, and he revived.',
+    quoteRef: '1 Kings 17:22',
+    details: [
+      'The boy died after his mother had already been saved from starvation.',
+      'She blamed Elijah, and Elijah put the same complaint to God.',
+      'It is the first raising of the dead recorded in the Bible.',
+    ],
+    whatHappened:
+      "The widow's son fell ill and died — after she had already been rescued from starvation. She accused Elijah of bringing it on her, and Elijah took the same accusation straight to God. Then he stretched himself over the boy, and the child revived.",
+    hopeMeaning:
+      'Elijah does not defend God to the grieving mother. He takes her complaint and repeats it upward as his own. Prayer here looks like arguing on behalf of someone who is furious.',
+    reflectionQuestion:
+      "Could you pray someone else's anger for them, instead of correcting it?",
     title: "The Widow's Son Raised at Zarephath",
     testament: 'old',
     passage: ref('1KI', '1 Kings', '17', 17, 24),
@@ -993,6 +1301,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'elijah-rain',
+    quote:
+      'In a little while, the sky grew black with clouds and wind, and there was a great rain.',
+    quoteRef: '1 Kings 18:45',
+    details: [
+      'Elijah sent his servant to look at the sea seven times.',
+      'Six times there was nothing at all.',
+      "The seventh time it was a cloud the size of a man's hand.",
+    ],
+    whatHappened:
+      'After three years of drought, Elijah bowed down and sent his servant to look toward the sea. Six times the servant came back with nothing. The seventh time he reported a cloud the size of a hand — and shortly after, the sky went black and the rain came.',
+    hopeMeaning:
+      'Six empty reports, then something almost too small to count, then everything. The account keeps all seven trips rather than skipping to the rain. Most of the story is the part where nothing is visible yet.',
+    reflectionQuestion:
+      'How many times have you looked before deciding there was nothing there?',
     title: 'Rain after Three Years of Drought',
     testament: 'old',
     passage: ref('1KI', '1 Kings', '18', 41, 45),
@@ -1001,6 +1323,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'angel-feeds-elijah',
+    quote:
+      'Yahweh’s angel came again the second time, and touched him, and said, “Arise and eat, because the journey is too great for you.”',
+    quoteRef: '1 Kings 19:7',
+    details: [
+      'Elijah had just asked to die, days after his greatest public victory.',
+      'The first thing he is given is not a rebuke or a task — it is food and sleep.',
+      'He is fed twice, and allowed to sleep in between.',
+    ],
+    whatHappened:
+      'Days after Mount Carmel, Elijah ran into the wilderness and asked to die. He fell asleep under a tree. An angel woke him with fresh bread and water, let him sleep again, then woke him a second time to eat more — because the journey ahead was too much for him.',
+    hopeMeaning:
+      'A prophet at the end of himself is given a meal and a nap, twice, before anyone says anything about what comes next. Sometimes the most spiritual thing available is food and rest, and this account treats that as obvious.',
+    reflectionQuestion:
+      'Are you trying to pray your way through something that might partly be exhaustion?',
     title: 'An Angel Feeds Elijah',
     testament: 'old',
     passage: ref('1KI', '1 Kings', '19', 5, 8),
@@ -1009,6 +1345,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'elijah-parts-jordan',
+    quote:
+      'Elijah took his mantle, and rolled it up, and struck the waters; and they were divided here and there, so that they both went over on dry ground.',
+    quoteRef: '2 Kings 2:8',
+    details: [
+      'Elijah knew he was about to be taken, and had tried three times to send Elisha back.',
+      'Elisha refused to leave him each time.',
+      "They crossed together, on dry ground, on the last day of Elijah's life.",
+    ],
+    whatHappened:
+      'On his last day, Elijah tried three times to send Elisha away, and three times Elisha refused. At the Jordan, Elijah rolled up his cloak, struck the water, and the two of them walked across on dry ground.',
+    hopeMeaning:
+      "The wonder is a crossing made by two people who would not be separated. Elisha's stubbornness about staying is what puts him there to see it at all.",
+    reflectionQuestion:
+      'Is there someone you should refuse to leave, even when they tell you to go?',
     title: 'Elijah Parts the Jordan',
     testament: 'old',
     passage: ref('2KI', '2 Kings', '2', 7, 8),
@@ -1017,6 +1367,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'elijah-whirlwind',
+    quote:
+      'As they continued on and talked, behold, a chariot of fire and horses of fire separated them; and Elijah went up by a whirlwind into heaven.',
+    quoteRef: '2 Kings 2:11',
+    details: [
+      'The two of them were in the middle of a conversation when it happened.',
+      "Elisha had asked for a double share of Elijah's spirit.",
+      'Elijah is one of only two people in scripture who do not die.',
+    ],
+    whatHappened:
+      'Walking and talking together, the two men were suddenly separated by fire, and Elijah was taken up in a whirlwind. Elisha was left holding the cloak that fell from him.',
+    hopeMeaning:
+      'It happens mid-sentence, in the middle of an ordinary conversation on an ordinary walk. Whatever this is, it is not staged. The extraordinary arrives into the middle of the ordinary and does not wait for it to finish.',
+    reflectionQuestion:
+      'What would it mean to expect God in the middle of an ordinary conversation?',
     title: 'Elijah Taken up in a Whirlwind',
     testament: 'old',
     passage: ref('2KI', '2 Kings', '2', 9, 12),
@@ -1025,6 +1389,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'elisha-parts-jordan',
+    quote:
+      'He took Elijah’s mantle that fell from him, and struck the waters, and said, “Where is Yahweh, the God of Elijah?”',
+    quoteRef: '2 Kings 2:14',
+    details: [
+      'Elisha was alone for the first time, on the far side of the river.',
+      'He struck the water with a question, not a declaration.',
+      'The water divided, and he crossed back.',
+    ],
+    whatHappened:
+      'Left alone on the wrong side of the Jordan, Elisha picked up the cloak that had fallen from Elijah, struck the water, and asked out loud where the God of Elijah was. The water divided and he walked back across.',
+    hopeMeaning:
+      'His first act of faith is phrased as a question — and it works. There is no requirement here to feel certain before acting. He asks where God is while doing the thing that assumes God is there.',
+    reflectionQuestion:
+      'Could you act on something you are not yet sure of, and ask your question while you do it?',
     title: 'Elisha Parts the Jordan',
     testament: 'old',
     passage: ref('2KI', '2 Kings', '2', 13, 14),
@@ -1033,6 +1411,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'jericho-waters-healed',
+    quote:
+      'So the waters were healed to this day, according to Elisha’s word which he spoke.',
+    quoteRef: '2 Kings 2:22',
+    details: [
+      'The city was pleasant to live in but its water was killing the land.',
+      'The remedy was salt — which would normally ruin water, not heal it.',
+      'The writer notes the spring was still good in his own day.',
+    ],
+    whatHappened:
+      'The men of Jericho told Elisha their city was well placed but the water was bad and the land unproductive. He asked for a bowl of salt, threw it into the spring, and the water was healed — and the writer adds that it was still good when he was writing.',
+    hopeMeaning:
+      'Salt in a spring is what you would do to poison it. The remedy looks like the opposite of a remedy, and the result outlasted everyone involved.',
+    reflectionQuestion:
+      'Is there a repair in your life that would look, from outside, like making it worse?',
     title: 'The Waters of Jericho Healed',
     testament: 'old',
     passage: ref('2KI', '2 Kings', '2', 19, 22),
@@ -1041,6 +1433,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'water-for-the-armies',
+    quote:
+      'In the morning, about the time of offering the sacrifice, behold, water came by the way of Edom, and the country was filled with water.',
+    quoteRef: '2 Kings 3:20',
+    details: [
+      'Three armies were stranded in the desert with no water for the men or the animals.',
+      'They were told to dig ditches in a dry valley before there was any sign of water.',
+      'There was no wind and no rain — the water simply arrived.',
+    ],
+    whatHappened:
+      'Three armies were stranded without water. Elisha told them to fill the valley with ditches, and promised they would see neither wind nor rain. In the morning water came from the direction of Edom and filled the country.',
+    hopeMeaning:
+      'They had to dig the ditches first, in dry ground, with no cloud in the sky. Preparation was required before there was any evidence that preparation was worth making.',
+    reflectionQuestion:
+      'What would you need to prepare for, before you had any evidence it was coming?',
     title: 'Water for the Armies in the Desert',
     testament: 'old',
     passage: ref('2KI', '2 Kings', '3', 14, 20),
@@ -1049,6 +1455,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'widows-oil',
+    quote:
+      'When the containers were full, she said to her son, “Bring me another container.” He said to her, “There isn’t another container.” Then the oil stopped flowing.',
+    quoteRef: '2 Kings 4:6',
+    details: [
+      "Her husband's creditor was coming to take her two sons as slaves.",
+      'All she had left in the house was one small jar of oil.',
+      'The oil kept flowing until the borrowed containers ran out — not until the need was met.',
+    ],
+    whatHappened:
+      'A widow was about to lose her two sons to a creditor. All she had was one jar of oil. Told to borrow as many empty containers as she could and start pouring, she filled every one — and the oil stopped only when there was nothing left to fill.',
+    hopeMeaning:
+      'The limit was not the oil. The limit was how many containers she had gone out and borrowed. That detail is left in the account deliberately, and it is worth sitting with rather than rushing past.',
+    reflectionQuestion:
+      'Where might the limit be your preparation rather than the supply?',
     title: "The Widow's Oil Multiplied",
     testament: 'old',
     passage: ref('2KI', '2 Kings', '4', 1, 7),
@@ -1057,6 +1477,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'shunammite-son-promised',
+    quote:
+      'The woman conceived, and bore a son at that season when the time came around, as Elisha had said to her.',
+    quoteRef: '2 Kings 4:17',
+    details: [
+      'She had built a small room on her roof so a travelling prophet had somewhere to stay.',
+      'Asked what she wanted in return, she said she needed nothing.',
+      'Told she would have a son, her response was to beg him not to lie to her.',
+    ],
+    whatHappened:
+      'A woman had built a spare room for Elisha to stay in whenever he passed through. Asked what she wanted in return, she said she was fine. When he told her she would have a son within the year, she asked him not to raise her hopes falsely. The child was born as he had said.',
+    hopeMeaning:
+      'Her reaction to good news is to flinch. She had clearly wanted this and had put the wanting away somewhere safe. Being offered the thing you stopped letting yourself hope for is not automatically a comfort, and the text lets her say so.',
+    reflectionQuestion:
+      'What have you stopped letting yourself want, because hoping for it hurt too much?',
     title: 'A Son Promised to the Shunammite',
     testament: 'old',
     passage: ref('2KI', '2 Kings', '4', 11, 17),
@@ -1065,6 +1499,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'shunammite-son-raised',
+    quote:
+      'Then the child sneezed seven times, and the child opened his eyes.',
+    quoteRef: '2 Kings 4:35',
+    details: [
+      "The boy died on his mother's lap after complaining of his head in the field.",
+      'She told nobody, saddled a donkey, and rode straight to Elisha.',
+      'When asked if all was well she answered, twice, that it was well.',
+    ],
+    whatHappened:
+      "The son died on his mother's lap. She laid him on the prophet's bed, told her husband nothing was wrong, rode to find Elisha and refused to leave without him. Elisha stretched himself over the boy twice — and the child sneezed seven times and opened his eyes.",
+    hopeMeaning:
+      "The mother's insistence drives the whole story. She will not be reassured, will not be sent home, and will not accept the servant being sent in the prophet's place. Her refusal to settle is treated as faith, not rudeness.",
+    reflectionQuestion:
+      'Where have you accepted less than you actually needed, out of politeness?',
     title: "The Shunammite's Son Raised",
     testament: 'old',
     passage: ref('2KI', '2 Kings', '4', 32, 37),
@@ -1073,6 +1521,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'death-in-the-pot',
+    quote:
+      'He threw it into the pot; and he said, “Serve it to the people, that they may eat.” And there was nothing harmful in the pot.',
+    quoteRef: '2 Kings 4:41',
+    details: [
+      'There was a famine, and someone had gathered wild gourds to stretch the stew.',
+      'The men tasted it and cried out that there was death in the pot.',
+      'Nobody threw the food away — the same pot was served.',
+    ],
+    whatHappened:
+      'During a famine, someone gathered unfamiliar wild gourds into the communal stew. The first taste told them it was poisonous. Elisha called for meal, threw it in, and told them to serve the same pot — and there was nothing harmful in it.',
+    hopeMeaning:
+      'In a famine you cannot afford to throw out a pot of food, and they did not have to. What was poisonous was made safe rather than discarded. Not everything spoiled has to be lost.',
+    reflectionQuestion:
+      'What have you thrown away as ruined that might have been recoverable?',
     title: 'Death in the Pot Made Harmless',
     testament: 'old',
     passage: ref('2KI', '2 Kings', '4', 38, 41),
@@ -1081,6 +1543,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'feeding-a-hundred',
+    quote:
+      'So he set it before them and they ate and had some left over, according to Yahweh’s word.',
+    quoteRef: '2 Kings 4:44',
+    details: [
+      'Twenty loaves of barley, brought as first-fruits, for a hundred men.',
+      'The servant said out loud that it was obviously not enough.',
+      'Not only was it enough — there was food left.',
+    ],
+    whatHappened:
+      'A man brought twenty barley loaves as an offering during a famine. Elisha told his servant to feed a hundred men with them. The servant objected that it was nowhere near enough. They ate, and there was food left over.',
+    hopeMeaning:
+      "The servant's arithmetic was correct and the objection was reasonable. It simply was not the whole picture. Being right about the shortfall and wrong about the outcome are not contradictory here.",
+    reflectionQuestion:
+      'Is there a calculation you are sure of, that might not be the whole picture?',
     title: 'A Hundred Fed with Twenty Loaves',
     testament: 'old',
     passage: ref('2KI', '2 Kings', '4', 42, 44),
@@ -1089,6 +1565,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'naaman-healed',
+    quote:
+      'Then went he down and dipped himself seven times in the Jordan, according to the saying of the man of God; and his flesh was restored like the flesh of a little child, and he was clean.',
+    quoteRef: '2 Kings 5:14',
+    details: [
+      'Naaman was a foreign commander — an enemy general, not an Israelite.',
+      'The prophet did not come out to meet him; he sent a messenger with instructions.',
+      'Naaman nearly went home furious, and it was his servants who talked him into trying.',
+    ],
+    whatHappened:
+      "Naaman, a commander of Israel's enemy, came with horses and gifts to be cured of leprosy. Elisha did not even come to the door — he sent word to go and wash seven times in the Jordan. Naaman was insulted and started to leave. His servants persuaded him to try it, and he came up clean.",
+    hopeMeaning:
+      'Almost everything about this offends him: the river is unimpressive, the instruction is menial, and the prophet does not come out to greet him. The healing was never withheld — what nearly cost him was his sense of how it ought to arrive.',
+    reflectionQuestion:
+      'Is there help you have refused because of the form it came in?',
     title: 'Naaman Healed of Leprosy',
     testament: 'old',
     passage: ref('2KI', '2 Kings', '5', 1, 14),
@@ -1098,6 +1588,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'gehazi-leprosy',
+    quote:
+      'He went out from his presence a leper, as white as snow.',
+    quoteRef: '2 Kings 5:27',
+    details: [
+      'Elisha had deliberately refused any payment from Naaman.',
+      "His servant Gehazi ran after Naaman and asked for silver and clothing in his master's name.",
+      'He then lied to Elisha about where he had been.',
+    ],
+    whatHappened:
+      "Elisha had refused Naaman's gifts outright. His servant Gehazi chased after the departing commander, invented a request in his master's name, took silver and clothing, hid them, and denied it. He left Elisha's presence with the disease Naaman had just been cured of.",
+    hopeMeaning:
+      'This is a hard ending placed immediately after a story of undeserved grace, and the placement is deliberate. What Naaman received freely, Gehazi tried to sell. The account does not soften what that cost him.',
+    reflectionQuestion:
+      'Is there something freely given to you that you have been tempted to trade on?',
     title: 'Gehazi Struck with Leprosy',
     testament: 'old',
     passage: ref('2KI', '2 Kings', '5', 20, 27),
@@ -1106,6 +1610,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'axe-head-floats',
+    quote:
+      'He cut down a stick, threw it in there, and made the iron float.',
+    quoteRef: '2 Kings 6:6',
+    details: [
+      'The axe head was borrowed, and the man who lost it cried out about that first.',
+      'An iron tool was expensive enough that losing one was a real debt.',
+      'Elisha asked only where it fell.',
+    ],
+    whatHappened:
+      "A borrowed axe head flew off its handle into the Jordan while men were cutting timber. The man's distress was about the borrowing. Elisha asked where it fell, cut a stick, threw it in — and the iron floated up.",
+    hopeMeaning:
+      'This is the smallest wonder in the Old Testament: one man, one borrowed tool, one embarrassing accident. Nothing national is at stake. It is here because apparently the size of the trouble is not what determines whether it gets attention.',
+    reflectionQuestion:
+      'What have you decided is too small to bring to God?',
     title: 'The Axe Head Floats',
     testament: 'old',
     passage: ref('2KI', '2 Kings', '6', 1, 7),
@@ -1114,6 +1632,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'chariots-of-fire',
+    quote:
+      'Yahweh opened the young man’s eyes, and he saw; and behold, the mountain was full of horses and chariots of fire around Elisha.',
+    quoteRef: '2 Kings 6:17',
+    details: [
+      'An army had surrounded the city overnight to capture one man.',
+      "Elisha's servant saw the encirclement and panicked.",
+      "Elisha prayed for the servant's eyes, not for rescue.",
+    ],
+    whatHappened:
+      "An army surrounded the city in the night. Elisha's servant went out in the morning, saw the horses and chariots, and panicked. Elisha prayed — not for escape, but that the young man's eyes would be opened. He looked again and saw the hills full of fire.",
+    hopeMeaning:
+      'Nothing about the situation changed. The enemy army was exactly where it had been. The prayer was for sight, and the answer was sight. What the servant needed was not a different circumstance but a fuller view of the one he was in.',
+    reflectionQuestion:
+      'If your situation stayed exactly as it is, what would you want to be able to see about it?',
     title: 'Chariots of Fire around Elisha',
     testament: 'old',
     passage: ref('2KI', '2 Kings', '6', 15, 17),
@@ -1122,6 +1654,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'aramean-army-blinded',
+    quote:
+      'Yahweh opened their eyes, and they saw; and behold, they were in the middle of Samaria.',
+    quoteRef: '2 Kings 6:20',
+    details: [
+      'Elisha prayed for blindness, then walked the whole army to the wrong city.',
+      'The king of Israel asked whether he should kill them.',
+      'He was told to feed them and send them home.',
+    ],
+    whatHappened:
+      'Elisha prayed that the army hunting him would be struck blind, then walked at their head and led them straight into the Israelite capital. When their eyes were opened they were surrounded. The king asked if he should kill them. Elisha said to give them a meal and send them home.',
+    hopeMeaning:
+      'He had them completely, and he fed them. The raids stopped after that — not because the enemy was destroyed, but because of a dinner. The account offers that as the more effective ending.',
+    reflectionQuestion:
+      'Is there someone you have the advantage over, that you could feed instead?',
     title: 'The Aramean Army Blinded',
     testament: 'old',
     passage: ref('2KI', '2 Kings', '6', 18, 20),
@@ -1130,6 +1676,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'elisha-bones',
+    quote:
+      'As soon as the man touched Elisha’s bones, he revived, and stood up on his feet.',
+    quoteRef: '2 Kings 13:21',
+    details: [
+      'Elisha had been dead and buried for some time.',
+      'The burial party was interrupted by raiders and threw the body into the nearest tomb.',
+      'Nobody intended a miracle — they were in a hurry.',
+    ],
+    whatHappened:
+      "A funeral party, surprised by raiders, threw the body they were carrying into the nearest available tomb, which happened to be Elisha's. The dead man touched the prophet's bones and stood up.",
+    hopeMeaning:
+      "Nobody in this story is praying, or believing, or even paying attention. It is an accident during a panic. It is a strange, almost comic note to end a prophet's life on — and it suggests that what God is doing does not entirely depend on anyone noticing.",
+    reflectionQuestion:
+      'Does it change anything to think God might be at work in something you were not paying attention to?',
     title: "A Man Revived on Elisha's Bones",
     testament: 'old',
     passage: ref('2KI', '2 Kings', '13', 20, 21),
@@ -1138,6 +1698,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'assyrian-army-struck',
+    quote:
+      'That night, Yahweh’s angel went out and struck one hundred eighty-five thousand in the camp of the Assyrians.',
+    quoteRef: '2 Kings 19:35',
+    details: [
+      'The Assyrian commander had taunted Jerusalem publicly, in their own language, from outside the wall.',
+      "Hezekiah's response was to take the threatening letter into the temple and spread it out.",
+      'The city was never attacked.',
+    ],
+    whatHappened:
+      'Assyria had taken every other fortified city and stood outside Jerusalem taunting it. Hezekiah took the threatening letter into the temple, spread it open, and prayed. That night the besieging camp was struck, and in the morning the army was gone.',
+    hopeMeaning:
+      "Hezekiah's action was to physically lay the threat out in front of God rather than answer it himself. He had no military reply available and did not attempt one.",
+    reflectionQuestion:
+      'What would it look like to lay out the thing threatening you, rather than trying to answer it?',
     title: 'The Assyrian Army Struck by Night',
     testament: 'old',
     passage: ref('2KI', '2 Kings', '19', 32, 36),
@@ -1146,6 +1720,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'hezekiah-healed',
+    quote:
+      'I have heard your prayer. I have seen your tears. Behold, I will heal you.',
+    quoteRef: '2 Kings 20:5',
+    details: [
+      'Hezekiah had been told plainly to put his house in order because he would die.',
+      'He turned his face to the wall and wept.',
+      'Isaiah had not even left the middle court before he was sent back with a different message.',
+    ],
+    whatHappened:
+      'Told by the prophet that his illness was terminal, Hezekiah turned to the wall and wept and prayed. Isaiah had not yet left the palace grounds when he was sent back: the prayer had been heard, fifteen years were added, and a cake of figs was laid on the boil.',
+    hopeMeaning:
+      'The message that came back names the tears specifically, not only the prayer. And the turnaround happens before the prophet is out of the building. Neither the weeping nor the speed is treated as remarkable by the text — they are simply recorded.',
+    reflectionQuestion:
+      'Do you think of tears as part of prayer, or as what happens when prayer has failed?',
     title: 'Hezekiah Healed and the Shadow Turned Back',
     testament: 'old',
     passage: ref('2KI', '2 Kings', '20', 1, 11),
@@ -1155,6 +1743,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'temple-fire',
+    quote:
+      'Now when Solomon had finished praying, fire came down from heaven and consumed the burnt offering and the sacrifices; and Yahweh’s glory filled the house.',
+    quoteRef: '2 Chronicles 7:1',
+    details: [
+      'The temple had taken seven years to build.',
+      "Solomon's dedication prayer was mostly about what to do when people fail.",
+      'The priests could not enter the building afterwards.',
+    ],
+    whatHappened:
+      'At the dedication of the temple, Solomon prayed a long prayer largely concerned with what should happen when the people got things wrong. As he finished, fire fell and consumed the offering, and the building filled with glory so completely that the priests could not go in.',
+    hopeMeaning:
+      'The prayer that gets this answer is not triumphant. It is a careful, realistic list of the ways the nation would fail and what should happen then. That was the prayer God filled the house over.',
+    reflectionQuestion:
+      'Would you dare to plan for your own failure out loud, in prayer?',
     title: 'Fire at the Dedication of the Temple',
     testament: 'old',
     passage: ref('2CH', '2 Chronicles', '7', 1, 3),
@@ -1163,6 +1765,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'judahs-enemies-turn',
+    quote:
+      'When they began to sing and to praise, Yahweh set ambushers against the children of Ammon, Moab, and Mount Seir, who had come against Judah; and they were struck.',
+    quoteRef: '2 Chronicles 20:22',
+    details: [
+      'Three armies were coming at once and Judah had no answer to them.',
+      'Jehoshaphat put singers in front of the army instead of soldiers.',
+      'By the time Judah arrived, the battle was over and the enemy had destroyed itself.',
+    ],
+    whatHappened:
+      'Facing three converging armies, Jehoshaphat gathered the nation, admitted they had no idea what to do, and sent singers out ahead of the troops. As the singing began, the invading armies turned on one another. Judah arrived to find the work already done.',
+    hopeMeaning:
+      'The prayer that opens this is an admission of complete helplessness — we do not know what to do. That is not treated as a failure of leadership. It is the hinge the whole account turns on.',
+    reflectionQuestion:
+      'Could you say out loud, without shame, that you do not know what to do?',
     title: "Judah's Enemies Destroy One Another",
     testament: 'old',
     passage: ref('2CH', '2 Chronicles', '20', 20, 24),
@@ -1171,6 +1787,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'uzziah-leprosy',
+    quote:
+      'Then Uzziah was angry. He had a censer in his hand to burn incense, and while he was angry with the priests, the leprosy broke out on his forehead before the priests in Yahweh’s house, beside the altar of incense.',
+    quoteRef: '2 Chronicles 26:19',
+    details: [
+      'Uzziah had reigned well for decades and become very powerful.',
+      'Eighty priests confronted him and told him to leave.',
+      'He spent the rest of his life isolated, and his son governed in his place.',
+    ],
+    whatHappened:
+      'Uzziah had reigned successfully for a long time. Strong and established, he went into the temple to burn incense himself. Eighty priests confronted him; he became angry, and the disease broke out on his forehead while he stood there arguing. He lived the rest of his life apart.',
+    hopeMeaning:
+      'The account is explicit that his downfall followed his success — he was strong, and that was when it happened. It is a sober warning rather than a comfort, and it belongs in a catalog that is trying to tell the truth about the book.',
+    reflectionQuestion:
+      'Where are you strongest, and least likely to think you need correcting?',
     title: 'Uzziah Struck with Leprosy',
     testament: 'old',
     passage: ref('2CH', '2 Chronicles', '26', 16, 21),
@@ -1181,6 +1811,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   /* --- Prophets and exile ------------------------------------------------ */
   {
     id: 'jonah-storm',
+    quote:
+      'But Yahweh sent out a great wind on the sea, and there was a mighty storm on the sea, so that the ship was likely to break up.',
+    quoteRef: 'Jonah 1:4',
+    details: [
+      'Jonah had paid the fare and boarded a ship going the opposite way.',
+      'He slept through the beginning of the storm.',
+      'The pagan sailors prayed and tried everything before agreeing to throw him overboard.',
+    ],
+    whatHappened:
+      'Running from what he had been asked to do, Jonah paid for passage in the opposite direction and fell asleep below deck. A storm broke that nearly tore the ship apart. The sailors cast lots, found it was about him, and only threw him overboard after trying everything else.',
+    hopeMeaning:
+      'The sailors, who worship other gods, come out of this story looking better than the prophet. They pray, they row, they try to avoid harming him. Being outside the faith and behaving well is something the account notices without embarrassment.',
+    reflectionQuestion:
+      'Have you learned something about decency from someone you did not expect to?',
     title: 'The Storm Sent after Jonah',
     testament: 'old',
     passage: ref('JON', 'Jonah', '1', 4, 16),
@@ -1214,6 +1858,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'jonah-plant',
+    quote:
+      'Yahweh God prepared a vine and made it to come up over Jonah, that it might be a shade over his head to deliver him from his discomfort.',
+    quoteRef: 'Jonah 4:6',
+    details: [
+      'Jonah was sulking outside the city because his warning had worked and it had been spared.',
+      'A plant grew to shade him, and he was delighted with it.',
+      'A worm killed it the next day, and he asked to die.',
+    ],
+    whatHappened:
+      'Furious that Nineveh had repented and been spared, Jonah sat outside the city to watch. A plant grew up and shaded him, and he was very glad. The next day a worm killed it, a hot wind came, and Jonah asked to die.',
+    hopeMeaning:
+      'The book ends with God pointing out that Jonah cared more about a plant than about a city. It is a gentle, slightly absurd argument rather than a punishment — and the book stops on the question, without recording whether Jonah ever answered it.',
+    reflectionQuestion:
+      'Is there a small comfort you are more upset about losing than you would like to admit?',
     title: 'The Plant, the Worm and the Wind',
     testament: 'old',
     passage: ref('JON', 'Jonah', '4', 5, 8),
@@ -1246,6 +1904,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'nebuchadnezzar-restored',
+    quote:
+      'At the end of the days I, Nebuchadnezzar, lifted up my eyes to heaven, and my understanding returned to me; and I blessed the Most High, and I praised and honored him who lives forever, for his dominion is an everlasting dominion, and his kingdom from generation to generation.',
+    quoteRef: 'Daniel 4:34',
+    details: [
+      'The most powerful man alive lost his mind and lived outdoors like an animal.',
+      'He had been warned a year in advance and had done nothing about it.',
+      'The account is written in his own voice, as a public letter.',
+    ],
+    whatHappened:
+      'At the height of his power, Nebuchadnezzar lost his reason and lived in the open for a long period. When it passed, his understanding returned — and he wrote the account himself, as a public letter, admitting the whole thing.',
+    hopeMeaning:
+      'The most striking part is who is telling it. An emperor published his own humiliation rather than burying it. Recovery here includes being willing to say what happened.',
+    reflectionQuestion:
+      'Is there something you have recovered from that you have never told anyone about?',
     title: "Nebuchadnezzar's Madness and Restoration",
     testament: 'old',
     passage: ref('DAN', 'Daniel', '4', 28, 37),
@@ -1254,6 +1926,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
   },
   {
     id: 'handwriting-on-the-wall',
+    quote:
+      'In the same hour, the fingers of a man’s hand came out and wrote near the lamp stand on the plaster of the wall of the king’s palace.',
+    quoteRef: 'Daniel 5:5',
+    details: [
+      'Belshazzar was holding a feast using vessels looted from the temple in Jerusalem.',
+      'Only a hand appeared, writing — no figure, no voice.',
+      'None of his advisers could read it; an old man from a previous reign was sent for.',
+    ],
+    whatHappened:
+      'In the middle of a feast held with vessels looted from the temple, a hand appeared and wrote on the plaster wall. The king went pale and his knees shook. No adviser could read it. Daniel, long out of favour, was brought in to interpret it, and the kingdom fell that night.',
+    hopeMeaning:
+      'The warning is unmistakable and it is also unreadable — it needs someone who has kept faith through several reigns to make sense of it. Being able to see that something is wrong is not the same as understanding it, and this account says you may need to go and find someone who does.',
+    reflectionQuestion:
+      'Who would you go to, if you knew something was wrong but not what?',
     title: 'The Writing on the Wall',
     testament: 'old',
     passage: ref('DAN', 'Daniel', '5', 5, 9),

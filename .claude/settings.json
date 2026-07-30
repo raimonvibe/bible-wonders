@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node scripts/show-passage.js:*)",
+      "Bash(node scripts/show-passage.js *)",
+      "Bash(node scripts/add-cards.js:*)",
+      "Bash(node scripts/add-cards.js *)",
+      "Bash(node scripts/validate-wonders.js)",
+      "Bash(npx tsc --noEmit)"
+    ]
+  }
+}
