@@ -412,11 +412,50 @@ purpose.
 
 ### Phase 8 — Polish
 
-- [ ] Progress / resume position
-- [ ] Empty states, errors, reduced-motion
-- [ ] Mobile QA + desktop QA
-- [ ] Update README for Wonders and Hope
-- [ ] Check off remaining items
+- [x] Progress / resume position
+- [x] Empty states, errors, reduced-motion
+- [x] Mobile QA + desktop QA
+- [x] Update README for Wonders and Hope
+- [x] Check off remaining items
+
+**Errors.** A failed `/api/bible-data` load was only written to the console, so
+the reader showed a loading pulse forever with no way out. It now checks
+`res.ok`, surfaces a real error naming the book and the status, and offers
+Try again. Verified end to end by making the route return 500, watching the
+error render, restoring the route and confirming the retry recovers.
+
+**Reduced motion.** Tailwind's `animate-*` utilities are not motion-aware, so
+`animate-ping`, `animate-pulse`, `listen-wave-active` and
+`animate-listen-panel-in` kept moving for someone who had asked for stillness —
+as did `html { scroll-behavior: smooth }`, which is the largest movement in the
+app since the tour scrolls the reader to each passage. All are now covered.
+
+**Resume.** Two independent positions are remembered: the last wonder opened
+(`wonders-last-read`) and how far the tour got (`wonders-tour-step`). Both are
+*offered* on the panel, never restored automatically — reopening should not
+drag you somewhere you did not ask to go. Finishing the tour clears its
+position; closing it part-way deliberately does not.
+
+**QA.** Walked at 375, 768 and 1280 in both themes: no horizontal overflow at
+any width, the split is exactly 50/50 (632.5 / 632.5 at 1280), the bottom sheet
+holds below 960, all 20 tour steps run, and the full catalog lists 178 with
+zero stubs. Clean console on a fresh load.
+
+---
+
+## Status
+
+All phases complete. `COUNT: 178`, all 178 cards written.
+
+Before shipping, two things are worth a human eye:
+
+1. **Tone of the judgment cards** (see the Phase 7 note). Roughly a dozen cards
+   — the flood, Sodom, Lot's wife, Korah, Nadab and Abihu, Uzzah, the quail,
+   Ananias and Sapphira, Herod — are deliberately sober rather than hopeful.
+   That is a real editorial choice on a product whose stated tone is hope.
+2. **`next build` was reported broken in this environment** (SWC bus error,
+   Phase 1 note). `next dev` and `tsc --noEmit` are clean, but a production
+   build has not been run since.
 
 ---
 

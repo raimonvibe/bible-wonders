@@ -5,7 +5,7 @@ import BookSelector from '@/components/BookSelector'
 import ChapterSelector from '@/components/ChapterSelector'
 import BibleReader from '@/components/BibleReader'
 import ThemeToggle from '@/components/ThemeToggle'
-import { BookMarked, Search } from 'lucide-react'
+import { BookMarked, RotateCcw, Search, TriangleAlert } from 'lucide-react'
 import AdvancedSearch from '@/components/AdvancedSearch'
 import type { SearchResult } from '@/lib/bibleSearch'
 import SiteFooter from '@/components/SiteFooter'
@@ -53,6 +53,9 @@ export default function BibleApp({ bookIndex }: { bookIndex: BibleIndex }) {
   const [view, setView] = useState<'books' | 'chapters' | 'reader'>('books')
   const [searchOpen, setSearchOpen] = useState(false)
   const [tourVerses, setTourVerses] = useState<[number, number] | null>(null)
+  const [loadError, setLoadError] = useState<string | null>(null)
+  /** Bumped by "Try again" to re-run the load effect. */
+  const [loadAttempt, setLoadAttempt] = useState(0)
 
   // The guided tour drives the reader: it opens a chapter and spotlights verses.
   const handleTourNavigate = useCallback((target: TourTarget | null) => {
@@ -68,12 +71,32 @@ export default function BibleApp({ bookIndex }: { bookIndex: BibleIndex }) {
   }, [])
 
   useEffect(() => {
-    // Load the full text; the index above already covers navigation.
+    // Load the full text; the index above already covers navigation. A failure
+    // here has to be visible: without the text, opening any chapter stalls, and
+    // a silent console error just leaves a spinner turning forever.
+    let cancelled = false
+    setLoadError(null)
+
     fetch('/api/bible-data')
-      .then((res) => res.json())
-      .then((data) => setBibleData(data))
-      .catch((err) => console.error('Failed to load Bible data:', err))
-  }, [])
+      .then((res) => {
+        if (!res.ok) throw new Error(`the server returned ${res.status}`)
+        return res.json()
+      })
+      .then((data) => {
+        if (!cancelled) setBibleData(data)
+      })
+      .catch((err: unknown) => {
+        if (cancelled) return
+        console.error('Failed to load Bible data:', err)
+        setLoadError(
+          err instanceof Error ? err.message : 'the connection was interrupted',
+        )
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [loadAttempt])
 
   const readAloudStopKey = `${view}-${selectedBookId ?? ''}-${selectedChapterId ?? ''}`
 
@@ -205,7 +228,13 @@ export default function BibleApp({ bookIndex }: { bookIndex: BibleIndex }) {
           className={`flex items-center gap-2 px-3 py-2 rounded-lg font-sans text-sm ${
             bibleData ? 'btn-surface hover:shadow-md' : 'btn-surface-muted'
           }`}
-          aria-label={bibleData ? 'Open advanced search' : 'Search is still loading'}
+          aria-label={
+            bibleData
+              ? 'Open advanced search'
+              : loadError
+                ? 'Search unavailable — the Bible text did not load'
+                : 'Search is still loading'
+          }
         >
           <Search className="w-4 h-4" />
           <span className="hidden sm:inline">Search</span>
@@ -278,6 +307,25 @@ export default function BibleApp({ bookIndex }: { bookIndex: BibleIndex }) {
                 hasNext={hasNext}
                 highlightVerses={tourVerses}
               />
+            ) : loadError ? (
+              <div className="card-surface p-10 text-center" role="alert">
+                <TriangleAlert className="w-12 h-12 text-accent mx-auto mb-4" />
+                <p className="text-pine-50 dark:text-ocean-50 font-sans font-medium mb-1">
+                  The Bible text didn&rsquo;t load
+                </p>
+                <p className="text-pine-200 dark:text-ocean-200 font-sans text-sm mb-4">
+                  Browsing still works, but {selectedNavBook?.name ?? 'this passage'}{' '}
+                  needs the full text — {loadError}.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setLoadAttempt((n) => n + 1)}
+                  className="btn-surface inline-flex min-h-10 items-center gap-1.5 rounded-xl px-4 font-sans text-sm font-medium hover:shadow-md"
+                >
+                  <RotateCcw className="w-4 h-4" aria-hidden />
+                  Try again
+                </button>
+              </div>
             ) : (
               <div className="card-surface p-10 text-center" aria-live="polite">
                 <BookMarked className="w-12 h-12 text-pine-300 dark:text-ocean-400 mx-auto mb-4 animate-pulse" />

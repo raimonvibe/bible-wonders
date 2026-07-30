@@ -26,6 +26,14 @@
     min-height: 100vh;
   }
 
+  /* The tour scrolls the reader to each passage; smooth scrolling is motion
+     too, and it is the largest movement in the app. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
   html.theme-ocean {
     @apply bg-theme-ocean;
     background-color: #062a4a;
@@ -552,10 +560,17 @@
     }
   }
 
+  /* Everything that moves, in one place. Tailwind's animate-* utilities are
+     not motion-aware by default, so they have to be named explicitly or they
+     keep pulsing for someone who asked for stillness. */
   @media (prefers-reduced-motion: reduce) {
     .tour-panel,
     .verse-spotlight,
-    .tour-speaking {
+    .tour-speaking,
+    .listen-wave-active,
+    .animate-listen-panel-in,
+    .animate-ping,
+    .animate-pulse {
       animation: none;
     }
   }

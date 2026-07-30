@@ -59,6 +59,8 @@ export const PATH_BLURBS: Record<PathId, string> = {
 const PATH_KEY = 'wonders-path'
 const SORT_KEY = 'wonders-sort'
 const SEEN_OVERVIEW_KEY = 'wonders-seen-overview'
+const LAST_WONDER_KEY = 'wonders-last-read'
+const TOUR_STEP_KEY = 'wonders-tour-step'
 
 const PATHS: PathId[] = ['start-here', 'theme', 'era', 'catalog']
 const SORTS: SortMode[] = ['bible', 'best-known']
@@ -102,6 +104,55 @@ export function hasSeenOverview(): boolean {
 export function markOverviewSeen(): void {
   try {
     localStorage.setItem(SEEN_OVERVIEW_KEY, 'true')
+  } catch {
+    /* ignore */
+  }
+}
+
+/* --- resume ---------------------------------------------------------------
+ * Two independent positions, because they are two different ways of reading:
+ * the last wonder opened from a list, and how far the guided tour got. Neither
+ * is restored automatically — both are offered, so reopening the panel never
+ * yanks you somewhere you did not ask to go.
+ * ------------------------------------------------------------------------- */
+
+export function rememberLastWonder(id: string): void {
+  try {
+    localStorage.setItem(LAST_WONDER_KEY, id)
+  } catch {
+    /* ignore */
+  }
+}
+
+export function lastWonderId(): string | null {
+  try {
+    return localStorage.getItem(LAST_WONDER_KEY)
+  } catch {
+    return null
+  }
+}
+
+export function rememberTourStep(step: number): void {
+  try {
+    if (step > 0) localStorage.setItem(TOUR_STEP_KEY, String(step))
+    else localStorage.removeItem(TOUR_STEP_KEY)
+  } catch {
+    /* ignore */
+  }
+}
+
+export function savedTourStep(): number {
+  try {
+    const raw = Number(localStorage.getItem(TOUR_STEP_KEY))
+    return Number.isInteger(raw) && raw > 0 ? raw : 0
+  } catch {
+    return 0
+  }
+}
+
+export function clearTourStep(): void {
+  try {
+    localStorage.removeItem(TOUR_STEP_KEY)
   } catch {
     /* ignore */
   }

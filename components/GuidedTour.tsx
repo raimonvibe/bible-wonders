@@ -43,15 +43,20 @@ import {
 import { chapterIdOf, type PassageRef } from '@/lib/passages'
 import WonderCardBody from '@/components/WonderCardBody'
 import CatalogBrowser from '@/components/CatalogBrowser'
-import { WONDER_COUNT } from '@/lib/wonders/catalog'
+import { WONDER_COUNT, wonderById } from '@/lib/wonders/catalog'
 import {
   DEFAULT_PATH_STATE,
   PATH_BLURBS,
   PATH_LABELS,
+  clearTourStep,
   hasSeenOverview,
+  lastWonderId,
   loadPathState,
   markOverviewSeen,
+  rememberLastWonder,
+  rememberTourStep,
   savePathState,
+  savedTourStep,
   type PathId,
   type PathState,
 } from '@/lib/wonders/paths'
@@ -172,6 +177,10 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
   }, [])
 
   const isTour = view === 'tour'
+  /* What the reader could pick up again. Read on each render rather than held
+     in state: the panel is short-lived and localStorage is the source. */
+  const resumeWonder = mounted && !isTour ? wonderById(lastWonderId() ?? '') : undefined
+  const resumeStep = mounted && !isTour ? savedTourStep() : 0
   const lastStep = LAST_STEP
   const miracleStep: MiracleTourStep = MIRACLE_STEPS[stepIndex]
 
@@ -189,6 +198,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
   const goTo = useCallback((next: number) => {
     const clamped = Math.max(0, Math.min(LAST_STEP, next))
     setStepIndex(clamped)
+    rememberTourStep(clamped)
     setFurthestStep((f) => Math.max(f, clamped))
     setMinimized(false)
     setVoiceSheetOpen(false)
@@ -197,6 +207,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
   const restart = useCallback(() => {
     setStepIndex(0)
     setFurthestStep(0)
+    clearTourStep()
   }, [])
 
   const start = useCallback(() => {
@@ -867,6 +878,45 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
               </div>
             )}
 
+            {/* Offered, never forced: reopening the panel should not drag you
+                back somewhere without asking. */}
+            {!isTour && !selectedWonder && (resumeWonder || resumeStep > 0) && (
+              <div className="mb-3 space-y-1.5 rounded-xl border border-pine-600/70 bg-pine-800/50 p-3 dark:border-ocean-700/70 dark:bg-ocean-900/40">
+                <p className="font-sans text-[11px] font-semibold uppercase tracking-wide text-pine-300 dark:text-ocean-400">
+                  Pick up where you left off
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {resumeWonder && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setView('browse')
+                        setSelectedWonder(resumeWonder)
+                        navigateRef.current(targetOf(resumeWonder.passage))
+                      }}
+                      className="inline-flex min-h-9 items-center gap-1.5 rounded-xl px-3 font-sans text-xs font-medium btn-surface hover:shadow-md"
+                    >
+                      <BookOpen className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                      {resumeWonder.title}
+                    </button>
+                  )}
+                  {resumeStep > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setView('tour')
+                        goTo(resumeStep)
+                      }}
+                      className="inline-flex min-h-9 items-center gap-1.5 rounded-xl px-3 font-sans text-xs font-medium btn-surface hover:shadow-md"
+                    >
+                      <Compass className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                      Guided tour, step {resumeStep + 1}
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+
             {/* ===================================================================
                 Browsing the catalog (paths A–E)
                 =================================================================== */}
@@ -875,7 +925,10 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
                 state={pathState}
                 onChange={changePath}
                 selected={selectedWonder}
-                onSelect={setSelectedWonder}
+                onSelect={(w) => {
+                  setSelectedWonder(w)
+                  if (w) rememberLastWonder(w.id)
+                }}
                 onOpenPassage={(p) => navigateRef.current(targetOf(p))}
                 onStartTour={() => {
                   setView('tour')
@@ -1186,7 +1239,12 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
               ) : (
                 <button
                   type="button"
-                  onClick={exit}
+                  onClick={() => {
+                    // Finishing is different from closing: there is nothing
+                    // left to resume, so don't offer to.
+                    clearTourStep()
+                    exit()
+                  }}
                   className="tour-next-btn flex min-h-10 items-center gap-1 rounded-xl px-4 font-sans text-xs font-semibold shadow-md transition-all hover:shadow-lg"
                 >
                   Finish
