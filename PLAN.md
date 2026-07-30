@@ -360,22 +360,55 @@ narrating `undefined`, so a tour step could point at a stub without breaking.
 
 ### Phase 7 — Content fill (batches until complete)
 
-Author **all** wonders. UX and menu can ship before every card exists; full-catalog modes grow until complete.
+- [x] Batch OT Torah / Exodus (incl. grouped Plagues) — 33/33
+- [x] Batch OT Historical (Joshua–Kings, Elijah/Elisha, etc.) — 47/47
+- [x] Batch OT Prophets / Daniel / Jonah / borderline OT — 7/7
+- [x] Batch Matthew miracle accounts — 22/22
+- [x] Batch Mark miracle accounts — 20/20
+- [x] Batch Luke miracle accounts — 21/21
+- [x] Batch John miracle accounts / signs — 9/9
+- [x] Batch Acts + early church — 19/19
+- [x] Borderline NT (Transfiguration, Pentecost, fig tree) — included in the batches
+- [x] Assign `familiarityRank` for best-known modes + Start Here (25)
+- [x] Final pass: parallel links, quote accuracy — enforced by the validator
+- [x] Confirm `COUNT` matches master index — **178 / 178 written**
 
-Fill in Bible order; WEB quote check; distinctive parallel text; “Also in …” targets.
+**How the cards were written, and why it is checkable:**
 
-- [ ] Batch OT Torah / Exodus (incl. grouped Plagues)
-- [ ] Batch OT Historical (Joshua–Kings, Elijah/Elisha, etc.)
-- [ ] Batch OT Poetry / Prophets / Daniel / Jonah / borderline OT
-- [ ] Batch Matthew miracle accounts
-- [ ] Batch Mark miracle accounts
-- [ ] Batch Luke miracle accounts
-- [ ] Batch John miracle accounts / signs
-- [ ] Batch Acts + early church
-- [ ] Borderline NT (Transfiguration, Pentecost, fig tree, etc.) if not already in batches
-- [ ] Assign `familiarityRank` for best-known modes + Start Here (~25)
-- [ ] Final pass: parallel links, quote accuracy, tone check
-- [ ] Confirm `COUNT` matches master index (complete)
+- `node scripts/show-passage.js "Exodus 14:21-31"` prints the shipped WEB text.
+  Quotes are copied from that output, never written from memory.
+- Card prose goes in a JSON batch under `batches/`, and
+  `node scripts/add-cards.js batches/<file>.json` merges it into the catalog.
+  It refuses to overwrite existing prose without `--force`. The batches are
+  kept as the record of what was written.
+- `npm run validate:wonders` is the gate. It requires every `quote` to appear
+  **verbatim** in the verses its `quoteRef` names, every written card to have
+  quote/quoteRef/details, and every written parallel account to carry a
+  `distinctive`.
+
+**The verbatim check caught 20 misquotes across the phase.** Almost all were
+the same mistake: trimming a quote to a nice-sounding fragment and
+re-punctuating it — starting at "While he was angry" where the text reads
+"…and while he was angry", or ending on a full stop where the verse continues
+with a comma. Two were worse: a quote for Luke 7:8 written from *Matthew's*
+wording without reading Luke's own text, and a `quoteRef` typo pointing at
+John 21:21 instead of John 6:21 with correct text attached. None of these are
+findable by re-reading the prose; all of them were caught mechanically.
+
+**Two quirks of the shipped WEB data, worth knowing before editing cards:**
+
+1. The first word of every verse is capitalised, so a quote spanning a verse
+   boundary picks up a stray capital mid-sentence. Quote one complete verse,
+   or widen the `quoteRef` to the full range (e.g. `Acts 5:19-20`).
+2. Curly quotation marks and apostrophes are used throughout. The validator
+   normalises them, so either form matches.
+
+**Tone.** The judgment accounts — the flood, Sodom, Lot's wife, Korah, Nadab
+and Abihu, Uzzah, the quail, Ananias and Sapphira, Herod — are written soberly
+rather than given a forced hopeful reading. Where the text offers no comfort,
+the card says so. Uzzah's card preserves David's anger without correcting it.
+That was a deliberate choice; it can be softened, but it should be softened on
+purpose.
 
 ### Phase 8 — Polish
 

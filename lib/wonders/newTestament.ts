@@ -1605,6 +1605,20 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('JHN', 'John', '4', 46, 54),
     theme: 'healing',
     era: 'john',
+    quote:
+      'Jesus came therefore again to Cana of Galilee, where He made the water into wine. There was a certain nobleman whose son was sick at Capernaum.',
+    quoteRef: 'John 4:46',
+    details: [
+      'The boy was about twenty miles away, in another town.',
+      'The father wanted Jesus to come down; Jesus did not go.',
+      'He checked the time afterwards and found it matched the hour he was told.',
+    ],
+    whatHappened:
+      'An official came from Capernaum begging Jesus to come down and heal his dying son. Jesus did not go. He told the man his son would live, and the man took Him at His word and set off home. On the way his servants met him with news the boy had recovered — at the exact hour he had been told.',
+    hopeMeaning:
+      'He asked for a visit and got a sentence. He had to walk home for a day on nothing but that, and check the timing afterwards. Belief here came before the evidence, and the evidence came later and matched.',
+    reflectionQuestion:
+      'Could you start walking home on a word, before you had anything to confirm it?',
   },
   {
     id: 'bethesda-jhn',
@@ -1613,6 +1627,20 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('JHN', 'John', '5', 1, 15),
     theme: 'healing',
     era: 'john',
+    quote:
+      'When Jesus saw him lying there, and knew that he had been sick for a long time, He asked him, “Do you want to be made well?”',
+    quoteRef: 'John 5:6',
+    details: [
+      'He had been ill for thirty-eight years.',
+      'His answer was not yes — it was an explanation of why it had never worked.',
+      'It was a Sabbath, and carrying the mat was what got him into trouble.',
+    ],
+    whatHappened:
+      'By a pool where the sick waited for the water to stir, a man had been ill for thirty-eight years. Jesus asked whether he wanted to be made well. The man did not say yes; he explained that he had no one to help him in, and that someone always got there first. Jesus told him to get up, take his mat and walk. He did.',
+    hopeMeaning:
+      'The question sounds almost cruel until you notice the answer. After thirty-eight years the man no longer answers with what he wants, only with why it has never happened. Being asked what you actually want, after that long, is its own kind of intervention.',
+    reflectionQuestion:
+      'If you were asked whether you want to be made well, would you answer, or explain?',
   },
   {
     id: 'feeding-5000-jhn',
@@ -1649,6 +1677,22 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
     theme: 'nature',
     era: 'john',
     parallelGroupId: 'walking-on-water',
+    quote:
+      'They were willing therefore to receive him into the boat. Immediately the boat was at the land where they were going.',
+    quoteRef: 'John 6:21',
+    details: [
+      'They had rowed three or four miles into a rising wind.',
+      "John's account is the shortest of the three.",
+      'The boat reached the shore as soon as they took Him in.',
+    ],
+    whatHappened:
+      'The disciples set out across the lake in the dark without Jesus. The wind rose and they rowed three or four miles. They saw Him walking on the sea, coming near the boat, and were afraid. He told them not to be. They were willing to take Him in — and immediately the boat was at the land they were heading for.',
+    hopeMeaning:
+      'The rowing stops mattering the moment He is aboard. John gives no rescue scene and no rebuke; the distance simply ends. It is the shortest version and the least dramatic, and it is about arrival.',
+    reflectionQuestion:
+      'What are you still rowing at, that might be closer to shore than it feels?',
+    distinctive:
+      "John's is the briefest of the three and the only one without a resolution inside the men. Matthew turns the night into Peter's walk and rescue; Mark ends on hearts that had not understood about the loaves. John has no Peter, no rebuke, no amazement — only that they were willing to receive Him, and that the boat was immediately where it was going.",
   },
   {
     id: 'man-born-blind-jhn',
@@ -1658,6 +1702,20 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
     theme: 'healing',
     era: 'john',
     familiarityRank: 23,
+    quote:
+      'Jesus answered, “This man didn’t sin, nor did his parents, but that the works of God might be revealed in Him.',
+    quoteRef: 'John 9:3',
+    details: [
+      "The disciples' first question was whose fault it was.",
+      'He had been blind from birth — this was not something that had gone wrong later.',
+      'Asked afterwards where Jesus was, the healed man said he did not know.',
+    ],
+    whatHappened:
+      "Passing a man blind from birth, the disciples asked whose sin had caused it — his or his parents'. Jesus rejected the question, made mud with saliva, put it on the man's eyes and sent him to wash. He went, washed, and came back seeing. When people asked him where Jesus was, he had no idea.",
+    hopeMeaning:
+      'The disciples wanted the cause; Jesus refused to assign one and dealt with the man instead. And the man ends up healed without knowing where his healer went — he did not need to understand the whole thing to have received it.',
+    reflectionQuestion:
+      'Are you looking for the reason something happened, or for what to do about it now?',
   },
   {
     id: 'lazarus',
@@ -1691,6 +1749,22 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
     era: 'john',
     parallelGroupId: 'resurrection',
     familiarityRank: 25,
+    quote:
+      'Jesus said to her, “Mary.” She turned and said to Him, “Rabboni!” Which is to say, “Teacher!”',
+    quoteRef: 'John 20:16',
+    details: [
+      'Mary stayed at the tomb weeping after the others had gone home.',
+      'She spoke with Him and took Him for the gardener.',
+      'What she recognised was not His face but her own name.',
+    ],
+    whatHappened:
+      'Mary Magdalene stood outside the tomb weeping after the others had left. She looked in and saw two angels, and told them her Lord had been taken away. Turning round, she saw Jesus and did not know Him — she thought He was the gardener and asked where the body had been put. Then He said her name, and she knew Him.',
+    hopeMeaning:
+      'She looked straight at Him and did not recognise Him. What identified Him was not appearance or argument but her name, spoken. And the first thing she is given to do is go and tell.',
+    reflectionQuestion:
+      'Is there something you have been looking straight at without recognising?',
+    distinctive:
+      'John narrows the whole morning to one person. Matthew has the earthquake, the angel on the stone and the guards; Mark has the women fleeing in silence; Luke has two men in dazzling clothes and apostles who dismiss the report. John stays with Mary alone at the tomb, weeping, mistaking Him for the gardener — and turns on a single word: her name.',
   },
   {
     id: 'catch-of-153-jhn',
@@ -1699,6 +1773,20 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('JHN', 'John', '21', 1, 14),
     theme: 'provision',
     era: 'john',
+    quote:
+      'So when they got out on the land, they saw a fire of coals there, with fish and bread laid on it.',
+    quoteRef: 'John 21:9',
+    details: [
+      'Peter had gone back to fishing after the resurrection.',
+      'They caught nothing all night, and were told to try the other side.',
+      'Breakfast was already cooking on the shore before they landed.',
+    ],
+    whatHappened:
+      'Peter went fishing and several others went with him. They caught nothing all night. At dawn someone on the shore told them to cast on the other side, and the net filled. John recognised Him; Peter threw himself into the water. When they got to land there was already a charcoal fire with fish and bread on it, and Jesus said: come and have breakfast.',
+    hopeMeaning:
+      'He had food cooking before they arrived, and still asked them to bring some of theirs. Peter — who had denied Him beside another charcoal fire — is fed before anything is said about any of it.',
+    reflectionQuestion:
+      'Would you let yourself be fed by someone before the conversation you are dreading?',
   },
 
   /* --- Acts and the early church ---------------------------------------- */
@@ -1710,6 +1798,20 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
     theme: 'sign',
     era: 'acts',
     familiarityRank: 19,
+    quote:
+      'They were all filled with the Holy Spirit and began to speak with other languages, as the Spirit gave them the ability to speak.',
+    quoteRef: 'Acts 2:4',
+    details: [
+      'They had been told to wait in the city, and had been waiting.',
+      'A sound like wind, and something like fire resting on each one of them.',
+      'The crowd outside heard their own languages being spoken.',
+    ],
+    whatHappened:
+      'The followers were together in one place when a sound like a rushing wind filled the house, and what looked like tongues of fire came to rest on each of them. They began speaking in other languages, and the crowd that gathered heard their own native speech coming out of Galileans.',
+    hopeMeaning:
+      'At Babel, language was confused and a people were scattered. Here, language is given and a scattered crowd hears itself understood. The fire rests on each one individually — not on the room, not on the leaders.',
+    reflectionQuestion:
+      'What would it mean to be given something individually, rather than included in something general?',
   },
   {
     id: 'lame-man-beautiful-gate',
@@ -1718,6 +1820,20 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('ACT', 'Acts', '3', 1, 10),
     theme: 'healing',
     era: 'acts',
+    quote:
+      'But Peter said, “I have no silver or gold, but what I have, that I give you. In the name of Jesus Christ of Nazareth, get up and walk!”',
+    quoteRef: 'Acts 3:6',
+    details: [
+      'He was carried to the gate daily to beg, and had never walked.',
+      'He asked for money and was told there was none.',
+      'He went into the temple walking and leaping — a place he had only ever been carried to.',
+    ],
+    whatHappened:
+      'A man lame from birth was carried each day to the temple gate to beg. He asked Peter and John for money. Peter said he had none, took him by the right hand and raised him up in the name of Jesus. His feet and ankles took his weight, and he went into the temple walking and leaping and praising God.',
+    hopeMeaning:
+      'He asked for the small thing he had learned to ask for, because it was all he thought was on offer. What he got instead was the end of the asking.',
+    reflectionQuestion:
+      'What have you learned to settle for asking, because it seems like all that is available?',
   },
   {
     id: 'ananias-and-sapphira',
@@ -1726,6 +1842,20 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('ACT', 'Acts', '5', 1, 11),
     theme: 'judgment',
     era: 'acts',
+    quote:
+      'Ananias, hearing these words, fell down and died. Great fear came on all who heard these things.',
+    quoteRef: 'Acts 5:5',
+    details: [
+      'They sold property and gave part of the money while claiming it was all of it.',
+      'Peter points out they were under no obligation to give any of it.',
+      'His wife repeated the story three hours later, not knowing what had happened.',
+    ],
+    whatHappened:
+      'Ananias and Sapphira sold a piece of land and brought part of the money, presenting it as the whole. Peter said plainly that the land had been theirs and the money had been theirs — nobody had required this. The lie was not to men but to God. Ananias fell down and died, and three hours later his wife repeated the story and did the same.',
+    hopeMeaning:
+      'There is no comfort in this account and it should not be given any. What it does say clearly is that nothing was required of them: they could have given a part and said so. The deception was chosen when honesty would have cost nothing.',
+    reflectionQuestion:
+      'Is there something you are presenting as more than it is, when the truth would have been enough?',
   },
   {
     id: 'apostles-freed',
@@ -1734,6 +1864,20 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('ACT', 'Acts', '5', 17, 21),
     theme: 'rescue',
     era: 'acts',
+    quote:
+      'But an angel of the Lord opened the prison doors by night, and brought them out and said, “Go stand and speak in the temple to the people all the words of this life.”',
+    quoteRef: 'Acts 5:19-20',
+    details: [
+      'They were released at night and told to go straight back to public teaching.',
+      'They were teaching in the temple by daybreak.',
+      'The council sent to the prison for them and found it locked and guarded, and empty.',
+    ],
+    whatHappened:
+      'The apostles were jailed for teaching. An angel opened the doors at night, brought them out, and told them to go and stand in the temple and keep speaking. By daybreak they were teaching again. The council convened, sent for the prisoners, and found the prison securely locked with the guards at the doors and nobody inside.',
+    hopeMeaning:
+      'They were not freed to go home or lie low. The instruction attached to the rescue was to go straight back to the thing that had got them arrested.',
+    reflectionQuestion:
+      'If you were let out of something, would you go back to what put you there?',
   },
   {
     id: 'philip-caught-away',
@@ -1742,6 +1886,20 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('ACT', 'Acts', '8', 38, 40),
     theme: 'sign',
     era: 'acts',
+    quote:
+      'When they came up out of the water, the Spirit of the Lord caught Philip away, and the eunuch didn’t see Him any more, for He went on His way rejoicing.',
+    quoteRef: 'Acts 8:39',
+    details: [
+      'Philip had been sent to a desert road for one conversation with one traveller.',
+      'The man was a foreigner and a court official reading a scroll he did not understand.',
+      'As soon as the baptism was over, Philip was gone.',
+    ],
+    whatHappened:
+      'Philip was sent to a desert road, where he met an Ethiopian official puzzling over a passage of Isaiah in his chariot. He explained it, the man asked to be baptised, and they went down into the water. Coming up, Philip was taken away — and the man never saw him again, and went on rejoicing.',
+    hopeMeaning:
+      "Philip was sent a long way for one conversation and then removed from it. He did not get to see how the man's life went. Some assignments are complete without ever being followed up.",
+    reflectionQuestion:
+      'Could you do something well and then never find out how it turned out?',
   },
   {
     id: 'saul-blinded',
@@ -1750,6 +1908,20 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('ACT', 'Acts', '9', 1, 9),
     theme: 'sign',
     era: 'acts',
+    quote:
+      'He fell on the earth, and heard a voice saying to him, “Saul, Saul, why do you persecute me?”',
+    quoteRef: 'Acts 9:4',
+    details: [
+      'He was on his way to arrest followers of Jesus and bring them back in chains.',
+      'The question names the persecution as done to Jesus Himself.',
+      'He was blind for three days and neither ate nor drank.',
+    ],
+    whatHappened:
+      'Saul was travelling to Damascus with authority to arrest followers of Jesus when a light stopped him and he fell. A voice asked why he was persecuting Him, and identified itself as the Jesus he was hunting. He got up blind, was led into the city by the hand, and for three days did not eat or drink.',
+    hopeMeaning:
+      'The man arrives in Damascus exactly as he had planned, and is led in by the hand instead of leading others out in chains. The question he is asked is not about doctrine but about who he had actually been hurting.',
+    reflectionQuestion:
+      'Is there something you are certain about that you have never examined from the other side?',
   },
   {
     id: 'saul-sight-restored',
@@ -1758,6 +1930,20 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('ACT', 'Acts', '9', 17, 19),
     theme: 'healing',
     era: 'acts',
+    quote:
+      'Immediately something like scales fell from his eyes, and he received his sight. He arose and was baptized.',
+    quoteRef: 'Acts 9:18',
+    details: [
+      'Ananias had argued with God about going, having heard what Saul had done.',
+      'His first word to him was "Brother Saul".',
+      'Afterwards Saul ate and was strengthened, and stayed with the disciples he had come to arrest.',
+    ],
+    whatHappened:
+      "Ananias was sent to the man who had come to arrest people like him, and said so plainly before going. He went anyway, laid hands on Saul and called him brother. Something like scales fell from Saul's eyes, he could see, and he was baptised — then ate, and stayed several days with the disciples in Damascus.",
+    hopeMeaning:
+      'The wonder needed someone willing to walk into the house of a man who had come to arrest him, and open with the word brother. Ananias objected first and went anyway; both halves of that are in the account.',
+    reflectionQuestion:
+      'Is there someone you would have to call brother or sister before you were ready to feel it?',
   },
   {
     id: 'aeneas-healed',
@@ -1766,6 +1952,20 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('ACT', 'Acts', '9', 32, 35),
     theme: 'healing',
     era: 'acts',
+    quote:
+      'Peter said to him, “Aeneas, Jesus Christ heals you. Get up and make your bed!” Immediately He arose.',
+    quoteRef: 'Acts 9:34',
+    details: [
+      'He had been bedridden for eight years.',
+      'Peter names Jesus as the one doing it, not himself.',
+      'The instruction includes making the bed — the ordinary chore of getting up.',
+    ],
+    whatHappened:
+      'At Lydda, Peter found a man named Aeneas who had been paralysed and bedridden for eight years. He told him that Jesus Christ was healing him, and to get up and make his bed. He got up at once, and the whole district turned to the Lord.',
+    hopeMeaning:
+      'The instruction includes tidying up after himself. After eight years in that bed, the first act of a restored life is an ordinary domestic chore, and that is treated as the natural thing.',
+    reflectionQuestion:
+      'What ordinary task would mark the end of something for you?',
   },
   {
     id: 'tabitha-raised',
@@ -1774,6 +1974,20 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('ACT', 'Acts', '9', 36, 42),
     theme: 'raising',
     era: 'acts',
+    quote:
+      'Peter sent them all out, and knelt down and prayed. Turning to the body, he said, “Tabitha, get up!” She opened her eyes, and when she saw Peter, she sat up.',
+    quoteRef: 'Acts 9:40',
+    details: [
+      'The widows showed Peter the clothes she had made for them while she was alive.',
+      'Peter put everyone out of the room before praying, as Jesus had done.',
+      'He gave her his hand and raised her up, then called the others back in.',
+    ],
+    whatHappened:
+      'Tabitha, known for the good she did, fell ill and died. The widows sent for Peter, and when he arrived they stood weeping and showed him the clothes she had made for them. He put them all out, knelt and prayed, and told her to get up. She opened her eyes and sat up, and he presented her alive.',
+    hopeMeaning:
+      'Her memorial, held while she was still lying there, was an armful of clothing she had sewn for people who could not afford it. That is what the room offered as evidence of a life.',
+    reflectionQuestion:
+      'What would people hold up, if they were showing someone what your life had been?',
   },
   {
     id: 'peters-rescue',
@@ -1806,6 +2020,20 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('ACT', 'Acts', '12', 21, 23),
     theme: 'judgment',
     era: 'acts',
+    quote:
+      'Immediately an angel of the Lord struck Him, because He didn’t give God the glory.',
+    quoteRef: 'Acts 12:23',
+    details: [
+      'He had just executed James and imprisoned Peter.',
+      "The crowd shouted that his voice was a god's and not a man's.",
+      'He accepted it, and the account gives his death in a single sentence.',
+    ],
+    whatHappened:
+      'Herod, dressed in royal robes, gave a public speech, and the crowd shouted that it was the voice of a god and not of a man. He accepted the acclamation. He was struck down and died — and the account puts it in one sentence, immediately after describing the applause.',
+    hopeMeaning:
+      "This is a judgment account and it is not softened here. It is placed directly after Peter walks out of Herod's prison, and the contrast is the point: the man with all the power is gone within a chapter, and the church he was trying to crush kept growing.",
+    reflectionQuestion:
+      'Whose power in your life feels permanent, and probably is not?',
   },
   {
     id: 'elymas-blinded',
@@ -1814,6 +2042,20 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('ACT', 'Acts', '13', 6, 12),
     theme: 'judgment',
     era: 'acts',
+    quote:
+      'Now, behold, the hand of the Lord is on you, and you will be blind, not seeing the sun for a season!',
+    quoteRef: 'Acts 13:11',
+    details: [
+      'Elymas was actively trying to stop a governor from hearing the message.',
+      'The blindness is explicitly temporary — for a season.',
+      'He had to be led about by the hand, as Saul had been.',
+    ],
+    whatHappened:
+      'A magician named Elymas was working to keep the proconsul from listening. Paul looked straight at him, named what he was doing, and said the hand of the Lord was on him and he would be blind for a time. Darkness came over him and he groped about for someone to lead him by the hand. The proconsul believed.',
+    hopeMeaning:
+      'Paul had himself been struck blind on a road and led by the hand into Damascus, and it was the beginning of him rather than the end. The sentence he pronounces here is temporary, and it is the same one he was given.',
+    reflectionQuestion:
+      'Has something that stopped you in your tracks ever turned out to be a beginning?',
   },
   {
     id: 'lame-man-at-lystra',
@@ -1822,6 +2064,20 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('ACT', 'Acts', '14', 8, 10),
     theme: 'healing',
     era: 'acts',
+    quote:
+      'At Lystra a certain man sat, impotent in his feet, a cripple from his mother’s womb, who never had walked.',
+    quoteRef: 'Acts 14:8',
+    details: [
+      'He had never walked in his life.',
+      'He was simply listening — he had not asked for anything.',
+      "The crowd's response was to try to offer sacrifices to Paul and Barnabas.",
+    ],
+    whatHappened:
+      'At Lystra a man crippled from birth sat listening to Paul speak. Paul looked at him, saw that he had faith to be healed, and told him to stand up. He jumped up and walked — and the crowd immediately decided the two men were gods and had to be stopped from sacrificing to them.',
+    hopeMeaning:
+      'He was noticed while listening, not while asking. Something in how he was receiving what he heard was visible from the front of the crowd.',
+    reflectionQuestion:
+      'What might be visible in how you listen?',
   },
   {
     id: 'slave-girl-freed',
@@ -1830,6 +2086,20 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('ACT', 'Acts', '16', 16, 18),
     theme: 'rescue',
     era: 'acts',
+    quote:
+      'But Paul, becoming greatly annoyed, turned and said to the spirit, “I command you in the name of Jesus Christ to come out of her!” It came out that very hour.',
+    quoteRef: 'Acts 16:18',
+    details: [
+      'She was a slave whose owners profited from her fortune telling.',
+      'What she shouted about them was entirely accurate.',
+      "Her freedom ended her owners' income, and they had Paul and Silas beaten and jailed.",
+    ],
+    whatHappened:
+      'A slave girl who made money for her owners by fortune telling followed Paul for days, shouting — accurately — that these men were servants of the Most High God. Eventually Paul turned and commanded the spirit to come out of her. It did. Her owners, seeing their income gone, dragged Paul and Silas before the magistrates, who had them beaten and imprisoned.',
+    hopeMeaning:
+      'Nobody profits from her freedom except her. The people around her had every financial reason to leave her as she was, and the men who freed her were beaten for it. The account is honest that setting someone free can cost the wrong people money.',
+    reflectionQuestion:
+      'Is there something you have left alone because changing it would be costly to someone?',
   },
   {
     id: 'philippi-earthquake',
@@ -1838,6 +2108,20 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('ACT', 'Acts', '16', 25, 26),
     theme: 'rescue',
     era: 'acts',
+    quote:
+      'Suddenly there was a great earthquake, so that the foundations of the prison were shaken; and immediately all the doors were opened, and everyone’s bonds were loosened.',
+    quoteRef: 'Acts 16:26',
+    details: [
+      'Paul and Silas had been beaten and put in the inner cell with their feet in stocks.',
+      'They were praying and singing at midnight, and the other prisoners were listening.',
+      'When the doors opened, nobody left.',
+    ],
+    whatHappened:
+      'Beaten and locked in the inner cell with their feet in stocks, Paul and Silas were praying and singing at midnight while the other prisoners listened. An earthquake shook the foundations, every door opened and every chain came loose. The jailer, assuming everyone had escaped, drew his sword — and Paul called out that they were all still there.',
+    hopeMeaning:
+      'The doors opened and nobody walked out. The point of the rescue turned out to be the jailer, who would have died for the escape, and who asked that night what he should do.',
+    reflectionQuestion:
+      'Is there an open door you should not walk through, because of who it would cost?',
   },
   {
     id: 'pauls-handkerchiefs',
@@ -1846,6 +2130,20 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('ACT', 'Acts', '19', 11, 12),
     theme: 'healing',
     era: 'acts',
+    quote:
+      'So that even handkerchiefs or aprons were carried away from his body to the sick, and the diseases departed from them, and the evil spirits went out.',
+    quoteRef: 'Acts 19:12',
+    details: [
+      'The text calls these special miracles — unusual even by the standards of Acts.',
+      'The cloths were work aprons and sweat rags from his trade as a tentmaker.',
+      'Paul is not recorded as present for any of these healings.',
+    ],
+    whatHappened:
+      'In Ephesus, the account says God did unusual miracles through Paul: cloths that had touched him — work aprons and sweat rags from the tentmaking bench — were carried to the sick, and illnesses left them.',
+    hopeMeaning:
+      'The objects involved are working clothes, dirty from a trade. The account does not tidy that up into something more dignified, and it does not require Paul to be in the room.',
+    reflectionQuestion:
+      'What ordinary object of yours has carried more weight than it looked like it could?',
   },
   {
     id: 'eutychus-raised',
@@ -1854,6 +2152,20 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('ACT', 'Acts', '20', 9, 12),
     theme: 'raising',
     era: 'acts',
+    quote:
+      'Paul went down and fell upon him, and embracing him said, “Don’t be troubled, for his life is in him.”',
+    quoteRef: 'Acts 20:10',
+    details: [
+      'Paul had been talking until midnight, and kept going.',
+      'The young man was sitting in a window and fell three floors while asleep.',
+      'Afterwards Paul went back up, ate, and talked until daybreak.',
+    ],
+    whatHappened:
+      'Paul talked on and on into the night in an upstairs room. A young man named Eutychus, sitting in the window, sank into sleep and fell three floors, and was picked up dead. Paul went down, threw himself on him, and said his life was in him. Then he went back upstairs, broke bread, and talked until dawn — and they took the boy home alive, greatly comforted.',
+    hopeMeaning:
+      'The account is quietly funny about its own preacher: the sermon that went on too long is what caused the accident. Nobody is spared in the telling, and the boy is still restored.',
+    reflectionQuestion:
+      'Can you tell a story about yourself that does not make you look good?',
   },
   {
     id: 'viper-on-malta',
@@ -1862,6 +2174,20 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('ACT', 'Acts', '28', 3, 6),
     theme: 'rescue',
     era: 'acts',
+    quote:
+      'However he shook off the creature into the fire, and wasn’t harmed.',
+    quoteRef: 'Acts 28:5',
+    details: [
+      'He had just survived a shipwreck and was gathering firewood.',
+      'The islanders concluded he must be a murderer being caught up with by justice.',
+      'When nothing happened, they changed their minds and decided he was a god.',
+    ],
+    whatHappened:
+      'Shipwrecked on Malta, Paul was gathering brushwood for the fire when a viper fastened onto his hand. The islanders decided he must be a murderer whom justice had caught up with despite the sea. He shook it into the fire and was unharmed — and they changed their minds and said he was a god.',
+    hopeMeaning:
+      'The islanders go from murderer to god in the space of a few minutes, on the same evidence. What people conclude about you can swing wildly and tell you very little.',
+    reflectionQuestion:
+      "How much weight do you give to other people's reading of your circumstances?",
   },
   {
     id: 'publius-father-healed',
@@ -1870,5 +2196,19 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('ACT', 'Acts', '28', 7, 9),
     theme: 'healing',
     era: 'acts',
+    quote:
+      'The father of Publius lay sick of fever and dysentery. Paul entered in to him, prayed, and laying his hands on him, healed him.',
+    quoteRef: 'Acts 28:8',
+    details: [
+      'This happens while Paul is a prisoner being transported to Rome.',
+      'Publius was the chief man of the island, who had taken them in for three days.',
+      'Afterwards everyone else on the island who was ill came and was cured.',
+    ],
+    whatHappened:
+      "Publius, the leading man of Malta, took the shipwrecked party in for three days. His father was ill with fever and dysentery. Paul went in, prayed, laid hands on him, and he was healed. After that the rest of the island's sick came, and were cured too.",
+    hopeMeaning:
+      'Paul is a prisoner under guard, on his way to trial, shipwrecked on an island he never meant to visit. None of that stops the work; the detour becomes the assignment.',
+    reflectionQuestion:
+      'What detour are you treating as an interruption to your actual life?',
   },
 ]
