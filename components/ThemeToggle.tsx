@@ -1,6 +1,6 @@
 'use client'
 
-import { Moon, Sun } from 'lucide-react'
+import { Droplet, Leaf } from 'lucide-react'
 import { useTheme } from '@/components/ThemeProvider'
 
 export default function ThemeToggle() {
@@ -10,15 +10,18 @@ export default function ThemeToggle() {
     <button
       type="button"
       onClick={toggleTheme}
-      aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
-      className="p-2.5 rounded-xl transition-all duration-200 hover:scale-105 shadow-md
-        bg-white/70 hover:bg-white text-beige-800
-        dark:bg-brown-800/80 dark:hover:bg-brown-700 dark:text-brown-100"
+      aria-label={
+        theme === 'pine'
+          ? 'Switch to the blue New Testament theme'
+          : 'Switch to the green Old Testament theme'
+      }
+      title={theme === 'pine' ? 'Green theme' : 'Blue theme'}
+      className="btn-surface p-2.5 rounded-xl duration-200 hover:scale-105 shadow-md"
     >
-      {theme === 'light' ? (
-        <Moon className="w-5 h-5" aria-hidden="true" />
+      {theme === 'pine' ? (
+        <Leaf className="w-5 h-5" aria-hidden="true" />
       ) : (
-        <Sun className="w-5 h-5" aria-hidden="true" />
+        <Droplet className="w-5 h-5" aria-hidden="true" />
       )}
     </button>
   )

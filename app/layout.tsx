@@ -5,7 +5,9 @@ import ViewportInsetsProvider from '@/components/ViewportInsetsProvider'
 import ReadAloudToolbar from '@/components/ReadAloudToolbar'
 import { SITE_NAME, SITE_URL } from '@/lib/site'
 
-const themeInitScript = `(function(){try{var t=localStorage.getItem('bible-theme');var d=t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.toggle('dark',d);}catch(e){}})();`
+// Both themes are dark, so there is no system preference to consult — only the
+// stored green/blue choice, applied before first paint to avoid a colour flash.
+const themeInitScript = `(function(){try{var t=localStorage.getItem('wonders-theme');document.documentElement.classList.toggle('theme-ocean',t==='ocean');}catch(e){}})();`
 
 /**
  * Structured data describing what this page actually is: a free reading
@@ -38,7 +40,7 @@ const structuredData = {
         'Read all 66 books and 1,189 chapters',
         'Search across the full text',
         'Listen with browser text-to-speech',
-        'Light and dark reading modes',
+        'Green and blue reading themes',
         'Guided tour comparing how Matthew, Mark, Luke, John and Paul describe the same events',
       ],
       isPartOf: { '@id': `${SITE_URL}/#website` },
@@ -138,10 +140,7 @@ export const viewport: Viewport = {
   // color (typically white) there. The CSS already reads env(safe-area-inset-*)
   // for the tour panel and listen button, but those resolve to 0 without this.
   viewportFit: 'cover',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#f5f1e8' },
-    { media: '(prefers-color-scheme: dark)', color: '#2c1f14' },
-  ],
+  themeColor: '#163d2f',
 }
 
 export default function RootLayout({
@@ -167,7 +166,7 @@ export default function RootLayout({
       </head>
       <body>
         <ViewportInsetsProvider />
-        <main id="main-content">
+        <main id="main-content" className="tour-safe-inset">
           <ThemeProvider>{children}</ThemeProvider>
         </main>
         <ReadAloudToolbar />

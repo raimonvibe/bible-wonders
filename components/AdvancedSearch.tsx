@@ -98,16 +98,16 @@ export default function AdvancedSearch({
       />
 
       <div className="relative w-full max-w-3xl max-h-[90vh] overflow-hidden card-surface flex flex-col shadow-2xl">
-        <div className="p-4 md:p-6 border-b border-beige-300 dark:border-brown-700">
+        <div className="p-4 md:p-6 border-b border-pine-600 dark:border-ocean-700">
           <div className="flex items-start justify-between gap-4 mb-4">
             <div>
               <h2
                 id="advanced-search-title"
-                className="text-2xl md:text-3xl font-display font-bold text-beige-800 dark:text-brown-50"
+                className="text-2xl md:text-3xl font-display font-bold text-pine-100 dark:text-ocean-50"
               >
                 Advanced Search
               </h2>
-              <p className="text-sm text-beige-600 dark:text-brown-400 font-sans mt-1">
+              <p className="text-sm text-pine-300 dark:text-ocean-400 font-sans mt-1">
                 Search across all {bibleData.books.length} books and{' '}
                 {bibleData.books.reduce((sum, book) => sum + book.chapters.length, 0)} chapters
               </p>
@@ -123,14 +123,14 @@ export default function AdvancedSearch({
           </div>
 
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-beige-500 dark:text-brown-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-pine-300 dark:text-ocean-300" />
             <input
               ref={inputRef}
               type="search"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Search scripture… e.g. love your enemies"
-              className="w-full pl-11 pr-4 py-3 rounded-xl border border-beige-300 dark:border-brown-600 bg-white/80 dark:bg-brown-900/60 text-beige-900 dark:text-brown-100 font-sans text-base focus:outline-none focus:ring-2 focus:ring-amber-500/50"
+              className="w-full pl-11 pr-4 py-3 rounded-xl border border-pine-600 dark:border-ocean-600 bg-pine-900/60 dark:bg-ocean-900/60 text-pine-50 dark:text-ocean-100 font-sans text-base focus:outline-none focus:ring-2 focus:ring-amber-500/50"
               autoComplete="off"
             />
           </div>
@@ -148,7 +148,7 @@ export default function AdvancedSearch({
             </button>
 
             {debouncedQuery && (
-              <span className="text-sm font-sans text-beige-600 dark:text-brown-400">
+              <span className="text-sm font-sans text-pine-300 dark:text-ocean-400">
                 {results.length} result{results.length !== 1 ? 's' : ''}
                 {results.length >= MAX_SEARCH_RESULTS ? ` (showing first ${MAX_SEARCH_RESULTS})` : ''}
               </span>
@@ -156,9 +156,9 @@ export default function AdvancedSearch({
           </div>
 
           {showFilters && (
-            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 rounded-xl bg-beige-100/60 dark:bg-brown-900/40 border border-beige-300/70 dark:border-brown-700/70">
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 rounded-xl bg-pine-800/60 dark:bg-ocean-900/40 border border-pine-600/70 dark:border-ocean-700/70">
               <label className="block">
-                <span className="text-sm font-sans font-medium text-beige-700 dark:text-brown-300 mb-1 block">
+                <span className="text-sm font-sans font-medium text-pine-200 dark:text-ocean-300 mb-1 block">
                   Testament
                 </span>
                 <select
@@ -167,7 +167,7 @@ export default function AdvancedSearch({
                     setTestament(event.target.value as TestamentFilter)
                     setBookId('')
                   }}
-                  className="w-full px-3 py-2 rounded-lg border border-beige-300 dark:border-brown-600 bg-white/80 dark:bg-brown-900/60 text-beige-900 dark:text-brown-100 font-sans text-sm"
+                  className="w-full px-3 py-2 rounded-lg border border-pine-600 dark:border-ocean-600 bg-pine-900/60 dark:bg-ocean-900/60 text-pine-50 dark:text-ocean-100 font-sans text-sm"
                 >
                   <option value="all">All</option>
                   <option value="old">Old Testament</option>
@@ -176,13 +176,13 @@ export default function AdvancedSearch({
               </label>
 
               <label className="block">
-                <span className="text-sm font-sans font-medium text-beige-700 dark:text-brown-300 mb-1 block">
+                <span className="text-sm font-sans font-medium text-pine-200 dark:text-ocean-300 mb-1 block">
                   Book
                 </span>
                 <select
                   value={bookId}
                   onChange={(event) => setBookId(event.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-beige-300 dark:border-brown-600 bg-white/80 dark:bg-brown-900/60 text-beige-900 dark:text-brown-100 font-sans text-sm"
+                  className="w-full px-3 py-2 rounded-lg border border-pine-600 dark:border-ocean-600 bg-pine-900/60 dark:bg-ocean-900/60 text-pine-50 dark:text-ocean-100 font-sans text-sm"
                 >
                   <option value="">All books</option>
                   {filteredBooks.map((book) => (
@@ -194,13 +194,13 @@ export default function AdvancedSearch({
               </label>
 
               <label className="block">
-                <span className="text-sm font-sans font-medium text-beige-700 dark:text-brown-300 mb-1 block">
+                <span className="text-sm font-sans font-medium text-pine-200 dark:text-ocean-300 mb-1 block">
                   Match mode
                 </span>
                 <select
                   value={matchMode}
                   onChange={(event) => setMatchMode(event.target.value as MatchMode)}
-                  className="w-full px-3 py-2 rounded-lg border border-beige-300 dark:border-brown-600 bg-white/80 dark:bg-brown-900/60 text-beige-900 dark:text-brown-100 font-sans text-sm"
+                  className="w-full px-3 py-2 rounded-lg border border-pine-600 dark:border-ocean-600 bg-pine-900/60 dark:bg-ocean-900/60 text-pine-50 dark:text-ocean-100 font-sans text-sm"
                 >
                   <option value="phrase">Exact phrase</option>
                   <option value="all">All words</option>
@@ -213,9 +213,9 @@ export default function AdvancedSearch({
                   type="checkbox"
                   checked={caseSensitive}
                   onChange={(event) => setCaseSensitive(event.target.checked)}
-                  className="w-4 h-4 rounded border-beige-400 text-amber-600 focus:ring-amber-500"
+                  className="w-4 h-4 rounded border-pine-500 text-amber-600 focus:ring-amber-500"
                 />
-                <span className="text-sm font-sans text-beige-700 dark:text-brown-300">
+                <span className="text-sm font-sans text-pine-200 dark:text-ocean-300">
                   Case sensitive
                 </span>
               </label>
@@ -226,8 +226,8 @@ export default function AdvancedSearch({
         <div className="overflow-y-auto flex-1 p-2 md:p-4">
           {!debouncedQuery.trim() && (
             <div className="text-center py-12 px-4">
-              <BookOpen className="w-12 h-12 text-beige-500 dark:text-brown-500 mx-auto mb-4" />
-              <p className="text-beige-600 dark:text-brown-400 font-sans">
+              <BookOpen className="w-12 h-12 text-pine-300 dark:text-ocean-300 mx-auto mb-4" />
+              <p className="text-pine-300 dark:text-ocean-400 font-sans">
                 Type a word or phrase to search the entire Bible.
               </p>
             </div>
@@ -235,10 +235,10 @@ export default function AdvancedSearch({
 
           {debouncedQuery.trim() && results.length === 0 && (
             <div className="text-center py-12 px-4">
-              <p className="text-beige-700 dark:text-brown-300 font-sans">
+              <p className="text-pine-200 dark:text-ocean-300 font-sans">
                 No verses found for &ldquo;{debouncedQuery}&rdquo;.
               </p>
-              <p className="text-sm text-beige-500 dark:text-brown-500 font-sans mt-2">
+              <p className="text-sm text-pine-300 dark:text-ocean-300 font-sans mt-2">
                 Try a different phrase, switch to &ldquo;Any word&rdquo;, or broaden your filters.
               </p>
             </div>
@@ -254,15 +254,15 @@ export default function AdvancedSearch({
                 >
                   <div className="flex items-center gap-2 mb-2">
                     <Book className="w-4 h-4 text-amber-700 dark:text-amber-500 shrink-0" />
-                    <span className="font-display font-semibold text-beige-800 dark:text-brown-100 group-hover:text-amber-800 dark:group-hover:text-amber-400">
+                    <span className="font-display font-semibold text-pine-100 dark:text-ocean-100 group-hover:text-amber-800 dark:group-hover:text-amber-400">
                       {result.reference}
                     </span>
-                    <span className="text-xs font-sans px-2 py-0.5 rounded-full bg-beige-200/70 dark:bg-brown-800/70 text-beige-600 dark:text-brown-400">
+                    <span className="text-xs font-sans px-2 py-0.5 rounded-full bg-pine-700/70 dark:bg-ocean-800/70 text-pine-300 dark:text-ocean-400">
                       {result.testament === 'old' ? 'OT' : 'NT'}
                     </span>
                   </div>
                   <p
-                    className="text-sm md:text-base leading-relaxed text-beige-700 dark:text-brown-300 font-serif line-clamp-3"
+                    className="text-sm md:text-base leading-relaxed text-pine-200 dark:text-ocean-300 font-serif line-clamp-3"
                     dangerouslySetInnerHTML={{
                       __html: highlightMatch(result.text, debouncedQuery, caseSensitive),
                     }}

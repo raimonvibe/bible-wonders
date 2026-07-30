@@ -192,8 +192,10 @@ export default function BibleApp({ bookIndex }: { bookIndex: BibleIndex }) {
 
   return (
     <div className="min-h-screen py-6 md:py-10 px-4 md:px-6 lg:px-8">
+      {/* Floats over the reading column, so it carries its own backdrop rather
+          than letting verse text run between the two controls. */}
       <div
-        className="fixed top-4 right-4 z-40 flex items-center gap-2"
+        className="tour-safe-right fixed top-4 z-40 flex items-center gap-2 rounded-2xl bg-pine-900/75 p-1.5 backdrop-blur-sm dark:bg-ocean-950/75"
         data-read-aloud-ignore
       >
         <button
@@ -220,24 +222,24 @@ export default function BibleApp({ bookIndex }: { bookIndex: BibleIndex }) {
         />
       )}
 
-      <div className="max-w-7xl mx-auto tour-safe-inset">
+      <div className="reader-container max-w-7xl mx-auto">
         {/* Header */}
         <header data-read-aloud-ignore className="text-center mb-8 md:mb-12">
           <div className="inline-flex items-center gap-3 mb-4">
-            <BookMarked className="w-10 h-10 md:w-12 md:h-12 text-beige-700 dark:text-brown-300" />
+            <BookMarked className="w-10 h-10 md:w-12 md:h-12 text-pine-200 dark:text-ocean-300" />
           </div>
           {/* In the reader the chapter title is the page's h1, so the site
               title steps down to avoid two top-level headings. */}
           {view === 'reader' ? (
-            <p className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-beige-800 dark:text-brown-50 mb-3">
+            <p className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-pine-100 dark:text-ocean-50 mb-3">
               The Holy Bible
             </p>
           ) : (
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-beige-800 dark:text-brown-50 mb-3">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-pine-100 dark:text-ocean-50 mb-3">
               The Holy Bible
             </h1>
           )}
-          <p className="text-beige-600 dark:text-brown-300 font-sans text-base md:text-lg max-w-2xl mx-auto">
+          <p className="text-pine-300 dark:text-ocean-300 font-sans text-base md:text-lg max-w-2xl mx-auto">
             Read the complete Old and New Testament from the {bookIndex.bibleName} in a beautiful,
             modern interface
           </p>
@@ -278,8 +280,8 @@ export default function BibleApp({ bookIndex }: { bookIndex: BibleIndex }) {
               />
             ) : (
               <div className="card-surface p-10 text-center" aria-live="polite">
-                <BookMarked className="w-12 h-12 text-beige-600 dark:text-brown-400 mx-auto mb-4 animate-pulse" />
-                <p className="text-beige-700 dark:text-brown-200 font-sans">
+                <BookMarked className="w-12 h-12 text-pine-300 dark:text-ocean-400 mx-auto mb-4 animate-pulse" />
+                <p className="text-pine-200 dark:text-ocean-200 font-sans">
                   Loading {selectedNavBook?.name ?? 'the passage'}…
                 </p>
               </div>

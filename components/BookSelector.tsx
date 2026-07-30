@@ -17,7 +17,7 @@ export default function BookSelector({ books, selectedBookId, onSelectBook }: Bo
   const newTestamentBooks = books.filter(book => ntBookIds.some(id => book.id.includes(id)))
 
   const renderBookGrid = (booksList: typeof books) => (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-3">
+    <div className="grid-books">
       {booksList.map((book) => (
         <button
           key={book.id}
@@ -40,8 +40,8 @@ export default function BookSelector({ books, selectedBookId, onSelectBook }: Bo
           <div
             className={`text-xs ${
               selectedBookId === book.id
-                ? 'text-beige-100 dark:text-brown-100'
-                : 'text-beige-600 dark:text-brown-400'
+                ? 'text-pine-50 dark:text-ocean-100'
+                : 'text-pine-300 dark:text-ocean-400'
             }`}
             aria-hidden="true"
           >
@@ -55,14 +55,14 @@ export default function BookSelector({ books, selectedBookId, onSelectBook }: Bo
   return (
     <div className="space-y-8">
       <section data-read-aloud-block className="card-surface p-4 md:p-6 lg:p-8">
-        <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-beige-300 dark:border-brown-700">
+        <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-pine-600 dark:border-ocean-700">
           <div className="flex items-center gap-3">
             <ScrollText className="w-7 h-7 md:w-8 md:h-8 text-amber-700 dark:text-amber-500" aria-hidden="true" />
             <div>
-              <h2 className="text-2xl md:text-3xl font-display font-bold text-beige-800 dark:text-brown-50">
+              <h2 className="text-2xl md:text-3xl font-display font-bold text-pine-100 dark:text-ocean-50">
                 Old Testament
               </h2>
-              <p className="text-sm text-beige-600 dark:text-brown-400 font-sans mt-1">
+              <p className="text-sm text-pine-300 dark:text-ocean-400 font-sans mt-1">
                 {oldTestamentBooks.length} books • {oldTestamentBooks.reduce((sum, book) => sum + book.chapters.length, 0)} chapters
               </p>
             </div>
@@ -75,14 +75,14 @@ export default function BookSelector({ books, selectedBookId, onSelectBook }: Bo
       </section>
 
       <section data-read-aloud-block className="card-surface p-4 md:p-6 lg:p-8">
-        <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-beige-300 dark:border-brown-700">
+        <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-pine-600 dark:border-ocean-700">
           <div className="flex items-center gap-3">
             <Book className="w-7 h-7 md:w-8 md:h-8 text-blue-700 dark:text-blue-400" aria-hidden="true" />
             <div>
-              <h2 className="text-2xl md:text-3xl font-display font-bold text-beige-800 dark:text-brown-50">
+              <h2 className="text-2xl md:text-3xl font-display font-bold text-pine-100 dark:text-ocean-50">
                 New Testament
               </h2>
-              <p className="text-sm text-beige-600 dark:text-brown-400 font-sans mt-1">
+              <p className="text-sm text-pine-300 dark:text-ocean-400 font-sans mt-1">
                 {newTestamentBooks.length} books • {newTestamentBooks.reduce((sum, book) => sum + book.chapters.length, 0)} chapters
               </p>
             </div>

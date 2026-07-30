@@ -21,14 +21,14 @@
    * white; the solid color seals that case.
    */
   html {
-    @apply scroll-smooth bg-theme-light;
-    background-color: #f5f1e8;
+    @apply scroll-smooth bg-theme-pine;
+    background-color: #163d2f;
     min-height: 100vh;
   }
 
-  html.dark {
-    @apply bg-theme-dark;
-    background-color: #2c1f14;
+  html.theme-ocean {
+    @apply bg-theme-ocean;
+    background-color: #062a4a;
   }
 
   html::before {
@@ -36,24 +36,24 @@
     position: fixed;
     inset: 0;
     z-index: -1;
-    @apply bg-theme-light;
-    background-color: #f5f1e8;
+    @apply bg-theme-pine;
+    background-color: #163d2f;
   }
 
-  html.dark::before {
-    @apply bg-theme-dark;
-    background-color: #2c1f14;
+  html.theme-ocean::before {
+    @apply bg-theme-ocean;
+    background-color: #062a4a;
   }
 
   body {
-    @apply font-serif text-beige-900 bg-theme-light;
-    background-color: #f5f1e8;
+    @apply font-serif text-pine-50 bg-theme-pine;
+    background-color: #163d2f;
     min-height: 100vh;
   }
 
-  html.dark body {
-    @apply text-brown-100 bg-theme-dark;
-    background-color: #2c1f14;
+  html.theme-ocean body {
+    @apply text-ocean-100 bg-theme-ocean;
+    background-color: #062a4a;
   }
 
   h1,
@@ -68,58 +68,60 @@
 
 @layer components {
   .card-surface {
-    @apply backdrop-blur-sm rounded-2xl shadow-xl border bg-card-light border-beige-300/60;
+    @apply backdrop-blur-sm rounded-2xl shadow-xl border bg-card-pine border-pine-600/60;
   }
 
-  html.dark .card-surface {
-    @apply bg-card-dark border-brown-700/50;
+  html.theme-ocean .card-surface {
+    @apply bg-card-ocean border-ocean-700/50;
   }
 
   .btn-surface {
-    @apply bg-white/70 hover:bg-white text-beige-800 transition-all
-      dark:bg-brown-800/80 dark:hover:bg-brown-700 dark:text-brown-100;
+    @apply bg-pine-700/80 hover:bg-pine-600 text-pine-50 transition-all
+      dark:bg-ocean-700/80 dark:hover:bg-ocean-600 dark:text-ocean-50;
   }
 
   .btn-surface-muted {
-    @apply bg-beige-200/50 text-beige-400 cursor-not-allowed
-      dark:bg-brown-900/60 dark:text-brown-600;
+    @apply bg-pine-800/60 text-pine-500 cursor-not-allowed
+      dark:bg-ocean-900/60 dark:text-ocean-500;
   }
 
   .bg-selection-gradient {
-    background: linear-gradient(135deg, #e8dcc8 0%, #d4c5a9 25%, #c5b494 50%, #d4c5a9 75%, #e8dcc8 100%);
+    background: linear-gradient(135deg, #1d4d3a 0%, #163d2f 45%, #0e2a20 100%);
   }
 
-  html.dark .bg-selection-gradient {
-    background: linear-gradient(135deg, #7d6349 0%, #634d3a 40%, #4d3b2e 70%, #3d2b1f 100%);
+  html.theme-ocean .bg-selection-gradient {
+    background: linear-gradient(135deg, #0a3d6b 0%, #062a4a 45%, #041d33 100%);
   }
 
   .verse-num {
-    @apply font-sans font-semibold text-xs mr-1 select-none text-beige-600;
+    @apply font-sans font-semibold text-xs mr-1 select-none text-pine-300;
   }
 
-  html.dark .verse-num {
-    @apply text-brown-400;
+  html.theme-ocean .verse-num {
+    @apply text-ocean-400;
   }
 
   .verse {
     @apply block mb-3 leading-relaxed;
   }
 
+  /* Highlights sit on a dark ground in both themes, so the accent stays
+     translucent and the text stays light rather than inverting to dark ink. */
   .search-highlight {
-    @apply rounded px-0.5 bg-amber-200/80 text-beige-900 font-medium;
+    @apply rounded px-0.5 bg-accent/30 text-pine-50 font-medium;
   }
 
-  html.dark .search-highlight {
-    @apply bg-amber-600/40 text-amber-100;
+  html.theme-ocean .search-highlight {
+    @apply bg-accent/30 text-ocean-50;
   }
 
   .read-aloud-active {
-    @apply rounded-lg bg-amber-200/60 ring-2 ring-amber-500/40;
+    @apply rounded-lg bg-accent/20 ring-2 ring-accent/45;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
   }
 
-  html.dark .read-aloud-active {
-    @apply bg-amber-700/35 ring-amber-500/35;
+  html.theme-ocean .read-aloud-active {
+    @apply bg-accent/20 ring-accent/45;
   }
 
   .fixed-viewport-anchor {
@@ -148,45 +150,45 @@
   }
 
   .listen-panel-header {
-    background: linear-gradient(135deg, #7d6e56 0%, #5e5342 50%, #3f382d 100%);
+    background: linear-gradient(135deg, #1d4d3a 0%, #163d2f 50%, #0e2a20 100%);
   }
 
-  html.dark .listen-panel-header {
-    background: linear-gradient(135deg, #634d3a 0%, #4d3b2e 50%, #2c1f14 100%);
+  html.theme-ocean .listen-panel-header {
+    background: linear-gradient(135deg, #0a3d6b 0%, #062a4a 50%, #041d33 100%);
   }
 
   .listen-play-btn {
-    background: linear-gradient(135deg, #b5a280 0%, #9d8a6b 50%, #7d6e56 100%);
+    background: linear-gradient(135deg, #358566 0%, #2a6b52 50%, #1d4d3a 100%);
   }
 
-  html.dark .listen-play-btn {
-    background: linear-gradient(135deg, #9a7d5f 0%, #7d6349 50%, #634d3a 100%);
+  html.theme-ocean .listen-play-btn {
+    background: linear-gradient(135deg, #2a70b8 0%, #1a5a9e 50%, #0a3d6b 100%);
   }
 
   .listen-fab-idle {
-    background: linear-gradient(135deg, #5e5342 0%, #3f382d 100%);
-    box-shadow: 0 6px 28px rgba(94, 83, 66, 0.35);
+    background: linear-gradient(135deg, #1d4d3a 0%, #0e2a20 100%);
+    box-shadow: 0 6px 28px rgba(14, 42, 32, 0.5);
   }
 
-  html.dark .listen-fab-idle {
-    background: linear-gradient(135deg, #4d3b2e 0%, #2c1f14 100%);
-    box-shadow: 0 6px 28px rgba(44, 31, 20, 0.45);
+  html.theme-ocean .listen-fab-idle {
+    background: linear-gradient(135deg, #0a3d6b 0%, #041d33 100%);
+    box-shadow: 0 6px 28px rgba(4, 29, 51, 0.5);
   }
 
   .listen-progress-bar {
-    background: linear-gradient(90deg, #c5b494 0%, #9d8a6b 100%);
+    background: linear-gradient(90deg, #7cbfa1 0%, #358566 100%);
   }
 
-  html.dark .listen-progress-bar {
-    background: linear-gradient(90deg, #b89d82 0%, #7d6349 100%);
+  html.theme-ocean .listen-progress-bar {
+    background: linear-gradient(90deg, #79ace0 0%, #2a70b8 100%);
   }
 
   .listen-range {
-    accent-color: #9d8a6b;
+    accent-color: #52a381;
   }
 
-  html.dark .listen-range {
-    accent-color: #b89d82;
+  html.theme-ocean .listen-range {
+    accent-color: #4a8bd0;
   }
 
   .listen-wave {
@@ -229,8 +231,16 @@
   }
 
   /* ---------------------------------------------------------------------
-   * Guided tour — "One Story, Five Voices"
-   * Anchored bottom-right, mirroring the bottom-left listen controls.
+   * Guided tour — "Wonders and Hope"
+   *
+   * Two layouts, split at SPLIT_MIN_WIDTH (960px, mirrored in
+   * components/GuidedTour.tsx — move both together):
+   *
+   *  - wide  → a true 50/50: Bible left, tour docked full-height on the right.
+   *            Each side scrolls on its own (the page scrolls the left, the
+   *            panel body scrolls the right).
+   *  - narrow → the launcher and panel anchor bottom-right, and the panel acts
+   *            as a bottom sheet over a full-width Bible.
    * ------------------------------------------------------------------- */
 
   .tour-anchor {
@@ -258,25 +268,25 @@
 
   .tour-fab {
     position: relative;
-    background: linear-gradient(135deg, #7d6e56 0%, #5e5342 55%, #3f382d 100%);
-    box-shadow: 0 6px 28px rgba(94, 83, 66, 0.35);
+    background: linear-gradient(135deg, #2a6b52 0%, #1d4d3a 55%, #0e2a20 100%);
+    box-shadow: 0 6px 28px rgba(14, 42, 32, 0.5);
   }
 
-  html.dark .tour-fab {
-    background: linear-gradient(135deg, #7d6349 0%, #4d3b2e 55%, #2c1f14 100%);
-    box-shadow: 0 6px 28px rgba(26, 18, 12, 0.5);
+  html.theme-ocean .tour-fab {
+    background: linear-gradient(135deg, #1a5a9e 0%, #0a3d6b 55%, #041d33 100%);
+    box-shadow: 0 6px 28px rgba(4, 29, 51, 0.5);
   }
 
   /* Opaque on purpose: the panel sits directly over running text, and any
      translucency makes both the panel and the passage harder to read. */
   .tour-panel-shell {
-    background: #fffdf8;
-    border: 1px solid rgba(212, 197, 169, 0.9);
+    background: #14332a;
+    border: 1px solid rgba(42, 107, 82, 0.9);
   }
 
-  html.dark .tour-panel-shell {
-    background: #1c140e;
-    border-color: rgba(77, 59, 46, 0.95);
+  html.theme-ocean .tour-panel-shell {
+    background: #062338;
+    border-color: rgba(26, 90, 158, 0.9);
   }
 
   .tour-panel {
@@ -291,24 +301,31 @@
     animation: tour-panel-in 0.3s ease-out;
   }
 
-  /* Reserved by the guided tour so no line of text runs under a side-docked
-     panel. Zero whenever the tour is closed or is acting as a bottom sheet. */
+  /* Reserved by the guided tour so the Bible keeps to the left half. Sits on
+     the page wrapper rather than the inner max-w container, so the reading
+     column re-centres inside what is left instead of being squeezed against it.
+     Zero whenever the tour is closed or is acting as a bottom sheet. */
   .tour-safe-inset {
     padding-right: var(--reader-safe-right, 0px);
     transition: padding-right 0.3s ease;
   }
 
+  /* Fixed page controls that must stay clear of the docked panel. */
+  .tour-safe-right {
+    right: calc(1rem + var(--reader-safe-right, 0px));
+    transition: right 0.3s ease;
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .tour-safe-inset {
+    .tour-safe-inset,
+    .tour-safe-right {
       transition: none;
     }
   }
 
-  /* Too narrow to keep a reading column beside the panel, so it becomes a
-     bottom sheet: keep it short enough that the passage stays visible above it.
-     Breakpoint = 25rem panel + MIN_READING_COLUMN + PANEL_GUTTER in
-     components/GuidedTour.tsx. */
-  @media (max-width: 867px) {
+  /* Too narrow for a 50/50, so the panel becomes a bottom sheet: keep it short
+     enough that the passage stays visible above it. */
+  @media (max-width: 959px) {
     .tour-panel {
       max-height: min(
         58dvh,
@@ -335,7 +352,7 @@
      keyboard hint, which is the least useful line on a touch device anyway.
      Scoped to wider viewports — on a window that is both narrow and short the
      rule above must win, or the sheet swallows the whole screen. */
-  @media (max-height: 560px) and (min-width: 640px) {
+  @media (max-height: 560px) and (min-width: 640px) and (max-width: 959px) {
     .tour-panel {
       max-height: calc(
         var(--vv-height, 100dvh) - 2.5rem - env(safe-area-inset-top, 0px) -
@@ -348,15 +365,57 @@
     }
   }
 
+  /* --- desktop 50/50 -----------------------------------------------------
+     `.tour-dock` is only on the open panel's anchor, so the launcher and the
+     minimized pill keep their bottom-right corner at every width. */
+  @media (min-width: 960px) {
+    .tour-anchor.tour-dock {
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: auto;
+      /* Percent, not vw: both this and the page's reserved padding resolve
+         against the layout viewport, so a classic scrollbar cannot make the
+         two halves disagree the way `50vw` (which counts it) would. */
+      width: 50%;
+      max-width: none;
+      gap: 0;
+      align-items: stretch;
+      justify-content: stretch;
+    }
+
+    .tour-dock .tour-panel {
+      width: 100%;
+      height: 100%;
+      max-height: none;
+      border-radius: 0;
+      border-top: 0;
+      border-right: 0;
+      border-bottom: 0;
+      animation: tour-panel-in-right 0.3s ease-out;
+    }
+  }
+
+  @keyframes tour-panel-in-right {
+    from {
+      opacity: 0;
+      transform: translateX(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
   .tour-panel-body {
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
-    scrollbar-color: #d4c5a9 transparent;
+    scrollbar-color: #2a6b52 transparent;
   }
 
-  html.dark .tour-panel-body {
-    scrollbar-color: #4d3b2e transparent;
+  html.theme-ocean .tour-panel-body {
+    scrollbar-color: #1a5a9e transparent;
   }
 
   .tour-panel-body::-webkit-scrollbar {
@@ -368,18 +427,18 @@
   }
 
   .tour-panel-body::-webkit-scrollbar-thumb {
-    background: #d4c5a9;
+    background: #2a6b52;
     border-radius: 9999px;
   }
 
-  html.dark .tour-panel-body::-webkit-scrollbar-thumb {
-    background: #4d3b2e;
+  html.theme-ocean .tour-panel-body::-webkit-scrollbar-thumb {
+    background: #1a5a9e;
   }
 
   .tour-icon-btn {
     @apply flex min-h-9 min-w-9 items-center justify-center rounded-lg
-      text-beige-600 transition-colors hover:bg-beige-200/70 hover:text-beige-900
-      dark:text-brown-400 dark:hover:bg-brown-800/70 dark:hover:text-brown-100;
+      text-pine-300 transition-colors hover:bg-pine-700/70 hover:text-pine-50
+      dark:text-ocean-400 dark:hover:bg-ocean-800/70 dark:hover:text-ocean-100;
   }
 
   /* Speech toggle + its options caret, read as one control. */
@@ -388,11 +447,30 @@
   }
 
   .tour-icon-btn-on {
-    @apply bg-beige-200/80 text-beige-900 dark:bg-brown-800 dark:text-brown-50;
+    @apply bg-pine-700/80 text-pine-50 dark:bg-ocean-800 dark:text-ocean-50;
   }
 
   .tour-icon-btn-slim {
     @apply min-w-7;
+  }
+
+  /* Tour / Passage / Both. Grouped on a recessed track so three bare icons read
+     as one segmented control rather than three loose buttons. */
+  .tour-mode-group {
+    @apply inline-flex items-center gap-0.5 rounded-xl bg-pine-800/70 p-0.5
+      dark:bg-ocean-900/60;
+  }
+
+  .tour-mode-btn {
+    @apply flex min-h-9 min-w-9 items-center justify-center rounded-lg
+      text-pine-300 transition-colors hover:bg-pine-700/70 hover:text-pine-50
+      dark:text-ocean-300 dark:hover:bg-ocean-800/70 dark:hover:text-ocean-50;
+  }
+
+  .tour-mode-btn-on {
+    @apply bg-pine-100 text-pine-900 hover:bg-pine-100 hover:text-pine-900
+      dark:bg-ocean-200 dark:text-ocean-950 dark:hover:bg-ocean-200
+      dark:hover:text-ocean-950;
   }
 
   .tour-speaking {
@@ -412,29 +490,29 @@
   }
 
   .tour-voice-sheet {
-    background: #fffdf8;
+    background: #14332a;
   }
 
-  html.dark .tour-voice-sheet {
-    background: #1c140e;
+  html.theme-ocean .tour-voice-sheet {
+    background: #062338;
   }
 
   .tour-progress-bar {
-    background: linear-gradient(90deg, #c5b494 0%, #9d8a6b 100%);
+    background: linear-gradient(90deg, #7cbfa1 0%, #358566 100%);
   }
 
-  html.dark .tour-progress-bar {
-    background: linear-gradient(90deg, #b89d82 0%, #7d6349 100%);
+  html.theme-ocean .tour-progress-bar {
+    background: linear-gradient(90deg, #79ace0 0%, #2a70b8 100%);
   }
 
   .tour-next-btn {
-    background: linear-gradient(135deg, #7d6e56 0%, #5e5342 100%);
-    color: #faf8f3;
+    background: linear-gradient(135deg, #358566 0%, #1d4d3a 100%);
+    color: #eaf6f0;
   }
 
-  html.dark .tour-next-btn {
-    background: linear-gradient(135deg, #9a7d5f 0%, #634d3a 100%);
-    color: #f7f3ef;
+  html.theme-ocean .tour-next-btn {
+    background: linear-gradient(135deg, #2a70b8 0%, #0a3d6b 100%);
+    color: #eaf2fb;
   }
 
   @keyframes tour-panel-in {
@@ -448,27 +526,19 @@
     }
   }
 
-  /* The passage the tour is currently talking about. */
+  /* The passage the tour is currently talking about. Uses the shared accent in
+     both themes so "you are here" never reads as a testament colour. */
   .verse-spotlight {
     border-radius: 0.5rem;
     margin-left: -0.85rem;
     padding: 0.35rem 0.6rem 0.35rem 0.85rem;
     background: linear-gradient(
       90deg,
-      rgba(245, 208, 137, 0.5) 0%,
-      rgba(245, 208, 137, 0.14) 100%
+      rgba(244, 162, 97, 0.28) 0%,
+      rgba(244, 162, 97, 0.06) 100%
     );
-    box-shadow: inset 3px 0 0 0 #b45309;
+    box-shadow: inset 3px 0 0 0 #f4a261;
     animation: verse-spotlight-in 0.6s ease-out;
-  }
-
-  html.dark .verse-spotlight {
-    background: linear-gradient(
-      90deg,
-      rgba(190, 130, 45, 0.32) 0%,
-      rgba(190, 130, 45, 0.08) 100%
-    );
-    box-shadow: inset 3px 0 0 0 #f59e0b;
   }
 
   @keyframes verse-spotlight-in {
@@ -487,6 +557,65 @@
     .verse-spotlight,
     .tour-speaking {
       animation: none;
+    }
+  }
+}
+
+@layer components {
+  /* The reading column is full-width with the tour closed and half-width with
+     it docked, so the grids inside size against this box rather than the
+     viewport — otherwise a 1440px window keeps five book columns crammed into
+     a 720px pane. Column counts match the old viewport breakpoints. */
+  .reader-container {
+    container-type: inline-size;
+  }
+
+  .grid-books,
+  .grid-chapters {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .grid-books {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .grid-chapters {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  @container (min-width: 640px) {
+    .grid-books {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid-chapters {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+  }
+
+  @container (min-width: 768px) {
+    .grid-books,
+    .grid-chapters {
+      gap: 0.75rem;
+    }
+
+    .grid-books {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .grid-chapters {
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+    }
+  }
+
+  @container (min-width: 1024px) {
+    .grid-books {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .grid-chapters {
+      grid-template-columns: repeat(10, minmax(0, 1fr));
     }
   }
 }

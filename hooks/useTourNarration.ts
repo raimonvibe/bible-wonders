@@ -6,7 +6,15 @@ import { pickDefaultVoice, usableVoices } from '@/lib/readAloud'
 const VOICE_KEY = 'tour-voice-uri'
 const RATE_KEY = 'tour-speech-rate'
 const ENABLED_KEY = 'tour-speech-on'
-const PASSAGE_KEY = 'tour-speech-passage'
+const MODE_KEY = 'tour-speech-mode'
+
+/**
+ * What narration reads. `tour` is the default: the guide's own words only, so
+ * turning speech on never surprises you with a chapter of scripture.
+ */
+export type SpeechMode = 'tour' | 'passage' | 'both'
+
+const MODES: SpeechMode[] = ['tour', 'passage', 'both']
 
 /** Marks the stop event the tour fires at the page reader, so it can ignore it. */
 export const TOUR_SPEECH_SOURCE = 'guided-tour'
@@ -36,7 +44,7 @@ export function useTourNarration() {
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([])
   const [voiceURI, setVoiceURIState] = useState('')
   const [rate, setRateState] = useState(1)
-  const [includePassage, setIncludePassageState] = useState(false)
+  const [mode, setModeState] = useState<SpeechMode>('tour')
   const [segment, setSegment] = useState({ index: 0, total: 0 })
 
   const queueRef = useRef<string[]>([])
@@ -82,7 +90,12 @@ export function useTourNarration() {
 
     setSupported(true)
     setEnabledState(readFlag(ENABLED_KEY, false))
-    setIncludePassageState(readFlag(PASSAGE_KEY, false))
+    try {
+      const saved = localStorage.getItem(MODE_KEY) as SpeechMode | null
+      if (saved && MODES.includes(saved)) setModeState(saved)
+    } catch {
+      /* keep the default */
+    }
     try {
       const savedRate = Number(localStorage.getItem(RATE_KEY))
       if (savedRate >= 0.5 && savedRate <= 2) setRateState(savedRate)
@@ -208,10 +221,10 @@ export function useTourNarration() {
     }
   }, [])
 
-  const setIncludePassage = useCallback((value: boolean) => {
-    setIncludePassageState(value)
+  const setMode = useCallback((value: SpeechMode) => {
+    setModeState(value)
     try {
-      localStorage.setItem(PASSAGE_KEY, String(value))
+      localStorage.setItem(MODE_KEY, value)
     } catch {
       /* ignore */
     }
@@ -230,7 +243,7 @@ export function useTourNarration() {
     setVoiceURI,
     rate,
     setRate,
-    includePassage,
-    setIncludePassage,
+    mode,
+    setMode,
   }
 }

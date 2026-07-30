@@ -174,12 +174,12 @@ export default function BibleReader({
     <article className="card-surface p-4 md:p-6 lg:p-10">
       <nav
         data-read-aloud-ignore
-        className="flex items-center gap-2 text-sm text-beige-600 dark:text-brown-400 mb-4 font-sans"
+        className="flex items-center gap-2 text-sm text-pine-300 dark:text-ocean-400 mb-4 font-sans"
         aria-label="Breadcrumb"
       >
         <button
           onClick={onBackToBooks}
-          className="hover:text-beige-900 dark:hover:text-brown-50 transition-colors flex items-center gap-1"
+          className="hover:text-pine-50 dark:hover:text-ocean-50 transition-colors flex items-center gap-1"
           aria-label="Go to home"
         >
           <Home className="w-4 h-4" />
@@ -188,18 +188,18 @@ export default function BibleReader({
         <span>/</span>
         <button
           onClick={onBack}
-          className="hover:text-beige-900 dark:hover:text-brown-50 transition-colors"
+          className="hover:text-pine-50 dark:hover:text-ocean-50 transition-colors"
           aria-label="Go back to chapter list"
         >
           {bookName}
         </button>
         <span>/</span>
-        <span className="text-beige-800 dark:text-brown-200 font-medium">Chapter {chapter.number}</span>
+        <span className="text-pine-100 dark:text-ocean-200 font-medium">Chapter {chapter.number}</span>
       </nav>
 
       <div
         data-read-aloud-ignore
-        className="flex items-center justify-between mb-6 pb-4 border-b border-beige-300 dark:border-brown-700"
+        className="flex items-center justify-between mb-6 pb-4 border-b border-pine-600 dark:border-ocean-700"
       >
         <div className="flex items-center gap-2">
           <button
@@ -250,10 +250,10 @@ export default function BibleReader({
       </div>
 
       <div className="mb-8 text-center">
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-beige-800 dark:text-brown-50 mb-2">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-pine-100 dark:text-ocean-50 mb-2">
           {chapter.reference}
         </h1>
-        <p className="text-beige-600 dark:text-brown-400 font-sans text-sm md:text-base">
+        <p className="text-pine-300 dark:text-ocean-400 font-sans text-sm md:text-base">
           {bookName} - Chapter {chapter.number}
         </p>
 
@@ -271,7 +271,7 @@ export default function BibleReader({
 
       <div className="prose max-w-none mb-8">
         <div
-          className="text-beige-900 dark:text-brown-100 leading-relaxed text-base md:text-lg lg:text-xl"
+          className="text-pine-50 dark:text-ocean-100 leading-relaxed text-base md:text-lg lg:text-xl"
           dangerouslySetInnerHTML={{ __html: processedContent }}
           aria-live="polite"
         />
@@ -279,7 +279,7 @@ export default function BibleReader({
 
       <footer
         data-read-aloud-ignore
-        className="flex justify-between items-center pt-6 border-t border-beige-300 dark:border-brown-700"
+        className="flex justify-between items-center pt-6 border-t border-pine-600 dark:border-ocean-700"
       >
         <button
           onClick={onPrevChapter}
@@ -293,7 +293,7 @@ export default function BibleReader({
           <span className="hidden sm:inline">Previous</span>
         </button>
 
-        <div className="text-beige-600 dark:text-brown-400 font-sans text-sm md:text-base" aria-live="polite">
+        <div className="text-pine-300 dark:text-ocean-400 font-sans text-sm md:text-base" aria-live="polite">
           Chapter {chapter.number}
         </div>
 

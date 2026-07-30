@@ -28,7 +28,7 @@ export default function ChapterSelector({
       <button
         data-read-aloud-ignore
         onClick={onBack}
-        className="flex items-center gap-2 text-beige-700 hover:text-beige-900 dark:text-brown-300 dark:hover:text-brown-50 mb-6 transition-colors group"
+        className="flex items-center gap-2 text-pine-200 hover:text-pine-50 dark:text-ocean-300 dark:hover:text-ocean-50 mb-6 transition-colors group"
         aria-label="Go back to book selection"
       >
         <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" aria-hidden="true" />
@@ -36,14 +36,14 @@ export default function ChapterSelector({
       </button>
 
       <div className="flex items-center gap-3 mb-6">
-        <BookOpen className="w-6 h-6 md:w-7 md:h-7 text-beige-700 dark:text-brown-300" aria-hidden="true" />
-        <h2 className="text-2xl md:text-3xl font-display font-bold text-beige-800 dark:text-brown-50">
+        <BookOpen className="w-6 h-6 md:w-7 md:h-7 text-pine-200 dark:text-ocean-300" aria-hidden="true" />
+        <h2 className="text-2xl md:text-3xl font-display font-bold text-pine-100 dark:text-ocean-50">
           {bookName}
         </h2>
       </div>
 
       <nav data-read-aloud-ignore aria-label={`Chapter selection for ${bookName}`}>
-        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2 md:gap-3">
+        <div className="grid-chapters">
           {chapters.map((chapter) => (
             <button
               key={chapter.id}
