@@ -153,6 +153,8 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
       "Peter didn't fail because he tried. He only faltered once his attention moved from Jesus to the size of the wind. The hand that caught him was already reaching out before he'd even finished asking for help.",
     reflectionQuestion:
       "What are you looking at right now — the wind, or the hand that's already reaching for you?",
+    distinctive:
+      'Only Matthew puts Peter over the side. Mark keeps the disciples in the boat and ends on hearts that still did not understand; John has the boat simply arrive at the shore. Matthew alone tells of someone who asked to come, managed it, looked at the wind, went under, and was caught — which makes this the account about faith that starts and falters rather than faith that never began.',
   },
   {
     id: 'canaanite-daughter-mat',
@@ -297,6 +299,8 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
       "What's easy to miss is that Jesus was in the boat the whole time, storm and all — just asleep. Hope doesn't always mean the danger never touches you. Sometimes it means the one who can calm it was already there before you noticed.",
     reflectionQuestion:
       'In your current storm, does it feel like you\'re facing it alone — or is it possible help has been closer than you realized?',
+    distinctive:
+      'Mark is the blunt one. Matthew has the disciples cry "Save us, Lord!" and Luke "Master, Master" — Mark has them accuse him: "Teacher, don\'t you care that we are dying?" Mark alone notes he was asleep on the cushion, and alone gives the words spoken to the sea: "Peace! Be still!" This is the account where the disciples are not merely frightened but convinced they have been abandoned, and say so to his face.',
   },
   {
     id: 'gerasene-demoniac-mrk',
@@ -331,6 +335,8 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
       "Twelve years of being unseen, unheard, and overlooked ends with Jesus stopping an entire crowd just to notice her. Hope isn't only for the miracles everyone is watching. It reaches the person who was too tired, or too embarrassed, to ask for help out loud.",
     reflectionQuestion:
       "Is there a need you've been carrying quietly, too tired or embarrassed to say out loud?",
+    distinctive:
+      'Mark gives her the longest and least flattering medical history: she had suffered many things at the hands of many physicians, spent everything she had, and was no better but rather grew worse. Matthew tells it in three verses and has Jesus simply turn and see her; Luke keeps the doctors but not the detail that they made her worse. Mark is the account for anyone whose treatment has cost them everything and left them further back than they started.',
   },
   {
     id: 'jairus-daughter-mrk',
@@ -692,6 +698,8 @@ export const NEW_TESTAMENT_WONDERS: Wonder[] = [
       "The miracle didn't start with abundance. It started with one child's small lunch, offered without knowing what it would become. Hope often begins the same way — not with enough, but with whatever little you actually have, handed over.",
     reflectionQuestion:
       "What's the \"five loaves and two fish\" in your own hands right now — the small thing that doesn't feel like nearly enough?",
+    distinctive:
+      'John alone tells you where the food came from: a boy, and barley loaves — the cheapest bread there was. The other three accounts simply record five loaves and two fish appearing. John also alone keeps the instruction afterwards, to gather the broken pieces so that nothing would be lost. In his telling the miracle begins with a child\'s lunch and ends with someone being told to pick up the scraps.',
   },
   {
     id: 'walking-on-water-jhn',

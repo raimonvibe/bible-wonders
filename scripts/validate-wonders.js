@@ -195,9 +195,31 @@ for (const w of WONDERS) {
     ranks.set(w.familiarityRank, w.id)
   }
 
+  const authored = Boolean(
+    w.whatHappened && w.hopeMeaning && w.reflectionQuestion,
+  )
+
   if (w.parallelGroupId) {
     if (!groups.has(w.parallelGroupId)) groups.set(w.parallelGroupId, [])
     groups.get(w.parallelGroupId).push(w.id)
+
+    // Locked rule (a): a written account of a shared event has to say what
+    // *this* writer stresses. Without it there is no reason to keep the
+    // accounts as separate cards at all.
+    if (authored && !w.distinctive) {
+      errors.push(
+        `${where}: written parallel account (group "${w.parallelGroupId}") has no "distinctive"`,
+      )
+    }
+  }
+
+  // A written card should be written all the way.
+  if (authored) {
+    for (const field of ['quote', 'quoteRef', 'details']) {
+      if (!w[field] || (Array.isArray(w[field]) && !w[field].length)) {
+        errors.push(`${where}: written card is missing "${field}"`)
+      }
+    }
   }
 
   const book = bible.get(w.passage.bookId)

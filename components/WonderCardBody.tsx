@@ -5,6 +5,7 @@ import {
   Castle,
   CloudRain,
   DoorOpen,
+  Eye,
   Fish,
   Flame,
   Footprints,
@@ -132,6 +133,20 @@ export default function WonderCardBody({
               {p.passage.bookName}
             </button>
           ))}
+        </div>
+      )}
+
+      {/* Why this account is kept separate from its siblings: what this
+          writer stresses that the others don't. */}
+      {wonder.distinctive && (
+        <div className="rounded-xl border border-pine-600/70 bg-pine-800/50 p-3 dark:border-ocean-700/70 dark:bg-ocean-900/40">
+          <p className="mb-1 flex items-center gap-1.5 font-sans text-[11px] font-semibold uppercase tracking-wide text-pine-200 dark:text-ocean-300">
+            <Eye className="h-3.5 w-3.5 shrink-0" aria-hidden />
+            What {wonder.passage.bookName} notices
+          </p>
+          <p className="font-serif text-[13px] leading-relaxed text-pine-100 dark:text-ocean-200">
+            {wonder.distinctive}
+          </p>
         </div>
       )}
 
