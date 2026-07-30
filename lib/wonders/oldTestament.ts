@@ -25,6 +25,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('GEN', 'Genesis', '5', 21, 24),
     theme: 'sign',
     era: 'torah',
+    quote:
+      'Enoch walked with God, and he was not found, for God took him.',
+    quoteRef: 'Genesis 5:24',
+    details: [
+      'Genesis 5 is a chapter of repetitions: every other man in the list lives, has children, and dies.',
+      'Enoch is the one break in the pattern — the sentence that should end "and he died" ends differently.',
+      'He is given no dramatic scene, no last words, and no grave.',
+    ],
+    whatHappened:
+      'Genesis 5 reads like a register of deaths: a name, a number of years, and then "he died", over and over. Enoch is the exception. The record simply says he walked with God, and then that God took him — and the sentence everyone else gets never arrives.',
+    hopeMeaning:
+      'It is the quietest wonder in the Bible, and it interrupts the one pattern that looks most unbreakable. Long before anything is explained about what lies beyond death, the text lets one man walk straight past it, as if the ending we all assume is not the only ending there is.',
+    reflectionQuestion:
+      'What would change about today if the ending you assume is coming turned out not to be the whole story?',
   },
   {
     id: 'the-flood',
@@ -33,6 +47,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('GEN', 'Genesis', '7', 17, 24),
     theme: 'judgment',
     era: 'torah',
+    quote:
+      'Only Noah was left, and those who were with him in the ship.',
+    quoteRef: 'Genesis 7:23',
+    details: [
+      'The water rose for forty days and stayed high for a hundred and fifty more.',
+      'The account does not soften what was lost: everything on dry land that breathed.',
+      'The ship had been built long before there was any visible reason to build it.',
+    ],
+    whatHappened:
+      'The waters rose until the mountains were covered, and what had been a world became water. The account is unflinching about the scale of it. And in the middle of that page there is one small clause: a ship, a family, and the animals with them, still afloat.',
+    hopeMeaning:
+      'This is a hard story, and it should not be made comfortable. The hope in it is narrow and stubborn rather than cheerful: even here, the record keeps one thread intact. Judgment is not the last word in the chapter, because the chapter also has a boat in it.',
+    reflectionQuestion:
+      'When you read something in the Bible that unsettles you, what would it look like to sit with it honestly rather than resolve it quickly?',
   },
   {
     id: 'babel',
@@ -41,6 +69,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('GEN', 'Genesis', '11', 1, 9),
     theme: 'judgment',
     era: 'torah',
+    quote:
+      'Therefore its name was called Babel, because there Yahweh confused the language of all the earth.',
+    quoteRef: 'Genesis 11:9',
+    details: [
+      'The builders wanted a tower and a name that would keep them from being scattered.',
+      'Nothing is knocked down in the story — only the ability to understand each other is taken away.',
+      'The scattering they were trying to prevent is exactly what happens.',
+    ],
+    whatHappened:
+      'A united people set out to build a tower tall enough to make a name for themselves and keep themselves together. The tower is never destroyed. What changes is that they can no longer understand one another, and the city they were building simply stops.',
+    hopeMeaning:
+      'There is mercy hidden in this interruption. A humanity that can do absolutely anything it agrees to do is not obviously a safe thing. Being slowed down, divided, made to need translation — it reads like loss, and it may also be protection from what we would otherwise have built.',
+    reflectionQuestion:
+      'Is there something you are pushing hard to build that might be better for being slowed down?',
   },
   {
     id: 'sodom-blindness',
@@ -49,6 +91,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('GEN', 'Genesis', '19', 9, 11),
     theme: 'rescue',
     era: 'torah',
+    quote:
+      'They struck the men who were at the door of the house with blindness, both small and great, so that they wearied themselves to find the door.',
+    quoteRef: 'Genesis 19:11',
+    details: [
+      'A crowd had surrounded the house demanding Lot hand over his guests.',
+      'The visitors pull Lot inside to safety before doing anything else.',
+      'The blindness is temporary and targeted — it stops an assault without a single blow.',
+    ],
+    whatHappened:
+      'A mob gathered at Lot’s door, and there was no way the household could hold them off. The visitors inside reached out, pulled Lot back in, and struck the crowd blind — so that the men outside wore themselves out groping for a door they could no longer find.',
+    hopeMeaning:
+      'The rescue here is almost anticlimactic, and that is the point. No one is struck down; the threat is simply disabled. Sometimes help does not look like winning a confrontation. It looks like the danger quietly losing its ability to reach you.',
+    reflectionQuestion:
+      'Where are you bracing for a confrontation that might not be yours to win by force?',
   },
   {
     id: 'sodom-fire',
@@ -57,6 +113,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('GEN', 'Genesis', '19', 23, 25),
     theme: 'judgment',
     era: 'torah',
+    quote:
+      'Then Yahweh rained on Sodom and on Gomorrah sulfur and fire from Yahweh out of the sky.',
+    quoteRef: 'Genesis 19:24',
+    details: [
+      'Abraham had already argued God down to sparing the city for ten righteous people.',
+      'The visitors take Lot and his family by the hand and lead them out first.',
+      'The sun had fully risen before anything fell.',
+    ],
+    whatHappened:
+      'After a long night, Lot and his family were taken by the hand and walked out of the city. Only once they were clear did the judgment fall on Sodom and Gomorrah, and the plain that had been full of cities was left empty.',
+    hopeMeaning:
+      'This is judgment, and the text does not apologise for it. What the account keeps insisting on, though, is the delay: the arguing beforehand, the hand on the arm, the waiting until the family is out. Even a story this severe is built around getting particular people to safety first.',
+    reflectionQuestion:
+      'Is there a hard truth in your life you have been avoiding, that might be safer to face than to keep outrunning?',
   },
   {
     id: 'lots-wife',
@@ -65,6 +135,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('GEN', 'Genesis', '19', 26, 26),
     theme: 'judgment',
     era: 'torah',
+    quote:
+      'But Lot’s wife looked back from behind him, and she became a pillar of salt.',
+    quoteRef: 'Genesis 19:26',
+    details: [
+      'The single instruction given to the family as they left was not to look back.',
+      'She is the only one in the household who does.',
+      'The whole event is recorded in one sentence, with no explanation offered.',
+    ],
+    whatHappened:
+      'One instruction had been given to the family as they were led out: keep going, and do not look back. In a single verse, without commentary, the account says that Lot’s wife looked back — and stopped there permanently.',
+    hopeMeaning:
+      'This is the shortest and bleakest wonder in the catalog, and forcing brightness onto it would be dishonest. What it does say plainly is that rescue can be real and still require you to keep walking. Being brought out of something is not the same as being finished with it.',
+    reflectionQuestion:
+      'What are you still turning around to look at, that you have already been carried out of?',
   },
   {
     id: 'abimelech-healed',
@@ -73,6 +157,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('GEN', 'Genesis', '20', 17, 18),
     theme: 'healing',
     era: 'torah',
+    quote:
+      'Abraham prayed to God. So God healed Abimelech, his wife, and his female servants, and they bore children.',
+    quoteRef: 'Genesis 20:17',
+    details: [
+      'Abraham had lied about Sarah being his wife, and Abimelech had acted on that lie in good faith.',
+      'The one who caused the trouble is the one asked to pray about it.',
+      'A whole household is healed, not only the man at the centre of the story.',
+    ],
+    whatHappened:
+      'Abraham had passed Sarah off as his sister, and Abimelech, believing him, had taken her into his household. When the truth came out, it was Abraham — the one whose lie caused all of it — who prayed, and Abimelech’s entire household was healed.',
+    hopeMeaning:
+      'The person God works through here is not the wronged party or the innocent one. It is the man who created the mess. Being the cause of a problem apparently does not disqualify you from being part of how it gets mended.',
+    reflectionQuestion:
+      'Is there a situation you have stayed out of because you were the one who caused it?',
   },
   {
     id: 'isaac-born',
@@ -81,6 +179,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('GEN', 'Genesis', '21', 1, 3),
     theme: 'provision',
     era: 'torah',
+    quote:
+      'Yahweh visited Sarah as He had said, and Yahweh did to Sarah as He had spoken.',
+    quoteRef: 'Genesis 21:1',
+    details: [
+      'Sarah was long past childbearing years, and had laughed when she first heard the promise.',
+      'The promise had been made and repeated for decades before this.',
+      'The verse says twice, in two different ways, that what was said is what happened.',
+    ],
+    whatHappened:
+      'Sarah had been promised a son for so long that she had laughed at the idea, and the years since had done nothing to make it more plausible. Then, at the time that had been named, she conceived and bore a son, and they called him Isaac.',
+    hopeMeaning:
+      'What is striking is not speed but keeping. The wait had been long enough that laughing at it was a reasonable response. Hope here is not the feeling that something will happen soon — it is that a promise can still be alive after the point where you have stopped expecting anything from it.',
+    reflectionQuestion:
+      'Is there something you have quietly stopped expecting, that you have not actually been told is over?',
   },
   {
     id: 'hagar-well',
@@ -89,6 +201,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('GEN', 'Genesis', '21', 15, 19),
     theme: 'provision',
     era: 'torah',
+    quote:
+      'God opened her eyes, and she saw a well of water.',
+    quoteRef: 'Genesis 21:19',
+    details: [
+      'Hagar and her son had been sent away with bread and one container of water.',
+      'When the water ran out she put the boy under a bush and sat far enough away not to watch him die.',
+      'The well is not created in the story — it was already there, and she is given the ability to see it.',
+    ],
+    whatHappened:
+      'Sent out into the desert with a child and a single container of water, Hagar ran out. She left her son in what shade she could find, sat down out of sight of him, and wept. Then God opened her eyes and she saw a well — and went and filled the container.',
+    hopeMeaning:
+      'The wording matters. The well is not made; her eyes are opened. Sometimes what has run out is not the provision but the ability to perceive it, and help arrives as sight rather than supply.',
+    reflectionQuestion:
+      'Is it possible that something you need is nearer than it feels, and what you are short of is the ability to see it?',
   },
   {
     id: 'rachel-remembered',
@@ -97,6 +223,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('GEN', 'Genesis', '30', 22, 24),
     theme: 'provision',
     era: 'torah',
+    quote:
+      'God remembered Rachel, and God listened to her, and opened her womb.',
+    quoteRef: 'Genesis 30:22',
+    details: [
+      'Rachel had watched her sister bear son after son while she had none.',
+      'The chapter is full of rivalry, bargaining and bitterness before this verse arrives.',
+      'The word used is "remembered", as though she had not been out of mind at all.',
+    ],
+    whatHappened:
+      'Rachel had spent years watching her sister have children while she had none, and the household had grown bitter with the competing. Then, in the middle of a chapter full of that rivalry, one sentence turns: God remembered her, and listened, and she conceived.',
+    hopeMeaning:
+      'To "remember" someone in these accounts is not to suddenly recall a forgotten name. It means to act on their behalf at last. In a story where Rachel had every reason to believe she had been passed over, the text says she had been heard the whole time.',
+    reflectionQuestion:
+      'Where do you feel passed over while watching someone else receive what you wanted?',
   },
   {
     id: 'jacob-wrestles',
@@ -105,6 +245,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('GEN', 'Genesis', '32', 24, 32),
     theme: 'sign',
     era: 'torah',
+    quote:
+      'I have seen God face to face, and my life is preserved.',
+    quoteRef: 'Genesis 32:30',
+    details: [
+      'Jacob was alone at night, the day before meeting the brother he had cheated and fled from.',
+      'The struggle lasts until daybreak, and Jacob refuses to let go without a blessing.',
+      'He leaves with a new name and a permanent limp.',
+    ],
+    whatHappened:
+      'Alone the night before facing the brother he had cheated years earlier, Jacob wrestled with a man until dawn. He would not let go without a blessing, and he got one — along with a new name and a hip that never worked properly again.',
+    hopeMeaning:
+      'This is a strange kind of hope: Jacob wins, and is injured in the winning. He is renamed for having struggled rather than for having behaved well. The account does not treat the wrestling as a failure of faith. It treats it as the night his life turned.',
+    reflectionQuestion:
+      'What are you wrestling with that you have been treating as a failure, rather than as the place something is turning?',
   },
   {
     id: 'burning-bush',
@@ -114,6 +268,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     theme: 'sign',
     era: 'torah',
     familiarityRank: 14,
+    quote:
+      'He looked, and behold, the bush burned with fire, and the bush was not consumed.',
+    quoteRef: 'Exodus 3:2',
+    details: [
+      'Moses was eighty, working as a shepherd, forty years after fleeing Egypt for killing a man.',
+      'What stops him is not the fire but the fact that the bush is still there.',
+      'He is told to take off his sandals before he is told what the job is.',
+    ],
+    whatHappened:
+      'Moses had been out of Egypt for forty years, keeping someone else’s sheep, when he noticed a bush on fire that was not burning up. He turned aside to look — and was spoken to from the middle of it, and sent back to the country he had run away from.',
+    hopeMeaning:
+      'A fire that consumes nothing is a strange thing to build a calling on, but it fits. What interrupts Moses is not destruction but something that burns and does not use itself up. He is eighty, disqualified, and out of the story — and that turns out not to be the end of his usefulness.',
+    reflectionQuestion:
+      'Is there a part of your life you have written off as finished, that might not be finished at all?',
   },
   {
     id: 'staff-to-serpent',
@@ -122,6 +290,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('EXO', 'Exodus', '4', 1, 5),
     theme: 'sign',
     era: 'torah',
+    quote:
+      'He threw it on the ground, and it became a snake; and Moses ran away from it.',
+    quoteRef: 'Exodus 4:3',
+    details: [
+      'Moses had just argued that no one would believe him.',
+      'The sign uses the ordinary shepherd’s rod already in his hand.',
+      'He is told to pick the snake up by the tail — the least safe way to hold one.',
+    ],
+    whatHappened:
+      'Told to go and speak for a whole nation, Moses objected that nobody would believe him. He was asked what was in his hand — a shepherd’s rod — and told to throw it down. It became a snake, and he ran. Then he was told to pick it up, and it was a rod again.',
+    hopeMeaning:
+      'Nothing new is handed to Moses. The thing that becomes the sign is the tool he was already carrying to work every day. What he needs is not equipment he lacks but a different relationship with what is already in his hand.',
+    reflectionQuestion:
+      'What is already in your hand that you have never thought of as useful for anything larger?',
   },
   {
     id: 'moses-hand-leprous',
@@ -130,6 +312,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('EXO', 'Exodus', '4', 6, 7),
     theme: 'sign',
     era: 'torah',
+    quote:
+      'He put his hand inside his cloak again, and when he took it out of his cloak, behold, it had turned again as his other flesh.',
+    quoteRef: 'Exodus 4:7',
+    details: [
+      'This is the second of three signs given to a man who kept saying no.',
+      'Leprosy was the most isolating condition a person could have.',
+      'The same gesture that caused it undoes it.',
+    ],
+    whatHappened:
+      'Still arguing that he was the wrong man, Moses was told to put his hand inside his cloak. He took it out white with disease. He put it back, took it out again — and it was ordinary skin.',
+    hopeMeaning:
+      'The sign runs in both directions, and quickly. The condition that put people outside the camp for life is shown to be reversible in the space of one gesture. Whatever else Moses doubted, he was being shown that nothing here was permanent unless it was allowed to be.',
+    reflectionQuestion:
+      'What have you assumed about yourself is permanent, and how long has it been since you tested that?',
   },
   {
     // One wonder by design: the ten plagues are a single sustained act. The
@@ -152,6 +348,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
       ref('EXO', 'Exodus', '10', 21, 29),
       ref('EXO', 'Exodus', '12', 29, 32),
     ],
+    quote:
+      "The Egyptians couldn’t drink water from the river. The blood was throughout all the land of Egypt.",
+    quoteRef: 'Exodus 7:21',
+    details: [
+      'Ten plagues in all, escalating from the river to the livestock to the sky to the firstborn.',
+      'Each one lands on something Egypt regarded as reliable or divine.',
+      'Pharaoh agrees to let the people go several times, then changes his mind.',
+    ],
+    whatHappened:
+      'The confrontation with Pharaoh ran through ten escalating disasters, beginning with the Nile itself turning to blood and ending with a loss so severe that Egypt urged Israel out. In between, Pharaoh agreed and then reneged, again and again.',
+    hopeMeaning:
+      'It is a long, grinding sequence, and its length is the point: the same request refused ten times over. For people who have been told no repeatedly by something far more powerful than them, this account insists that a hardened no is not the same as a final one.',
+    reflectionQuestion:
+      'Where have you accepted a "no" as final that may simply have been the latest one?',
   },
   {
     id: 'pillar-cloud-fire',
@@ -160,6 +370,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('EXO', 'Exodus', '13', 20, 22),
     theme: 'sign',
     era: 'torah',
+    quote:
+      'The pillar of cloud by day, and the pillar of fire by night, didn’t depart from before the people.',
+    quoteRef: 'Exodus 13:22',
+    details: [
+      'The people had never travelled this route and had no map for it.',
+      'The cloud shaded the desert by day; the fire lit the way by night.',
+      'It moved with them, day after day, for forty years.',
+    ],
+    whatHappened:
+      'Newly out of Egypt and heading into desert they did not know, the people were given something to follow: a column of cloud through the day and of fire through the night. It went ahead of them, and it did not leave.',
+    hopeMeaning:
+      'This is guidance as presence rather than instruction. Nobody is handed a route. They are given something to keep following, one day at a time — and the promise attached to it is not that the way will be short, but that the guide will not go away.',
+    reflectionQuestion:
+      'Would it be enough, today, to know the next step rather than the whole route?',
   },
   {
     id: 'red-sea',
@@ -192,6 +416,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('EXO', 'Exodus', '15', 22, 25),
     theme: 'provision',
     era: 'torah',
+    quote:
+      'Yahweh showed him a tree, and He threw it into the waters, and the waters were made sweet.',
+    quoteRef: 'Exodus 15:25',
+    details: [
+      'This happens three days after the sea opened and they walked out of Egypt.',
+      'The problem is not that there is no water — it is that the water is undrinkable.',
+      'The remedy is a tree thrown into the pool, not a new spring.',
+    ],
+    whatHappened:
+      'Three days past the greatest rescue of their lives, the people found water they could not drink. Bitter, and everywhere. Moses cried out, was shown a tree, threw it in — and the same pool became drinkable.',
+    hopeMeaning:
+      'Nothing is replaced. The bitter water is what they end up drinking; it is changed rather than swapped. And the timing is honest about faith: three days after a miracle, they were thirsty and complaining, and were helped anyway.',
+    reflectionQuestion:
+      'Is there something in your life you keep waiting to be replaced, that might instead be changed?',
   },
   {
     id: 'manna',
@@ -223,6 +461,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('EXO', 'Exodus', '17', 1, 7),
     theme: 'provision',
     era: 'torah',
+    quote:
+      'You shall strike the rock, and water will come out of it, that the people may drink.',
+    quoteRef: 'Exodus 17:6',
+    details: [
+      'The people were close to rioting; Moses says they were nearly ready to stone him.',
+      'The question underneath the complaint was whether God was with them at all.',
+      'Moses is told to take the elders — witnesses — with him.',
+    ],
+    whatHappened:
+      'Camped with no water and an angry crowd, Moses was told to take the elders, walk ahead, and strike a rock at Horeb. Water came out of it, and the people drank. He named the place after the quarrel.',
+    hopeMeaning:
+      'The place keeps the name of the argument, not the miracle. That honesty is worth noticing: the record does not tidy up the fact that this provision arrived in the middle of a bitter, faithless row about whether God was there at all.',
+    reflectionQuestion:
+      'Does doubting out loud feel to you like something that disqualifies you from being helped?',
   },
   {
     id: 'amalek-defeated',
@@ -231,6 +483,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('EXO', 'Exodus', '17', 8, 13),
     theme: 'rescue',
     era: 'torah',
+    quote:
+      'Aaron and Hur held up his hands, the one on the one side, and the other on the other side.',
+    quoteRef: 'Exodus 17:12',
+    details: [
+      'Israel prevailed while Moses’ hands were up, and lost ground when they dropped.',
+      'Moses could not keep them up on his own — his arms simply gave out.',
+      'Two men sat him on a stone and held his arms up until sunset.',
+    ],
+    whatHappened:
+      'While Moses held his hands up, the battle went Israel’s way; when they sagged, it turned. His arms gave out, so Aaron and Hur put a stone under him and held his hands up on either side until the sun went down.',
+    hopeMeaning:
+      'The wonder here needed three people, and two of them were only holding up someone else’s arms. It is a plain picture of how help usually arrives: not as new strength inside you, but as somebody sitting down beside you and taking the weight.',
+    reflectionQuestion:
+      'Who could take one arm, if you told them you were not managing on your own?',
   },
   {
     id: 'sinai-descent',
@@ -239,6 +505,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('EXO', 'Exodus', '19', 16, 20),
     theme: 'sign',
     era: 'torah',
+    quote:
+      'All of Mount Sinai smoked, because Yahweh descended on it in fire; and its smoke ascended like the smoke of a furnace, and the whole mountain quaked greatly.',
+    quoteRef: 'Exodus 19:18',
+    details: [
+      'The people had spent three days preparing and were kept back from the mountain.',
+      'Smoke, fire, a trembling mountain and a trumpet growing steadily louder.',
+      'When Moses spoke, he was answered aloud.',
+    ],
+    whatHappened:
+      'After three days of preparation, the mountain went dark with smoke and shook, fire came down on it, and a trumpet sounded louder and louder. Moses spoke into that, and was answered — and was called up the mountain.',
+    hopeMeaning:
+      'This is not a comforting scene, and it is not meant to be. Something enormous comes near enough to shake the ground. Its hope is of a heavier kind: whatever is behind all this is not remote or indifferent, and it came down.',
+    reflectionQuestion:
+      'What would change if the God you think of as distant turned out to be nearer than that?',
   },
   {
     id: 'moses-face-shines',
@@ -247,6 +527,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('EXO', 'Exodus', '34', 29, 35),
     theme: 'sign',
     era: 'torah',
+    quote:
+      'Moses didn’t know that the skin of his face shone by reason of his speaking with him.',
+    quoteRef: 'Exodus 34:29',
+    details: [
+      'Moses had been on the mountain forty days.',
+      'He is the only person in the account who cannot see the change.',
+      'The others were afraid to come near him until he called them.',
+    ],
+    whatHappened:
+      'Moses came down the mountain carrying the tablets, and his face was shining. Everyone could see it except him — he had no idea — and the people were afraid to come close until he called them over.',
+    hopeMeaning:
+      'The change is real, visible to everyone else, and completely invisible to the person it happened to. That is worth holding onto if you have ever felt that nothing in you is different: you are the last person positioned to notice.',
+    reflectionQuestion:
+      'What might other people be able to see in you that you cannot see in yourself?',
   },
   {
     id: 'fire-consumes-offering',
@@ -255,6 +549,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('LEV', 'Leviticus', '9', 22, 24),
     theme: 'sign',
     era: 'torah',
+    quote:
+      'Fire came out from before Yahweh, and consumed the burnt offering and the fat upon the altar.',
+    quoteRef: 'Leviticus 9:24',
+    details: [
+      'This was the first service after the tabernacle was set up.',
+      'Aaron and Moses blessed the people before anything happened.',
+      'The people shouted and fell on their faces.',
+    ],
+    whatHappened:
+      'At the first service in the newly built tabernacle, Moses and Aaron came out and blessed the people. Fire came out and consumed what was on the altar, and the whole crowd shouted and fell on their faces.',
+    hopeMeaning:
+      'A great deal of careful, unglamorous work had gone into building and preparing this — and then something arrived that no amount of preparation could have manufactured. Faithful ordinary work and unmistakable answer are not opposites here; one made room for the other.',
+    reflectionQuestion:
+      'What ordinary, unglamorous preparation are you in the middle of right now?',
   },
   {
     id: 'nadab-abihu',
@@ -263,6 +571,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('LEV', 'Leviticus', '10', 1, 3),
     theme: 'judgment',
     era: 'torah',
+    quote:
+      'Fire came out from before Yahweh, and devoured them, and they died before Yahweh.',
+    quoteRef: 'Leviticus 10:2',
+    details: [
+      'Nadab and Abihu were Aaron’s own sons, newly made priests.',
+      'They offered fire that had not been commanded.',
+      'The account gives Aaron no speech: it says only that he held his peace.',
+    ],
+    whatHappened:
+      'Immediately after the first service, two of Aaron’s sons offered fire that had not been asked for. Fire came out and they died. Moses spoke a few words to their father about holiness, and the account records that Aaron said nothing at all.',
+    hopeMeaning:
+      'There is no comfort offered inside this story and it would be wrong to invent some. What the text does is refuse to look away, and then it sits with a father’s silence rather than explaining it. Sometimes the honest response to God is no words, and scripture makes room for that.',
+    reflectionQuestion:
+      'Is there a grief or a question you have felt you were supposed to have words for?',
   },
   {
     id: 'fire-at-taberah',
@@ -271,6 +593,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('NUM', 'Numbers', '11', 1, 3),
     theme: 'judgment',
     era: 'torah',
+    quote:
+      'The people cried to Moses; and Moses prayed to Yahweh, and the fire abated.',
+    quoteRef: 'Numbers 11:2',
+    details: [
+      'The complaining is not quoted — the account does not even tell us what it was about.',
+      'The fire burns at the edges of the camp, not through it.',
+      'The place is named after the fire, so the memory is kept rather than buried.',
+    ],
+    whatHappened:
+      'The people were complaining, and fire broke out at the edges of the camp. They cried out to Moses, Moses prayed, and the fire died down. They named the place after it.',
+    hopeMeaning:
+      'The sequence is very short: trouble, a cry, a prayer, and it stops. Nobody is required to fix themselves first or explain themselves well. The turning point in the story is simply that somebody asked.',
+    reflectionQuestion:
+      'What would it cost you to ask for help before you have worked out how to explain yourself?',
   },
   {
     id: 'quail-kibroth',
@@ -279,6 +615,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('NUM', 'Numbers', '11', 31, 34),
     theme: 'provision',
     era: 'torah',
+    quote:
+      'While the meat was still between their teeth, before it was chewed, Yahweh’s anger burned against the people, and Yahweh struck the people with a very great plague.',
+    quoteRef: 'Numbers 11:33',
+    details: [
+      'The people had been sick of manna and demanded meat.',
+      'The quail arrived in such quantity that gathering took a day, a night and another day.',
+      'The account is blunt that getting exactly what they demanded did not go well for them.',
+    ],
+    whatHappened:
+      'Tired of manna, the people demanded meat. A wind brought quail in astonishing numbers, and they gathered for a day and a night and another day. The account then says plainly that the craving satisfied so completely turned into a plague among them.',
+    hopeMeaning:
+      'This is the uncomfortable one: they asked, and they received, and receiving was the problem. It is a sober note in a catalog of rescues — that getting precisely what we insist on is not always the kindest possible answer.',
+    reflectionQuestion:
+      'Is there something you have been demanding that you would not actually want handed to you in full?',
   },
   {
     id: 'miriam-leprosy',
@@ -287,6 +637,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('NUM', 'Numbers', '12', 9, 15),
     theme: 'healing',
     era: 'torah',
+    quote:
+      'Moses cried to Yahweh, saying, “Heal her, God, I beg you!”',
+    quoteRef: 'Numbers 12:13',
+    details: [
+      'Miriam had spoken against Moses; the consequence fell on her.',
+      'Moses, the one she had criticised, is the one who prays for her.',
+      'The entire nation stayed camped where it was for seven days until she could come back.',
+    ],
+    whatHappened:
+      'Miriam spoke against her brother Moses and was struck with leprosy. Aaron begged Moses not to hold it against them, and Moses — the one she had criticised — cried out for her healing in seven words. She was shut outside the camp seven days, and the whole nation waited, not moving on until she was brought back in.',
+    hopeMeaning:
+      'Two things sit side by side here. The shortest prayer in the story is prayed by the wronged party for the person who wronged him. And a nation of thousands simply stops for a week rather than travel on without one woman.',
+    reflectionQuestion:
+      'Is there someone you would find it hard to pray for, because of what they said about you?',
   },
   {
     id: 'korah-swallowed',
@@ -295,6 +659,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('NUM', 'Numbers', '16', 28, 35),
     theme: 'judgment',
     era: 'torah',
+    quote:
+      'The earth opened its mouth and swallowed them up with their households, all of Korah’s men, and all their goods.',
+    quoteRef: 'Numbers 16:32',
+    details: [
+      'Korah led a rebellion against Moses and Aaron’s leadership.',
+      'The ground itself is what answers, splitting apart under those who had gathered.',
+      'Everyone standing nearby ran, afraid the same thing would happen to them.',
+    ],
+    whatHappened:
+      'Korah gathered a rebellion against Moses and Aaron. As Moses finished speaking, the ground under them split and closed over them, and fire consumed the two hundred and fifty men who had brought incense. Everyone else fled.',
+    hopeMeaning:
+      'This is a story about judgment, and softening it would be dishonest. What it says, uncomfortably, is that the ordinary ground can stop being neutral. It is a warning rather than a comfort — and a catalog that only kept the comforting parts would not be telling the truth about the book.',
+    reflectionQuestion:
+      'What do you do with the parts of scripture that frighten you rather than reassure you?',
   },
   {
     id: 'aarons-rod-buds',
@@ -303,6 +681,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('NUM', 'Numbers', '17', 1, 9),
     theme: 'sign',
     era: 'torah',
+    quote:
+      'Aaron’s rod for the house of Levi had sprouted, budded, produced blossoms, and bore ripe almonds.',
+    quoteRef: 'Numbers 17:8',
+    details: [
+      'Twelve dead staffs were laid up overnight to settle who had been chosen.',
+      'Only one changed — and it did not merely sprout, it went all the way to ripe fruit.',
+      'A dispute that had cost lives was ended by something growing quietly overnight.',
+    ],
+    whatHappened:
+      'To settle a bitter argument about who had been chosen, twelve staffs were laid up overnight. In the morning eleven were still dead wood. Aaron’s had sprouted, budded, blossomed and borne ripe almonds — every stage at once.',
+    hopeMeaning:
+      'A cut staff is about as final as dead things get. This one skipped past every stage of growth in a night. Where an argument had been settled by force before, it is settled this time by something quietly coming back to life.',
+    reflectionQuestion:
+      'What in your life looks like cut wood — finished, past growing — that you have stopped watching?',
   },
   {
     id: 'water-from-rock-meribah',
@@ -311,6 +703,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('NUM', 'Numbers', '20', 7, 13),
     theme: 'provision',
     era: 'torah',
+    quote:
+      'Moses lifted up his hand, and struck the rock with his rod twice, and water came out abundantly.',
+    quoteRef: 'Numbers 20:11',
+    details: [
+      'This is the second time water comes from a rock, decades after the first.',
+      'Moses was told to speak to the rock; he struck it twice and spoke angrily to the people.',
+      'The water still came, in abundance — and Moses was still told he would not enter the land.',
+    ],
+    whatHappened:
+      'Out of water again, Moses gathered the people, called them rebels, and struck the rock twice instead of speaking to it as he had been told. Water poured out anyway, enough for the people and their livestock — and Moses was told that he would not lead them into the land.',
+    hopeMeaning:
+      'This is a strange, painful mercy. The people were not made to go thirsty because their leader got it wrong; the water came abundantly regardless. The consequence fell on Moses, not on the crowd depending on him.',
+    reflectionQuestion:
+      'Have you assumed that your worst moment must have cost the people depending on you?',
   },
   {
     id: 'bronze-serpent',
@@ -320,6 +726,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     theme: 'healing',
     era: 'torah',
     familiarityRank: 16,
+    quote:
+      'Moses made a serpent of bronze, and set it on the pole. If a serpent had bitten any man, when he looked at the serpent of bronze, he lived.',
+    quoteRef: 'Numbers 21:9',
+    details: [
+      'The people had spoken against God and against Moses, and snakes came among the camp.',
+      'The snakes are not removed — the remedy works while the danger is still present.',
+      'All that is asked of the bitten is that they look.',
+    ],
+    whatHappened:
+      'Venomous snakes came through the camp and many died. The people admitted they had been wrong and asked for the snakes to be taken away. Instead, Moses was told to make a bronze snake and lift it on a pole: anyone bitten who looked at it, lived.',
+    hopeMeaning:
+      'They asked for the danger to be removed and it was not. What they got instead was a way to survive inside it. And the required action is almost nothing — not a journey or a payment, just turning your head and looking.',
+    reflectionQuestion:
+      'If help came as a way through rather than a way out, would you recognise it as help?',
   },
   {
     id: 'balaams-donkey',
@@ -328,6 +748,20 @@ export const OLD_TESTAMENT_WONDERS: Wonder[] = [
     passage: ref('NUM', 'Numbers', '22', 21, 35),
     theme: 'sign',
     era: 'torah',
+    quote:
+      'Yahweh opened the mouth of the donkey, and she said to Balaam, “What have I done to you, that you have struck me these three times?”',
+    quoteRef: 'Numbers 22:28',
+    details: [
+      'The donkey had seen the angel in the road three times and turned aside each time.',
+      'Balaam, the professional seer, could see nothing at all.',
+      'The donkey’s protest is not a sermon — it is a complaint about being hit.',
+    ],
+    whatHappened:
+      'A donkey kept refusing to go forward, and was beaten three times for it. She had been seeing an armed angel standing in the road that her rider, a professional seer, could not see. Then she spoke, and asked why she was being struck. Only afterwards were Balaam’s own eyes opened.',
+    hopeMeaning:
+      'There is something disarming about who sees clearly here. The expert is blind and the animal he is beating has been protecting him the whole time. Correction arrives from the least prestigious possible direction — and it still counts.',
+    reflectionQuestion:
+      'Where might a correction be coming to you from someone you have not been inclined to take seriously?',
   },
 
   /* --- Conquest and Judges ---------------------------------------------- */

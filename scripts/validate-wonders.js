@@ -138,10 +138,41 @@ const REVIEWED_TITLES = new Set([
   'pauls-handkerchiefs',
 ])
 
+/**
+ * "Exodus 14:22" / "1 Kings 17:16" / "Daniel 3:25-27" -> the verses it names.
+ * Returns null if the reference cannot be resolved at all.
+ */
+function resolveQuoteRef(refText, bible, byName) {
+  const m = /^(.+?)\s+(\d+):(\d+)(?:[\u2013\u2014-](\d+))?$/.exec(refText.trim())
+  if (!m) return null
+  const [, bookName, chapter, from, to] = m
+  const bookId = byName.get(bookName)
+  if (!bookId) return null
+  const verses = bible.get(bookId).chapters.get(chapter)
+  if (!verses) return null
+  let text = ''
+  for (let v = Number(from); v <= Number(to ?? from); v++) {
+    text += ' ' + (verses.get(v) || '')
+  }
+  return text
+}
+
+/** Curly vs straight quotes and collapsed whitespace must not cause a miss. */
+function forCompare(s) {
+  return s
+    .replace(/[\u2018\u2019]/g, "'")
+    .replace(/[\u201c\u201d]/g, '"')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
 /* --- run ------------------------------------------------------------------ */
 
 const { WONDERS } = loadCatalog()
 const bible = loadBible()
+const bookIdByName = new Map(
+  [...bible.entries()].map(([id, b]) => [b.name, id]),
+)
 
 const errors = []
 const unmatched = []
@@ -201,6 +232,22 @@ for (const w of WONDERS) {
     continue
   }
 
+  // A pull quote must be the WEB text, verbatim, from the verses it cites.
+  if (w.quote) {
+    if (!w.quoteRef) {
+      errors.push(`${where}: has a quote but no quoteRef`)
+    } else {
+      const cited = resolveQuoteRef(w.quoteRef, bible, bookIdByName)
+      if (cited === null) {
+        errors.push(`${where}: quoteRef "${w.quoteRef}" does not resolve`)
+      } else if (!forCompare(cited).includes(forCompare(w.quote))) {
+        errors.push(
+          `${where}: quote is not verbatim in ${w.quoteRef}\n      wanted: ${forCompare(w.quote).slice(0, 90)}…\n      found:  ${forCompare(cited).slice(0, 90)}…`,
+        )
+      }
+    }
+  }
+
   // Does the passage actually look like the event the title claims?
   let text = ''
   for (let v = from; v <= to; v++) text += ' ' + (verses.get(v) || '')
@@ -237,6 +284,18 @@ const written = WONDERS.filter(
 console.log(
   `  Cards written: ${written} / ${WONDERS.length} (Phase 7 fills the rest)`,
 )
+const byEra = new Map()
+for (const w of WONDERS) {
+  const e = byEra.get(w.era) ?? { total: 0, done: 0 }
+  e.total += 1
+  if (w.whatHappened && w.hopeMeaning && w.reflectionQuestion) e.done += 1
+  byEra.set(w.era, e)
+}
+console.log('\n  Cards by era:')
+for (const [era, e] of byEra) {
+  const flag = e.done === e.total ? 'done' : ''
+  console.log(`    ${era.padEnd(10)} ${String(e.done).padStart(3)} / ${String(e.total).padEnd(3)} ${flag}`)
+}
 
 if (unmatched.length) {
   console.log(`\n${unmatched.length} reference(s) to review by hand:`)
