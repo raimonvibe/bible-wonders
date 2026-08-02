@@ -99,11 +99,42 @@ function versesOf(content) {
   return verses
 }
 
-function main() {
-  if (spawnSync('sqlite3', ['--version']).error) {
-    throw new Error('sqlite3 CLI not found on PATH — install it and re-run.')
+/**
+ * Runs the whole dump against a fresh file at `out`.
+ *
+ * The sqlite3 CLI stays the primary path — it is what the .nvmrc's Node 20
+ * has to use. Node 22.5+ ships `node:sqlite`, whose bundled SQLite has FTS5
+ * compiled in, so on a newer Node the CLI is not needed at all.
+ */
+function runSql(out, dump) {
+  if (!spawnSync('sqlite3', ['--version']).error) {
+    execFileSync('sqlite3', [out], {
+      input: fs.readFileSync(dump),
+      stdio: ['pipe', 'inherit', 'inherit'],
+      maxBuffer: 1024 * 1024 * 512,
+    })
+    return
   }
 
+  let DatabaseSync
+  try {
+    ;({ DatabaseSync } = require('node:sqlite'))
+  } catch {
+    throw new Error(
+      'sqlite3 CLI not found on PATH, and this Node has no node:sqlite ' +
+        '(needs 22.5+). Install the sqlite3 CLI or use a newer Node.',
+    )
+  }
+
+  const db = new DatabaseSync(out)
+  try {
+    db.exec(fs.readFileSync(dump, 'utf8'))
+  } finally {
+    db.close()
+  }
+}
+
+function main() {
   const sql = [SCHEMA]
   let bookOrder = 0
   let verseId = 0
@@ -153,11 +184,7 @@ function main() {
   const dump = path.join(os.tmpdir(), `bible-db-${process.pid}.sql`)
   fs.writeFileSync(dump, sql.join('\n'))
   try {
-    execFileSync('sqlite3', [OUT], {
-      input: fs.readFileSync(dump),
-      stdio: ['pipe', 'inherit', 'inherit'],
-      maxBuffer: 1024 * 1024 * 512,
-    })
+    runSql(OUT, dump)
   } finally {
     fs.rmSync(dump, { force: true })
   }

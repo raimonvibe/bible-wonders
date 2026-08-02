@@ -142,23 +142,84 @@ class WondersRepository {
     return eraOrder.where(present.contains).toList();
   }
 
-  /// Title, location and passage label. Deliberately not the card prose: a
-  /// search for "sea" should find the sea crossings, not every card that
-  /// mentions one in passing.
+  /// Ranked search over the catalog, best match first.
+  ///
+  /// Three tiers, because each simpler design is wrong on its own. Names only
+  /// — title, reference, place — misses every query for a person: no card is
+  /// titled "Jesus", so searching for Him returned nothing at all. Prose
+  /// included flat makes "sea" return every card that mentions one in passing,
+  /// ahead of the sea crossings themselves. And scattered terms alone make
+  /// "Exodus 14" match Exodus 7:14 just as well as Exodus 14, because
+  /// normalising a reference leaves its numbers as loose words.
+  ///
+  /// So: the query as a phrase in the name, then all its terms in the name,
+  /// then all its terms anywhere on the card. Bible order is preserved inside
+  /// each tier. Multi-word queries are AND, which is what makes "jesus
+  /// leprosy" narrow rather than widen.
   List<Wonder> search(String query) {
-    final needle = _normalise(query);
-    if (needle.isEmpty) return const [];
-    return wonders.where((w) {
-      return _normalise(w.title).contains(needle) ||
-          _normalise(w.passage.label).contains(needle) ||
-          _normalise(w.location ?? '').contains(needle);
-    }).toList();
+    final terms = _termsOf(query);
+    if (terms.isEmpty) return const [];
+    final phrase = terms.join(' ');
+
+    final exact = <Wonder>[];
+    final named = <Wonder>[];
+    final prose = <Wonder>[];
+    for (final w in wonders) {
+      final name = _nameText(w);
+      if (name.contains(phrase)) {
+        exact.add(w);
+      } else if (terms.every(name.contains)) {
+        named.add(w);
+      } else if (terms.every(_proseText(w).contains)) {
+        prose.add(w);
+      }
+    }
+    return [...exact, ...named, ...prose];
   }
 
-  /// The WEB text and the card titles disagree about apostrophe style, so
-  /// fold both forms together before comparing.
-  static String _normalise(String s) =>
-      s.toLowerCase().replaceAll(RegExp(r"['’]"), '').trim();
+  /// How many wonders the query matches anywhere in the catalog, ignoring the
+  /// current path. The home screen needs this to tell "nothing matches" apart
+  /// from "nothing matches *here*", which are very different dead ends.
+  int matchCount(String query) => search(query).length;
+
+  /// Title, reference, book and place — what a wonder is *called*.
+  String _nameText(Wonder w) {
+    return _nameCache[w.id] ??= _normalise(
+      [w.title, w.passage.label, w.passage.bookName, w.location ?? ''].join(' '),
+    );
+  }
+
+  /// Everything on the card, the name fields included, so a wonder that
+  /// matches on both still only needs one tier to be checked first.
+  String _proseText(Wonder w) {
+    return _proseCache[w.id] ??= _normalise(
+      [
+        _nameText(w),
+        w.quote ?? '',
+        w.quoteRef ?? '',
+        w.whatHappened ?? '',
+        w.hopeMeaning ?? '',
+        w.reflectionQuestion ?? '',
+        w.distinctive ?? '',
+        ...w.details,
+      ].join(' '),
+    );
+  }
+
+  final Map<String, String> _nameCache = {};
+  final Map<String, String> _proseCache = {};
+
+  static List<String> _termsOf(String query) =>
+      _normalise(query).split(' ').where((t) => t.isNotEmpty).toList();
+
+  /// The WEB text and the card titles disagree about apostrophe style, and the
+  /// prose is full of em dashes, so fold those away and flatten whitespace
+  /// before comparing.
+  static String _normalise(String s) => s
+      .toLowerCase()
+      .replaceAll(RegExp(r"['’]"), '')
+      .replaceAll(RegExp(r'[^a-z0-9]+'), ' ')
+      .trim();
 
   String labelFor(WonderTheme theme) => themeLabels[theme] ?? theme.id;
   String labelForEra(WonderEra era) => eraLabels[era] ?? era.id;

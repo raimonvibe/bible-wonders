@@ -1,9 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'data/bible_repository.dart';
+import 'data/library_repository.dart';
 import 'data/prefs.dart';
 import 'data/reading_paths.dart';
 import 'data/wonders_repository.dart';
+import 'features/speech/speech_controller.dart';
+import 'models/bible.dart';
+import 'models/mark.dart';
 import 'models/wonder.dart';
 import 'theme/app_theme.dart';
 import 'theme/palette.dart';
@@ -30,9 +34,11 @@ final bibleProvider = Provider<BibleRepository>((ref) {
 /// pinned in settings.
 class ThemeController extends StateNotifier<Palette> {
   ThemeController(this._prefs)
-      : super(AppTheme.paletteFor(
-          Testament.parse(_prefs.themeLock ?? Testament.old.id),
-        ));
+      : super(
+          AppTheme.paletteFor(
+            Testament.parse(_prefs.themeLock ?? Testament.old.id),
+          ),
+        );
 
   final Prefs _prefs;
 
@@ -96,6 +102,104 @@ final lastWonderProvider =
   return LastWonderController(ref.watch(prefsProvider));
 });
 
+/// The chapter last read, so the Bible tab can offer it back.
+///
+/// Prefs has recorded this on every chapter turn since the reader was written;
+/// nothing ever read it, so the Bible tab opened on all 66 books however deep
+/// into Leviticus you were. The Wonders tab has had its resume card all along.
+class LastChapterController extends StateNotifier<String?> {
+  LastChapterController(this._prefs) : super(_prefs.lastChapterId);
+
+  final Prefs _prefs;
+
+  void set(String id) {
+    if (state == id) return;
+    state = id;
+    _save(_prefs.setLastChapterId(id));
+  }
+}
+
+final lastChapterProvider =
+    StateNotifierProvider<LastChapterController, String?>((ref) {
+  return LastChapterController(ref.watch(prefsProvider));
+});
+
+/// The [Chapter] behind [lastChapterProvider], or null on a first run.
+final lastChapterDetailProvider = FutureProvider<Chapter?>((ref) async {
+  final id = ref.watch(lastChapterProvider);
+  if (id == null) return null;
+  return ref.watch(bibleProvider).chapter(id);
+});
+
+/* --- the reader's own marks ----------------------------------------------- */
+
+final libraryProvider = Provider<LibraryRepository>((ref) {
+  throw UnimplementedError('libraryProvider must be overridden in main()');
+});
+
+/// Every marked verse, newest first, held in memory.
+///
+/// The reader renders one decoration per verse per frame, so looking a mark up
+/// has to be a map read rather than a query. Writes go to both at once: the
+/// list here for the UI, the database for the next launch.
+class LibraryController extends StateNotifier<List<Mark>> {
+  LibraryController(this._repo, List<Mark> initial) : super(initial);
+
+  final LibraryRepository _repo;
+
+  Future<void> save(Mark mark) async {
+    final saved = await _repo.save(mark);
+    state = [
+      saved,
+      for (final existing in state)
+        if (existing.chapterId != saved.chapterId ||
+            existing.verse != saved.verse)
+          existing,
+    ];
+  }
+
+  Future<void> remove(String chapterId, int verse) async {
+    await _repo.remove(chapterId, verse);
+    state = [
+      for (final mark in state)
+        if (mark.chapterId != chapterId || mark.verse != verse) mark,
+    ];
+  }
+
+  Future<void> removeAll() async {
+    await _repo.removeAll();
+    state = const [];
+  }
+}
+
+final marksProvider =
+    StateNotifierProvider<LibraryController, List<Mark>>((ref) {
+  throw UnimplementedError('marksProvider must be overridden in main()');
+});
+
+/// The marks in one chapter, by verse number — what the reader looks up.
+final marksInChapterProvider =
+    Provider.family<Map<int, Mark>, String>((ref, chapterId) {
+  return {
+    for (final mark in ref.watch(marksProvider))
+      if (mark.chapterId == chapterId) mark.verse: mark,
+  };
+});
+
+/* --- read aloud ----------------------------------------------------------- */
+
+/// The app's one voice.
+///
+/// Resolved in main() like the repositories above, and for a reason particular
+/// to this one: SpeechAudioHandler wraps the same instance for the lock screen,
+/// and AudioService.init has to be handed it before the first frame. A
+/// controller built lazily here would be a second one, and the notification
+/// would be driving a queue nobody could see.
+final speechProvider =
+    StateNotifierProvider<SpeechController, SpeechState>((ref) {
+  throw UnimplementedError('speechProvider must be overridden in main()');
+});
+
 /* --- catalog browsing ----------------------------------------------------- */
 
 class PathController extends StateNotifier<PathState> {
@@ -104,8 +208,19 @@ class PathController extends StateNotifier<PathState> {
 
   final Prefs _prefs;
 
+  /// Changing path resets the query as well as the filters.
+  ///
+  /// It has to: the search box only exists on the list, so leaving a query
+  /// behind while the picker is up means the reader comes back to a box that
+  /// renders empty and a list filtered by a word they can no longer see. That
+  /// is what made picking a theme look like it did nothing at all.
   void setPath(ReadingPath path) {
-    state = state.copyWith(path: path, clearTheme: true, clearEra: true);
+    state = state.copyWith(
+      path: path,
+      clearTheme: true,
+      clearEra: true,
+      query: '',
+    );
     _save(_prefs.setPath(path));
   }
 
@@ -114,14 +229,31 @@ class PathController extends StateNotifier<PathState> {
     _save(_prefs.setSort(sort));
   }
 
+  /// Same reasoning as [setPath]: crossing between the picker and the list
+  /// takes the search box with it, so the query goes too.
   void setTheme(WonderTheme? theme) => state = theme == null
-      ? state.copyWith(clearTheme: true)
-      : state.copyWith(theme: theme);
+      ? state.copyWith(clearTheme: true, query: '')
+      : state.copyWith(theme: theme, query: '');
 
-  void setEra(WonderEra? era) => state =
-      era == null ? state.copyWith(clearEra: true) : state.copyWith(era: era);
+  void setEra(WonderEra? era) => state = era == null
+      ? state.copyWith(clearEra: true, query: '')
+      : state.copyWith(era: era, query: '');
 
   void setQuery(String query) => state = state.copyWith(query: query);
+
+  /// Widen the current search to the whole catalog, keeping the query.
+  ///
+  /// The one path change that must *not* reset the query, because carrying the
+  /// query over is the entire point — it is the way out of "0 results on this
+  /// path" without making the reader type the word again.
+  void searchWholeCatalog() {
+    state = state.copyWith(
+      path: ReadingPath.catalog,
+      clearTheme: true,
+      clearEra: true,
+    );
+    _save(_prefs.setPath(ReadingPath.catalog));
+  }
 }
 
 final pathProvider = StateNotifierProvider<PathController, PathState>((ref) {
@@ -143,8 +275,11 @@ final visibleWondersProvider = Provider<List<Wonder>>((ref) {
   };
 
   if (state.query.trim().isNotEmpty) {
-    final matches = repo.search(state.query).map((w) => w.id).toSet();
-    list = list.where((w) => matches.contains(w.id)).toList();
+    // Intersect the other way around: repo.search already returns its matches
+    // best-first, and that ranking is the whole point of searching. Filtering
+    // the path's list by a set of ids would throw it away.
+    final inScope = list.map((w) => w.id).toSet();
+    list = repo.search(state.query).where((w) => inScope.contains(w.id)).toList();
   }
 
   // Start Here defines its own order; re-sorting it would defeat the point.
@@ -153,6 +288,18 @@ final visibleWondersProvider = Provider<List<Wonder>>((ref) {
   }
 
   return list;
+});
+
+/// How many wonders the current query matches across the whole catalog,
+/// ignoring the path. Zero when there is no query.
+///
+/// The home screen compares this against the visible list to tell "no such
+/// wonder" apart from "not on this path" — without it, searching inside Start
+/// Here's twenty-five is a dead end with no way out but guessing.
+final catalogMatchCountProvider = Provider<int>((ref) {
+  final query = ref.watch(pathProvider).query;
+  if (query.trim().isEmpty) return 0;
+  return ref.watch(wondersProvider).matchCount(query);
 });
 
 /// Fire-and-forget for the preference writes above: the UI has already moved

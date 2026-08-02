@@ -103,16 +103,24 @@ class ShareCard extends StatelessWidget {
               ),
 
               const Spacer(),
+              // Expanded rather than a Spacer between the two: this canvas is
+              // fixed, so a site label that does not fit has nowhere to go and
+              // Flutter would paint its overflow stripes straight into the
+              // exported PNG. The credit is the one that must never be cut.
               Row(
                 children: [
-                  Text(
-                    siteLabel,
-                    style: GoogleFonts.inter(
-                      fontSize: 26,
-                      color: palette.shade300.withValues(alpha: 0.8),
+                  Expanded(
+                    child: Text(
+                      siteLabel,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.inter(
+                        fontSize: 26,
+                        color: palette.shade300.withValues(alpha: 0.8),
+                      ),
                     ),
                   ),
-                  const Spacer(),
+                  const SizedBox(width: 24),
                   Text(
                     'World English Bible',
                     style: GoogleFonts.inter(

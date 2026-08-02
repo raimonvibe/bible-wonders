@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../models/wonder.dart';
 import '../../providers.dart';
+import '../../theme/app_theme.dart';
+import '../../theme/palette.dart';
+import '../speech/listen_button.dart';
+import '../speech/speakables.dart';
+import '../speech/speech_settings_sheet.dart';
+import 'maker_footer.dart';
 
 /// Theme, reading size, and what the text is.
 class SettingsScreen extends ConsumerStatefulWidget {
@@ -21,11 +28,43 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final lock = ref.watch(prefsProvider).themeLock;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('More')),
+      appBar: AppBar(
+        title: const Text('More'),
+        actions: [
+          ListenButton(
+            sourceId: Speakables.aboutId,
+            source: () async => Speakables.about(
+              wonderCount: ref.read(wondersProvider).count,
+            ),
+            tooltip: 'Read this page aloud',
+          ),
+        ],
+      ),
       body: DecoratedBox(
         decoration: BoxDecoration(gradient: palette.pageGradient),
         child: ListView(
           children: [
+            const _Heading('Yours'),
+            Consumer(
+              builder: (context, ref, _) {
+                final kept = ref.watch(marksProvider).length;
+                return ListTile(
+                  leading: const Icon(Icons.bookmark_border),
+                  title: const Text('Kept verses'),
+                  subtitle: Text(
+                    kept == 0
+                        ? 'Press and hold a verse while reading to keep it.'
+                        : kept == 1
+                            ? '1 verse marked.'
+                            : '$kept verses marked.',
+                  ),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => context.go('/more/library'),
+                );
+              },
+            ),
+
+            const Divider(),
             const _Heading('Theme'),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -55,6 +94,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
             const Divider(),
             const _Heading('Reading size'),
+            // The sample sits above the slider, not below it, so a thumb on the
+            // track never covers the thing it is changing.
+            _SizeSample(scale: scale, palette: palette),
             Slider(
               value: scale,
               min: 0.85,
@@ -63,6 +105,19 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               label: '${(scale * 100).round()}%',
               onChanged: ref.read(fontScaleProvider.notifier).set,
             ),
+            ListTile(
+              dense: true,
+              subtitle: Text(
+                '${(scale * 100).round()}% — applies everywhere you read '
+                'scripture.',
+              ),
+            ),
+
+            const Divider(),
+            const _Heading('Read aloud'),
+            // The same widget the mini player's sheet shows, so there is one
+            // place these settings are defined and two places to reach them.
+            const SpeechSettings(),
 
             const Divider(),
             const _Heading('About'),
@@ -80,7 +135,62 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 'against the passage it cites.',
               ),
             ),
+
+            const Divider(),
+            const MakerFooter(),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// A real verse at the size being chosen.
+///
+/// The setting always applied instantly; there was simply nothing on this
+/// screen rendered at that size, so the reader had to leave, look, and come
+/// back to judge it. This is the same widget tree PassageView builds — the
+/// superscript number, Merriweather at `18 * scale`, the same line height — so
+/// what you see here is what the chapter will look like, not an approximation
+/// of it.
+class _SizeSample extends StatelessWidget {
+  const _SizeSample({required this.scale, required this.palette});
+
+  final double scale;
+  final Palette palette;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 150),
+        curve: Curves.easeOut,
+        width: double.infinity,
+        padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+        decoration: BoxDecoration(
+          gradient: palette.cardGradient,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: palette.shade600.withValues(alpha: 0.5)),
+        ),
+        child: Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                text: '1 ',
+                style: TextStyle(
+                  color: palette.shade400,
+                  fontSize: 12 * scale,
+                  fontFeatures: const [FontFeature.superscripts()],
+                ),
+              ),
+              const TextSpan(
+                text: 'In the beginning, God created the heavens and the '
+                    'earth.',
+              ),
+            ],
+          ),
+          style: AppTheme.verseStyle(palette, fontSize: 18 * scale),
         ),
       ),
     );

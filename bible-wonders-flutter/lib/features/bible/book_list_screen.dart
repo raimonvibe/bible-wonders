@@ -5,6 +5,10 @@ import 'package:go_router/go_router.dart';
 import '../../models/bible.dart';
 import '../../models/wonder.dart' show Testament;
 import '../../providers.dart';
+import '../../theme/metrics.dart';
+import '../../theme/palette.dart';
+import '../speech/listen_button.dart';
+import '../speech/speakables.dart';
 
 /// All 66 books, Old Testament then New.
 ///
@@ -29,6 +33,11 @@ class _BookListScreenState extends ConsumerState<BookListScreen> {
       appBar: AppBar(
         title: const Text('The Bible'),
         actions: [
+          ListenButton(
+            sourceId: Speakables.booksId,
+            source: () async => Speakables.books(await _books),
+            tooltip: 'Read the book list aloud',
+          ),
           IconButton(
             icon: const Icon(Icons.search),
             tooltip: 'Search the text',
@@ -54,6 +63,7 @@ class _BookListScreenState extends ConsumerState<BookListScreen> {
             return ListView(
               padding: const EdgeInsets.all(16),
               children: [
+                const _ResumeCard(),
                 _Heading('Old Testament', count: old.length),
                 _BookGrid(books: old.toList()),
                 const SizedBox(height: 28),
@@ -63,6 +73,35 @@ class _BookListScreenState extends ConsumerState<BookListScreen> {
               ],
             );
           },
+        ),
+      ),
+    );
+  }
+}
+
+/// The chapter you were last reading, offered back.
+///
+/// The Wonders tab has had this since it was written. Without it here, opening
+/// the Bible tab twenty chapters into Isaiah meant the grid of all 66 books and
+/// three taps to get back — the resume state was being recorded on every
+/// chapter turn and simply never read.
+class _ResumeCard extends ConsumerWidget {
+  const _ResumeCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final chapter = ref.watch(lastChapterDetailProvider).valueOrNull;
+    if (chapter == null) return const SizedBox.shrink();
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: Card(
+        margin: EdgeInsets.zero,
+        child: ListTile(
+          leading: const Icon(Icons.history),
+          title: const Text('Continue reading'),
+          subtitle: Text(chapter.reference),
+          onTap: () => context.go('/bible/${chapter.bookId}/${chapter.number}'),
         ),
       ),
     );
@@ -95,9 +134,16 @@ class _BookGrid extends StatelessWidget {
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
         maxCrossAxisExtent: 190,
-        mainAxisExtent: 56,
+        // 56 is the designed height; it only grows if the reader's text size
+        // needs more than one line's worth of room inside it.
+        mainAxisExtent: gridTileExtent(
+          context,
+          titleLines: 1,
+          chrome: 24,
+          minimum: 56,
+        ),
         crossAxisSpacing: 8,
         mainAxisSpacing: 8,
       ),
@@ -177,10 +223,21 @@ class _BibleSearchDelegate extends SearchDelegate<void> {
             final hit = hits[index];
             return ListTile(
               title: Text(hit.reference),
-              subtitle: Text(
-                // snippet() wraps matches in braces; rendering them bold is a
-                // later refinement, showing them plainly is already useful.
-                hit.snippet.replaceAll(RegExp(r'[{}]'), ''),
+              subtitle: Text.rich(
+                TextSpan(
+                  children: [
+                    for (final span in hit.spans)
+                      TextSpan(
+                        text: span.text,
+                        style: span.isMatch
+                            ? const TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: Palette.accent,
+                              )
+                            : null,
+                      ),
+                  ],
+                ),
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
               ),

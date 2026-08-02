@@ -3,6 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/bible.dart';
 import '../../providers.dart';
+import '../speech/listen_button.dart';
+import '../speech/speakables.dart';
+import '../speech/speech_chunk.dart';
 import 'passage_view.dart';
 
 /// One chapter, read straight through, with the neighbours a swipe away.
@@ -46,7 +49,10 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
       _next = next;
     });
 
-    ref.read(prefsProvider).setLastChapterId(chapter.id);
+    // Losing the reader's place costs them one tap; blocking the paint to
+    // record it would cost every reader a stutter on every chapter turn. The
+    // controller persists it and is what the Bible tab's resume card watches.
+    ref.read(lastChapterProvider.notifier).set(chapter.id);
     final book = await repo.book(chapter.bookId);
     if (book != null && mounted) {
       ref.read(themeProvider.notifier).followTestament(book.testament);
@@ -62,12 +68,32 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     _load();
   }
 
+  /// The chapter on screen, as speech. Built on demand rather than kept beside
+  /// the chapter, because most readings never happen and the verses are a
+  /// query.
+  Future<Speakable?> _speakable() async {
+    final chapter = _chapter;
+    if (chapter == null) return null;
+    final verses = await ref.read(bibleProvider).versesIn(chapter.id);
+    if (verses.isEmpty) return null;
+    return Speakables.chapter(chapter, verses);
+  }
+
   @override
   Widget build(BuildContext context) {
     final palette = ref.watch(themeProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text(_chapter?.reference ?? '')),
+      appBar: AppBar(
+        title: Text(_chapter?.reference ?? ''),
+        actions: [
+          ListenButton(
+            sourceId: Speakables.chapterKey(_chapterId),
+            source: _speakable,
+            tooltip: 'Read this chapter aloud',
+          ),
+        ],
+      ),
       body: DecoratedBox(
         decoration: BoxDecoration(gradient: palette.pageGradient),
         child: GestureDetector(

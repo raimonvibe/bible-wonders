@@ -109,7 +109,11 @@ class BibleRepository {
       SELECT v.chapter_id, v.book_id, v.number, v.text,
              b.name AS book_name,
              c.number AS chapter_number,
-             snippet(verses_fts, 0, '{', '}', '…', 12) AS snippet
+             snippet(
+               verses_fts, 0,
+               '${VerseHit.matchOpen}', '${VerseHit.matchClose}',
+               '…', 12
+             ) AS snippet
       FROM verses_fts f
       JOIN verses v   ON v.id = f.rowid
       JOIN chapters c ON c.id = v.chapter_id

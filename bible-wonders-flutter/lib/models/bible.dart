@@ -86,6 +86,14 @@ class Verse {
   final String text;
 }
 
+/// One run of a search snippet, and whether it is what the reader searched for.
+class SnippetSpan {
+  const SnippetSpan(this.text, {this.isMatch = false});
+
+  final String text;
+  final bool isMatch;
+}
+
 /// A verse plus enough context to render it in a search result list.
 class VerseHit {
   const VerseHit({
@@ -94,12 +102,51 @@ class VerseHit {
     required this.snippet,
   });
 
+  /// The marks FTS5 is asked to wrap matches in. Defined here rather than in
+  /// the query, because the code that writes them and the code that reads them
+  /// back have to agree and there is no way to notice if they stop.
+  static const matchOpen = '{';
+  static const matchClose = '}';
+
   final Verse verse;
 
   /// e.g. "Exodus 14:21".
   final String reference;
 
-  /// FTS5 `snippet()` output, with matches wrapped in the marks the result
-  /// list splits on.
+  /// Raw FTS5 `snippet()` output, matches still wrapped in [matchOpen] and
+  /// [matchClose]. Use [spans] to render it.
   final String snippet;
+
+  /// The snippet split into plain and matched runs.
+  ///
+  /// Unbalanced marks are treated as ordinary text rather than swallowed. The
+  /// WEB has no braces in it today, but a snippet that ends mid-match at the
+  /// truncation ellipsis is ordinary, and losing the tail of a verse to it
+  /// would be a silent bug.
+  List<SnippetSpan> get spans {
+    final spans = <SnippetSpan>[];
+    var index = 0;
+
+    while (index < snippet.length) {
+      final open = snippet.indexOf(matchOpen, index);
+      if (open < 0) break;
+
+      final close = snippet.indexOf(matchClose, open + 1);
+      if (close < 0) break;
+
+      if (open > index) {
+        spans.add(SnippetSpan(snippet.substring(index, open)));
+      }
+      final matched = snippet.substring(open + 1, close);
+      if (matched.isNotEmpty) {
+        spans.add(SnippetSpan(matched, isMatch: true));
+      }
+      index = close + 1;
+    }
+
+    if (index < snippet.length) {
+      spans.add(SnippetSpan(snippet.substring(index)));
+    }
+    return spans;
+  }
 }

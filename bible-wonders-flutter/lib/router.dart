@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'features/bible/book_list_screen.dart';
 import 'features/bible/chapter_list_screen.dart';
 import 'features/bible/reader_screen.dart';
+import 'features/library/library_screen.dart';
 import 'features/settings/settings_screen.dart';
 import 'features/shell/home_shell.dart';
 import 'features/tour/tour_screen.dart';
@@ -97,6 +98,12 @@ class AppRouter {
                 GoRoute(
                   path: '/more',
                   builder: (context, state) => const SettingsScreen(),
+                  routes: [
+                    GoRoute(
+                      path: 'library',
+                      builder: (context, state) => const LibraryScreen(),
+                    ),
+                  ],
                 ),
               ],
             ),

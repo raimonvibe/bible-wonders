@@ -38,18 +38,26 @@ class ShareService {
     );
     await file.writeAsBytes(png, flush: true);
 
-    await Share.shareXFiles(
-      [XFile(file.path, mimeType: 'image/png')],
-      // The reference travels as text too, so a platform that strips the
-      // image still says where the words came from.
-      text: '${wonder.quoteRef} — ${wonder.title}\n$siteLabel',
-      subject: wonder.title,
+    await SharePlus.instance.share(
+      ShareParams(
+        files: [XFile(file.path, mimeType: 'image/png')],
+        // The reference travels as text too, so a platform that strips the
+        // image still says where the words came from.
+        text: '${wonder.quoteRef} — ${wonder.title}\n$siteLabel',
+        subject: wonder.title,
+      ),
     );
   }
 
   /// Exposed separately so a "save to photos" action, or a golden test, can
   /// use the same bytes the share sheet gets.
   Future<Uint8List> renderPng(BuildContext context, Wonder wonder) async {
+    // Resolve the overlay before the first await. pendingFonts can take a
+    // network round trip, and if the reader backs out of the card in that
+    // window the context is defunct — looking the overlay up afterwards throws
+    // instead of failing the share quietly.
+    final overlay = Overlay.of(context, rootOverlay: true);
+
     // google_fonts fetches faces lazily. Without this the first share of a
     // session renders in the fallback face and looks like a different app.
     await GoogleFonts.pendingFonts();
@@ -76,7 +84,6 @@ class ShareService {
       ),
     );
 
-    final overlay = Overlay.of(context, rootOverlay: true);
     overlay.insert(entry);
 
     try {

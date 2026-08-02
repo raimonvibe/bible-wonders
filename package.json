@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "validate:wonders": "node scripts/validate-wonders.js",
+    "audit:ranges": "node scripts/audit-ranges.js",
     "flutter:db": "node scripts/build-bible-db.js",
     "flutter:wonders": "node scripts/export-wonders.js",
     "flutter:assets": "npm run flutter:db && npm run flutter:wonders"

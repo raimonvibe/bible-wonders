@@ -49,9 +49,14 @@ function loadCatalog() {
     }),
   )
 
-  execFileSync(path.join(ROOT, 'node_modules/.bin/tsc'), ['-p', tsconfigPath], {
-    stdio: 'inherit',
-  })
+  // Run tsc's own entry point under this Node rather than the .bin shim: the
+  // extensionless shim is a shell script Windows cannot launch, and Node 22+
+  // refuses to spawn the .cmd sibling without a shell.
+  execFileSync(
+    process.execPath,
+    [path.join(ROOT, 'node_modules/typescript/bin/tsc'), '-p', tsconfigPath],
+    { stdio: 'inherit' },
+  )
 
   // tsc emits the "@/..." specifiers untouched, so teach require() the alias.
   const Module = require('node:module')

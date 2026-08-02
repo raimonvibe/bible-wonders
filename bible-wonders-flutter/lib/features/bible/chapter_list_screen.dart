@@ -4,6 +4,9 @@ import 'package:go_router/go_router.dart';
 
 import '../../models/bible.dart';
 import '../../providers.dart';
+import '../../theme/metrics.dart';
+import '../speech/listen_button.dart';
+import '../speech/speakables.dart';
 
 /// The chapters of one book, as a grid of numbers.
 class ChapterListScreen extends ConsumerStatefulWidget {
@@ -45,17 +48,31 @@ class _ChapterListScreenState extends ConsumerState<ChapterListScreen> {
         }
 
         return Scaffold(
-          appBar: AppBar(title: Text(book?.name ?? '')),
+          appBar: AppBar(
+            title: Text(book?.name ?? ''),
+            actions: [
+              if (book != null)
+                ListenButton(
+                  sourceId: Speakables.chaptersId(book.id),
+                  source: () async => Speakables.chapterList(book, chapters),
+                  tooltip: 'Say what is here',
+                ),
+            ],
+          ),
           body: DecoratedBox(
             decoration: BoxDecoration(gradient: palette.pageGradient),
             child: data == null
                 ? const Center(child: CircularProgressIndicator())
                 : GridView.builder(
                     padding: const EdgeInsets.all(16),
-                    gridDelegate:
-                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                       maxCrossAxisExtent: 76,
-                      mainAxisExtent: 56,
+                      mainAxisExtent: gridTileExtent(
+                        context,
+                        titleLines: 1,
+                        chrome: 24,
+                        minimum: 56,
+                      ),
                       crossAxisSpacing: 8,
                       mainAxisSpacing: 8,
                     ),

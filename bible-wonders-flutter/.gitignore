@@ -16,3 +16,8 @@ pubspec.lock
 # deciding to commit them anyway.
 assets/bible.db
 assets/wonders.json
+
+# Derived from branding/app-icon.png by tool/make_branding.dart. The source
+# picture beside them is the one to keep.
+branding/adaptive-foreground.png
+branding/splash-icon.png

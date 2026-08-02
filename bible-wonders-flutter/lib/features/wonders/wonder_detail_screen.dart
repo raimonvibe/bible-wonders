@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../models/bible.dart';
 import '../../models/wonder.dart';
 import '../../providers.dart';
 import '../bible/passage_view.dart';
 import '../share/share_service.dart';
+import '../speech/listen_button.dart';
+import '../speech/speakables.dart';
+import '../speech/speech_chunk.dart';
+import '../speech/speech_controller.dart' show SpeechReach;
 import 'wonder_card_body.dart';
 
 enum WonderDetailPage { card, passage }
@@ -66,6 +71,57 @@ class _WonderDetailScreenState extends ConsumerState<WonderDetailScreen> {
         curve: Curves.easeOutCubic,
       );
 
+  /* --- read aloud --------------------------------------------------------- */
+  //
+  // The page you are looking at decides what gets read; the reach setting only
+  // decides how far a reading started from the card goes. Anything else means
+  // swiping to the passage and pressing Listen reads the card instead, which
+  // nobody would expect.
+
+  bool get _onPassage => _page == WonderDetailPage.passage.index;
+
+  String _sourceId(Wonder wonder) {
+    if (_onPassage) return Speakables.chapterKey(wonder.passage.chapterId);
+    return switch (ref.watch(speechProvider).reach) {
+      SpeechReach.card => Speakables.cardId(wonder),
+      SpeechReach.passage => Speakables.chapterKey(wonder.passage.chapterId),
+      SpeechReach.both => Speakables.bothId(wonder),
+    };
+  }
+
+  Future<Speakable?> _buildSpeakable(Wonder wonder) async {
+    final repo = ref.read(wondersProvider);
+    final reach = _onPassage ? SpeechReach.passage : ref.read(speechProvider).reach;
+
+    // The card alone needs nothing from the database, so do not open it.
+    if (reach == SpeechReach.card) return Speakables.card(wonder, repo);
+
+    final bible = ref.read(bibleProvider);
+    final chapterId = wonder.passage.chapterId;
+    final Chapter? chapter = await bible.chapter(chapterId);
+    final verses = chapter == null
+        ? const <Verse>[]
+        : await bible.versesIn(chapterId);
+
+    return Speakables.forReach(
+      reach,
+      wonder: wonder,
+      repo: repo,
+      chapter: chapter,
+      verses: verses,
+    );
+  }
+
+  /// Where a reading of this wonder's chapter should begin.
+  ///
+  /// "Both" walks the card first, so it is already in the right place; the
+  /// other two start on the verse the card cites rather than at verse 1.
+  int _startAt(Wonder wonder, Speakable source) {
+    if (source.id == Speakables.bothId(wonder)) return 0;
+    if (source.id == Speakables.cardId(wonder)) return 0;
+    return Speakables.startOf(source, wonder.passage);
+  }
+
   @override
   Widget build(BuildContext context) {
     final wonder = ref.watch(wondersProvider).byId(widget.wonderId);
@@ -78,12 +134,16 @@ class _WonderDetailScreenState extends ConsumerState<WonderDetailScreen> {
       );
     }
 
-    final onPassage = _page == WonderDetailPage.passage.index;
-
     return Scaffold(
       appBar: AppBar(
-        title: Text(onPassage ? wonder.passage.label : wonder.title),
+        title: Text(_onPassage ? wonder.passage.label : wonder.title),
         actions: [
+          ListenButton(
+            sourceId: _sourceId(wonder),
+            source: () => _buildSpeakable(wonder),
+            from: (source) => _startAt(wonder, source),
+            tooltip: _onPassage ? 'Read the passage aloud' : 'Read this aloud',
+          ),
           if (wonder.isShareable)
             IconButton(
               icon: const Icon(Icons.ios_share),

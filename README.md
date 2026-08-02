@@ -53,6 +53,9 @@ node scripts/add-cards.js batches/kingdoms-1.json
 
 # the gate: run this before committing any card change
 npm run validate:wonders
+
+# a report, not a gate: are the highlighted ranges the right ones?
+npm run audit:ranges
 ```
 
 `validate:wonders` checks that every wonder's book, chapter and verse range
@@ -61,6 +64,15 @@ verses its reference names; that written cards are complete; and that every
 parallel Gospel account carries its `distinctive`. It caught 20 misquotes while
 the cards were being written — including a quote taken from Matthew's wording
 for a verse in Luke, and a correct quote pointing at the wrong reference.
+
+`audit:ranges` answers the question the gate cannot. Its claim is about the
+words: a quote can be quoted perfectly out of a range that starts three verses
+after the story does, and `validate:wonders` will pass it, because the quote is
+still in there. The range is what a reader sees highlighted when a card sends
+them into a chapter, so it gets its own check — empty, reversed and
+past-the-end ranges fail; over-long ranges and a few other shapes are reported
+for a person to judge. All 178 are currently structurally sound, median six
+verses long.
 
 Two quirks of the WEB data are worth knowing before you edit a quote:
 
