@@ -14,7 +14,12 @@ import {
 } from 'lucide-react'
 import FixedViewportLayer from '@/components/FixedViewportLayer'
 import { useReadAloud } from '@/hooks/useReadAloud'
-import { formatVoiceLabel, groupVoicesByLanguage } from '@/lib/readAloud'
+import {
+  describeLanguage,
+  formatVoiceLabel,
+  groupVoicesByLanguage,
+} from '@/lib/readAloud'
+import { languagesWithVoices } from '@/lib/speechLanguage'
 
 const SPEEDS = [0.75, 1, 1.25, 1.5]
 
@@ -38,6 +43,11 @@ export default function ReadAloudToolbar() {
     voices,
     voiceURI,
     setVoiceURI,
+    languageChoice,
+    setLanguageChoice,
+    pageLanguage,
+    targetLanguage,
+    voiceMissing,
     mode,
     start,
     stop,
@@ -298,6 +308,34 @@ export default function ReadAloudToolbar() {
 
                 <label className="block">
                   <span className="mb-1 text-xs font-medium font-sans text-pine-200 dark:text-ocean-300">
+                    Reading language
+                  </span>
+                  <select
+                    value={languageChoice}
+                    onChange={(e) => setLanguageChoice(e.target.value)}
+                    className="w-full min-h-11 rounded-xl border border-pine-600 bg-pine-800 px-3 text-xs font-sans text-pine-50 focus:border-pine-300 focus:outline-none focus:ring-2 focus:ring-pine-500/30 dark:border-ocean-600 dark:bg-ocean-800 dark:text-ocean-50 dark:focus:border-ocean-400 dark:focus:ring-ocean-400/30"
+                  >
+                    <option value="auto">
+                      Follow the page ({describeLanguage(pageLanguage)})
+                    </option>
+                    {languagesWithVoices(voices).map((tag) => (
+                      <option key={tag} value={tag}>
+                        {describeLanguage(tag)}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                {voiceMissing && (
+                  <p className="rounded-xl border border-amber-300/80 bg-amber-50 px-3 py-2 text-[11px] leading-relaxed font-sans text-amber-900 dark:border-amber-700/50 dark:bg-amber-950/40 dark:text-amber-100">
+                    No voice for {describeLanguage(targetLanguage)} is installed
+                    on this device. Add one in your system&rsquo;s speech
+                    settings, or choose another language above.
+                  </p>
+                )}
+
+                <label className="block">
+                  <span className="mb-1 text-xs font-medium font-sans text-pine-200 dark:text-ocean-300">
                     Voice
                   </span>
                   <select
@@ -309,7 +347,7 @@ export default function ReadAloudToolbar() {
                     {voices.length === 0 ? (
                       <option value="">Loading voices…</option>
                     ) : (
-                      groupVoicesByLanguage(voices).map((group) => (
+                      groupVoicesByLanguage(voices, targetLanguage).map((group) => (
                         <optgroup key={group.label} label={group.label}>
                           {group.voices.map((v) => (
                             <option key={v.voiceURI} value={v.voiceURI}>

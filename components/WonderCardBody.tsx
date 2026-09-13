@@ -78,7 +78,10 @@ export default function WonderCardBody({
   const authored = isAuthored(wonder)
 
   return (
-    <div className="space-y-3.5">
+    // data-narrate marks what the tour reads aloud. It reads this rendered
+    // card rather than the catalog row behind it, so a page put through a
+    // translator is narrated in the language it is being read in.
+    <div className="space-y-3.5" data-narrate="card">
       <div className="flex items-start gap-3">
         <span
           className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ring-2 ${accent.badge}`}

@@ -18,11 +18,15 @@ import {
   Maximize2,
   MessageSquareQuote,
   Minimize2,
+  Pause,
+  Play,
   Quote,
   RotateCcw,
   Scroll,
+  SkipBack,
   SkipForward,
   Sparkles,
+  Square,
   Volume2,
   VolumeX,
   X,
@@ -66,7 +70,14 @@ import {
 } from '@/lib/wonders/paths'
 import type { Wonder } from '@/lib/wonders/types'
 import { useTourNarration, type SpeechMode } from '@/hooks/useTourNarration'
-import { formatVoiceLabel, groupVoicesByLanguage } from '@/lib/readAloud'
+import type { SpeechSource } from '@/hooks/useSpeechEngine'
+import {
+  describeLanguage,
+  formatVoiceLabel,
+  getNarrationChunks,
+  groupVoicesByLanguage,
+} from '@/lib/readAloud'
+import { languagesWithVoices } from '@/lib/speechLanguage'
 
 /** Where the tour wants the reader to be. */
 export interface TourTarget {
@@ -158,7 +169,10 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
     mode: speechMode,
     rate: speechRate,
     voiceURI,
+    status: speechStatus,
     stop: stopNarration,
+    pause: pauseNarration,
+    resume: resumeNarration,
   } = narration
   // Held in a ref so the narration effect keys off the settings, not identity.
   const speakRef = useRef(narration.speak)
@@ -330,34 +344,73 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
    * arrive-at-a-step narration and the Replay button so the two cannot drift.
    * The passage is read out of the reader's DOM, so callers must let it open
    * the chapter first (see NARRATION_DELAY).
+   *
+   * Both halves are read from what is on screen rather than from the catalog.
+   * That is the whole point: Google Translate and the browsers' own
+   * translators rewrite text nodes and cannot reach our TypeScript, so the
+   * rendered card is the only copy of a wonder that is in the language the
+   * reader is actually reading. The catalog stays as a fallback for the one
+   * case the DOM cannot answer — narrating while the panel is minimized and
+   * the card is unmounted.
    */
-  const segmentsForStep = useCallback(() => {
+  const segmentsForStep = useCallback((): SpeechSource => {
+    const panel = panelRef.current
+    const cardRoot =
+      panel?.querySelector<HTMLElement>(
+        '[data-narrate="card"], [data-narrate="step"]',
+      ) ?? null
+
+    const rendered = cardRoot ? getNarrationChunks(cardRoot) : []
+
     // A card opened from the catalog reads as itself; the tour reads its step.
-    const tour = isTour
-      ? narrationForMiracleStep(miracleStep)
-      : selectedWonder
-        ? narrationForWonder(selectedWonder)
-        : []
+    const tour: SpeechSource = rendered.length
+      ? rendered.map((chunk) => ({ text: chunk.text, element: chunk.element }))
+      : (isTour
+          ? narrationForMiracleStep(miracleStep)
+          : selectedWonder
+            ? narrationForWonder(selectedWonder)
+            : []
+        ).map((text) => ({ text }))
+
     if (speechMode === 'tour') return tour
 
-    const verses = Array.from(
+    const verses: SpeechSource = Array.from(
       document.querySelectorAll<HTMLElement>('.verse-spotlight'),
     )
-      .map((el) =>
-        el.innerText.replace(/\[\d+\]/g, ' ').replace(/\s+/g, ' ').trim(),
-      )
-      .filter(Boolean)
+      .map((element) => ({
+        text: element.innerText
+          .replace(/\[\d+\]/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim(),
+        element,
+      }))
+      .filter((verse) => verse.text.length > 0)
 
     // Welcome, section and closing cards have no passage behind them. Falling
     // back to the tour text keeps those steps from being silent.
     if (!verses.length) return tour
 
-    return speechMode === 'passage' ? verses : [...tour, 'The passage.', ...verses]
+    if (speechMode === 'passage') return verses
+
+    // Spoken between the two halves, and taken from the DOM for the same
+    // reason everything else is — see the lead-in node in the panel.
+    const leadIn =
+      panel?.querySelector<HTMLElement>('[data-narrate-lead-in]')?.textContent?.trim() ??
+      ''
+
+    return [...tour, ...(leadIn ? [{ text: leadIn }] : []), ...verses]
   }, [miracleStep, speechMode, isTour, selectedWonder])
 
   // Held in a ref so the narration effect keys off the settings, not identity.
   const segmentsRef = useRef(segmentsForStep)
   segmentsRef.current = segmentsForStep
+
+  /** Play/pause, starting the current step when nothing is being read. */
+  const toggleNarration = useCallback(() => {
+    if (speechStatus === 'playing') pauseNarration()
+    else if (speechStatus === 'paused') resumeNarration()
+    else speakRef.current(segmentsRef.current())
+  }, [speechStatus, pauseNarration, resumeNarration])
 
   /**
    * Speech mode: when it is on, each step is read as you arrive at it, and
@@ -543,6 +596,13 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
         data-voice-sheet={voiceSheetOpen ? 'true' : undefined}
         className="tour-panel-shell tour-panel pointer-events-auto flex flex-col overflow-hidden rounded-2xl shadow-2xl"
       >
+        {/* Spoken between the card and the passage when narrating both. A real
+            text node so page translators rewrite it: a string in the source
+            would stay English in the middle of a translated card. */}
+        <span data-narrate-lead-in className="sr-only">
+          The passage.
+        </span>
+
         {/* header */}
         <div className="shrink-0 border-b border-pine-600/70 px-4 pt-3 pb-2 dark:border-ocean-700/70">
           <div className="flex items-start justify-between gap-2">
@@ -667,6 +727,86 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
             </div>
           )}
 
+          {/* Transport. The same controls as the page reader's Listen panel —
+              pause where you are, step back over a line you missed, stop. */}
+          {(isTour || selectedWonder) && narration.supported && speechOn && (
+            <div className="mt-2 flex items-center gap-2">
+              <div className="flex shrink-0 items-center gap-0.5">
+                <button
+                  type="button"
+                  onClick={() => narration.skip(-1)}
+                  disabled={!narration.isActive || narration.currentIndex === 0}
+                  className="tour-icon-btn disabled:pointer-events-none disabled:opacity-40"
+                  aria-label="Previous line"
+                >
+                  <SkipBack className="h-3.5 w-3.5" aria-hidden />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={toggleNarration}
+                  className="listen-play-btn flex min-h-9 min-w-9 items-center justify-center rounded-full text-white shadow-sm transition-opacity hover:opacity-90"
+                  aria-label={
+                    speechStatus === 'playing'
+                      ? 'Pause narration'
+                      : speechStatus === 'paused'
+                        ? 'Resume narration'
+                        : 'Read this aloud'
+                  }
+                >
+                  {speechStatus === 'playing' ? (
+                    <Pause className="h-4 w-4" aria-hidden />
+                  ) : (
+                    <Play className="h-4 w-4 translate-x-px" aria-hidden />
+                  )}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => narration.skip(1)}
+                  disabled={
+                    !narration.isActive ||
+                    narration.currentIndex >= narration.chunks.length - 1
+                  }
+                  className="tour-icon-btn disabled:pointer-events-none disabled:opacity-40"
+                  aria-label="Next line"
+                >
+                  <SkipForward className="h-3.5 w-3.5" aria-hidden />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={stopNarration}
+                  disabled={!narration.isActive}
+                  className="tour-icon-btn disabled:pointer-events-none disabled:opacity-40"
+                  aria-label="Stop narration"
+                >
+                  <Square className="h-3.5 w-3.5" aria-hidden />
+                </button>
+              </div>
+
+              <div
+                className="h-1 min-w-0 flex-1 overflow-hidden rounded-full bg-pine-700 dark:bg-ocean-800"
+                role="progressbar"
+                aria-valuenow={Math.round(narration.progress)}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label="Narration progress"
+              >
+                <div
+                  className="listen-progress-bar h-full transition-all duration-300"
+                  style={{ width: `${narration.progress}%` }}
+                />
+              </div>
+
+              <span className="shrink-0 font-sans text-[10px] tabular-nums text-pine-300 dark:text-ocean-400">
+                {narration.chunks.length > 0
+                  ? `${narration.currentIndex + 1}/${narration.chunks.length}`
+                  : '—'}
+              </span>
+            </div>
+          )}
+
           {/* group pills */}
           {isTour && groupPills.length > 0 && (
             <div className="mt-2.5 flex items-center gap-1.5">
@@ -741,6 +881,40 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
                 <div className="space-y-4">
                   <label className="block">
                     <span className="mb-1 block font-sans text-[11px] font-semibold uppercase tracking-wide text-pine-300 dark:text-ocean-400">
+                      Reading language
+                    </span>
+                    <select
+                      value={narration.languageChoice}
+                      onChange={(e) => narration.setLanguageChoice(e.target.value)}
+                      className="min-h-11 w-full rounded-xl border border-pine-600 bg-pine-800 px-3 font-sans text-xs text-pine-50 focus:border-pine-300 focus:outline-none focus:ring-2 focus:ring-pine-500/30 dark:border-ocean-600 dark:bg-ocean-800 dark:text-ocean-50 dark:focus:border-ocean-400"
+                    >
+                      <option value="auto">
+                        Follow the page ({describeLanguage(narration.pageLanguage)})
+                      </option>
+                      {languagesWithVoices(narration.voices).map((tag) => (
+                        <option key={tag} value={tag}>
+                          {describeLanguage(tag)}
+                        </option>
+                      ))}
+                    </select>
+                    <span className="mt-1.5 block font-sans text-[10px] leading-relaxed text-pine-300 dark:text-ocean-300">
+                      The cards are read from the page itself, so translating
+                      the page translates the narration with it. Set a language
+                      here if the page is not detected correctly.
+                    </span>
+                  </label>
+
+                  {narration.voiceMissing && (
+                    <p className="rounded-xl border border-amber-300/60 bg-amber-50/90 px-3 py-2 font-sans text-[11px] leading-relaxed text-amber-900 dark:border-amber-700/50 dark:bg-amber-950/40 dark:text-amber-100">
+                      Your device has no voice installed for{' '}
+                      {describeLanguage(narration.targetLanguage)}. Add one in
+                      your system&rsquo;s speech settings, or pick another
+                      language above.
+                    </p>
+                  )}
+
+                  <label className="block">
+                    <span className="mb-1 block font-sans text-[11px] font-semibold uppercase tracking-wide text-pine-300 dark:text-ocean-400">
                       Voice
                     </span>
                     <select
@@ -748,7 +922,10 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
                       onChange={(e) => narration.setVoiceURI(e.target.value)}
                       className="min-h-11 w-full rounded-xl border border-pine-600 bg-pine-800 px-3 font-sans text-xs text-pine-50 focus:border-pine-300 focus:outline-none focus:ring-2 focus:ring-pine-500/30 dark:border-ocean-600 dark:bg-ocean-800 dark:text-ocean-50 dark:focus:border-ocean-400"
                     >
-                      {groupVoicesByLanguage(narration.voices).map((group) => (
+                      {groupVoicesByLanguage(
+                        narration.voices,
+                        narration.targetLanguage,
+                      ).map((group) => (
                         <optgroup key={group.label} label={group.label}>
                           {group.voices.map((v) => (
                             <option key={v.voiceURI} value={v.voiceURI}>
@@ -759,9 +936,8 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
                       ))}
                     </select>
                     <span className="mt-1.5 block font-sans text-[10px] leading-relaxed text-pine-300 dark:text-ocean-300">
-                      Grouped by language, from the voices installed on your
-                      device. The tour text stays in English, so another
-                      language&rsquo;s voice will read it in that accent.
+                      Voices for the language being read come first. Each
+                      language remembers the voice you chose for it.
                     </span>
                   </label>
 
@@ -787,6 +963,44 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
                       ))}
                     </div>
                   </div>
+
+                  <label className="block">
+                    <span className="mb-1 flex justify-between font-sans text-[11px] font-semibold uppercase tracking-wide text-pine-300 dark:text-ocean-400">
+                      <span>Pitch</span>
+                      <span className="tabular-nums">
+                        {narration.pitch.toFixed(1)}
+                      </span>
+                    </span>
+                    <input
+                      type="range"
+                      min={0.5}
+                      max={1.5}
+                      step={0.1}
+                      value={narration.pitch}
+                      onChange={(e) => narration.setPitch(Number(e.target.value))}
+                      className="listen-range w-full"
+                      aria-label="Voice pitch"
+                    />
+                  </label>
+
+                  <label className="block">
+                    <span className="mb-1 flex justify-between font-sans text-[11px] font-semibold uppercase tracking-wide text-pine-300 dark:text-ocean-400">
+                      <span>Volume</span>
+                      <span className="tabular-nums">
+                        {Math.round(narration.volume * 100)}%
+                      </span>
+                    </span>
+                    <input
+                      type="range"
+                      min={0}
+                      max={1}
+                      step={0.05}
+                      value={narration.volume}
+                      onChange={(e) => narration.setVolume(Number(e.target.value))}
+                      className="listen-range w-full"
+                      aria-label="Volume"
+                    />
+                  </label>
 
                   <div className="flex items-center gap-2 border-t border-pine-700 pt-3 dark:border-ocean-700">
                     <button
@@ -949,7 +1163,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
             )}
 
             {isTour && miracleStep.kind === 'welcome' && (
-              <div className="space-y-3">
+              <div className="space-y-3" data-narrate="step">
                 <div className="flex items-center gap-2 text-pine-200 dark:text-ocean-300">
                   <Sparkles className="h-5 w-5" aria-hidden />
                   <span className="font-sans text-xs font-medium uppercase tracking-wide">
@@ -994,7 +1208,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
             )}
 
             {isTour && miracleStep.kind === 'section-intro' && section && (
-              <div className="space-y-3">
+              <div className="space-y-3" data-narrate="step">
                 <div className="flex items-center gap-2.5">
                   <span className="flex h-10 w-10 items-center justify-center rounded-full bg-pine-700/80 text-pine-100 dark:bg-ocean-800/80 dark:text-ocean-100">
                     {(() => {
@@ -1060,7 +1274,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
 
 
             {isTour && miracleStep.kind === 'section-synthesis' && section && (
-                <div className="space-y-3.5">
+                <div className="space-y-3.5" data-narrate="step">
                   <div className="flex items-center gap-2">
                     <Sparkles
                       className="h-5 w-5 text-pine-200 dark:text-ocean-300"
@@ -1117,7 +1331,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
               )}
 
             {isTour && miracleStep.kind === 'outro' && (
-              <div className="space-y-3">
+              <div className="space-y-3" data-narrate="step">
                 <div className="flex items-center gap-2">
                   <Sparkles
                     className="h-5 w-5 text-pine-200 dark:text-ocean-300"

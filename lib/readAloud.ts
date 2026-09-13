@@ -1,3 +1,5 @@
+import { SOURCE_LANGUAGE, normaliseTag, primarySubtag } from '@/lib/speechLanguage'
+
 export type ReadChunk = {
   index: number
   text: string
@@ -22,11 +24,34 @@ function isIgnored(el: HTMLElement): boolean {
   return false
 }
 
-function extractText(element: HTMLElement): string {
+/**
+ * As isIgnored, but only honours markers inside `root`.
+ *
+ * The guided tour's panel carries data-read-aloud-ignore so the page reader
+ * leaves it alone; when the tour reads its own card that marker is the thing
+ * being read, not a reason to skip it.
+ */
+function isIgnoredWithin(el: HTMLElement, root: HTMLElement): boolean {
+  const blocked = el.closest<HTMLElement>(IGNORE_ANCESTOR)
+  if (blocked && root.contains(blocked)) return true
+  const anchor = el.closest<HTMLElement>('a')
+  if (anchor && root.contains(anchor) && !anchor.matches(BLOCK_SELECTOR)) return true
+  return false
+}
+
+/**
+ * The words a reader would see in this element.
+ *
+ * Read from the rendered DOM rather than from our own source strings, so that
+ * whatever has rewritten the page — Google Translate, Chrome, an extension —
+ * is what gets spoken. Screen-reader-only text goes: translators rewrite it
+ * too, and it is chrome rather than content.
+ */
+export function extractText(element: HTMLElement): string {
   const clone = element.cloneNode(true) as HTMLElement
   clone
     .querySelectorAll(
-      "[data-read-aloud-ignore], button, svg, [aria-hidden='true'], .verse-num",
+      "[data-read-aloud-ignore], button, svg, [aria-hidden='true'], .verse-num, .sr-only",
     )
     .forEach((node) => node.remove())
   return clone.innerText.replace(/\s+/g, ' ').trim()
@@ -104,6 +129,32 @@ export function getReadableChunks(root: HTMLElement): ReadChunk[] {
   return chunks
 }
 
+const NARRATION_SELECTOR =
+  'h1, h2, h3, h4, h5, p, li, blockquote, cite, figcaption, dd, dt'
+
+/**
+ * Every readable line inside one container, in document order.
+ *
+ * Used where the text to speak is a panel rather than a page — the guided
+ * tour's wonder card. Only the innermost match of each nesting is kept, so a
+ * blockquote and the paragraph inside it are one line rather than two.
+ */
+export function getNarrationChunks(root: HTMLElement): ReadChunk[] {
+  const candidates = Array.from(
+    root.querySelectorAll<HTMLElement>(NARRATION_SELECTOR),
+  )
+    .filter((el) => !isIgnoredWithin(el, root))
+    .filter((el, _, all) => all.every((other) => other === el || !el.contains(other)))
+    .sort(compareDocumentOrder)
+
+  const chunks: ReadChunk[] = []
+  for (const element of candidates) {
+    const text = extractText(element)
+    if (text) chunks.push({ index: chunks.length, text, element })
+  }
+  return chunks
+}
+
 type CachedSelection = {
   text: string
   element: HTMLElement
@@ -175,7 +226,11 @@ export function getSelectionChunk(): ReadChunk | null {
   return null
 }
 
-export function clearChunkHighlights(root: HTMLElement) {
+/**
+ * Document-wide by default: a tour reading in "both" mode alternates between
+ * its own panel and the reader behind it, and those are not in one subtree.
+ */
+export function clearChunkHighlights(root: ParentNode = document) {
   root.querySelectorAll('[data-read-chunk-active]').forEach((el) => {
     el.removeAttribute('data-read-chunk-active')
     el.classList.remove('read-aloud-active')
@@ -183,9 +238,7 @@ export function clearChunkHighlights(root: HTMLElement) {
 }
 
 export function highlightChunk(element: HTMLElement) {
-  const main =
-    element.closest('main') ?? document.getElementById('main-content')
-  if (main) clearChunkHighlights(main)
+  clearChunkHighlights()
   element.setAttribute('data-read-chunk-active', 'true')
   element.classList.add('read-aloud-active')
   element.scrollIntoView({ behavior: 'smooth', block: 'center' })
@@ -196,7 +249,6 @@ function voiceQualityScore(voice: SpeechSynthesisVoice): number {
   if (!voice.localService) score += 10
   if (/natural|premium|enhanced|neural|online|cloud/i.test(voice.name)) score += 5
   if (/google|microsoft|amazon|apple/i.test(voice.name)) score += 2
-  if (voice.lang.startsWith('en')) score += 3
   if (voice.default) score += 1
   return score
 }
@@ -269,22 +321,6 @@ export function usableVoices(
   return sortVoices(genuine.length > 0 ? genuine : voices)
 }
 
-export function pickDefaultVoice(
-  voices: SpeechSynthesisVoice[],
-  preferredURI?: string,
-): SpeechSynthesisVoice | undefined {
-  if (preferredURI) {
-    const saved = voices.find((v) => v.voiceURI === preferredURI)
-    if (saved) return saved
-  }
-
-  // The text is English, so start on an English voice even though every
-  // language is on offer — sortVoices has already put the best one first.
-  const english = voices.filter((v) => v.lang.startsWith('en'))
-  const pool = english.length > 0 ? english : voices
-  return pool.find((v) => !v.localService) ?? pool[0]
-}
-
 export function formatVoiceLabel(voice: SpeechSynthesisVoice): string {
   const lang = voice.lang.replace('_', '-')
   const tag = voice.localService ? 'Local' : 'Network'
@@ -309,18 +345,25 @@ export function describeLanguage(tag: string): string {
 /**
  * Voices grouped by spoken language, for the pickers in the reader and the
  * guided tour. Pair with usableVoices so novelty voices never reach the list.
+ *
+ * `leading` floats one language to the top — pass whatever the page is
+ * currently showing, so the voices that can actually read it are the ones in
+ * reach rather than buried under whichever language sorts first.
  */
 export function groupVoicesByLanguage(
   voices: SpeechSynthesisVoice[],
+  leading: string = SOURCE_LANGUAGE,
 ): { label: string; voices: SpeechSynthesisVoice[] }[] {
   const byLanguage = new Map<string, SpeechSynthesisVoice[]>()
 
   for (const voice of voices) {
-    const tag = voice.lang.replace('_', '-')
+    const tag = normaliseTag(voice.lang)
     const list = byLanguage.get(tag) ?? []
     list.push(voice)
     byLanguage.set(tag, list)
   }
+
+  const lead = primarySubtag(leading)
 
   return [...byLanguage.entries()]
     .map(([tag, list]) => ({
@@ -329,10 +372,9 @@ export function groupVoicesByLanguage(
       voices: sortVoices(list),
     }))
     .sort((a, b) => {
-      // The text is English, so English voices lead; the rest are alphabetical.
-      const aEnglish = a.tag.startsWith('en')
-      const bEnglish = b.tag.startsWith('en')
-      if (aEnglish !== bEnglish) return aEnglish ? -1 : 1
+      const aLead = primarySubtag(a.tag) === lead
+      const bLead = primarySubtag(b.tag) === lead
+      if (aLead !== bLead) return aLead ? -1 : 1
       return a.label.localeCompare(b.label)
     })
     .map(({ label, voices: list }) => ({ label, voices: list }))
