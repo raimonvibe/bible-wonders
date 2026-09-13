@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import {
   ArrowLeft,
   ArrowRight,
@@ -9,10 +9,8 @@ import {
   Compass,
   LayoutList,
   Library,
-  Search,
   Sparkles,
   Tags,
-  X,
 } from 'lucide-react'
 import WonderCardBody, { iconFor } from '@/components/WonderCardBody'
 import type { PassageRef } from '@/lib/passages'
@@ -56,10 +54,12 @@ export default function CatalogBrowser({
   onOpenPassage,
   onStartTour,
 }: Props) {
-  const [searchOpen, setSearchOpen] = useState(false)
   const list = useMemo(() => wondersFor(state), [state])
   const themes = useMemo(() => themeOptions(), [])
   const eras = useMemo(() => eraOptions(), [])
+
+  /** Start Here has neither a sort toggle nor a filter to clear. */
+  const showToolbar = state.path !== 'start-here' || !!state.theme || !!state.era
 
   /* --- an open card ----------------------------------------------------- */
 
@@ -163,8 +163,10 @@ export default function CatalogBrowser({
         </div>
       )}
 
-      {/* sort + search, once there is a list to act on */}
-      {!needsThemePick && !needsEraPick && (
+      {/* Sort and filter, once there is a list to act on. Search is not here:
+          it lives in the panel header so it is reachable from the overview and
+          from inside the guided tour too, not only from a list. */}
+      {!needsThemePick && !needsEraPick && showToolbar && (
         <div className="flex flex-wrap items-center gap-1.5">
           {(state.theme || state.era) && (
             <button
@@ -194,44 +196,6 @@ export default function CatalogBrowser({
             </button>
           )}
 
-          {searchOpen || state.query ? (
-            <span className="inline-flex min-h-8 flex-1 items-center gap-1 rounded-lg bg-pine-800/70 px-2 dark:bg-ocean-900/60">
-              <Search
-                className="h-3 w-3 shrink-0 text-pine-300 dark:text-ocean-400"
-                aria-hidden
-              />
-              <input
-                type="search"
-                value={state.query}
-                autoFocus
-                onChange={(e) => onChange({ ...state, query: e.target.value })}
-                placeholder="Search wonders"
-                aria-label="Search wonders by name or reference"
-                className="min-w-0 flex-1 bg-transparent font-sans text-[11px] text-pine-50 outline-none placeholder:text-pine-300 dark:text-ocean-50 dark:placeholder:text-ocean-400"
-              />
-              <button
-                type="button"
-                onClick={() => {
-                  onChange({ ...state, query: '' })
-                  setSearchOpen(false)
-                }}
-                aria-label="Clear search"
-                className="shrink-0 text-pine-300 hover:text-pine-50 dark:text-ocean-400 dark:hover:text-ocean-100"
-              >
-                <X className="h-3 w-3" aria-hidden />
-              </button>
-            </span>
-          ) : (
-            <button
-              type="button"
-              onClick={() => setSearchOpen(true)}
-              aria-label="Search wonders"
-              className="inline-flex min-h-8 items-center gap-1 rounded-lg bg-pine-800/70 px-2 font-sans text-[11px] text-pine-100 hover:bg-pine-700 dark:bg-ocean-900/60 dark:text-ocean-100 dark:hover:bg-ocean-800"
-            >
-              <Search className="h-3 w-3" aria-hidden />
-              Search
-            </button>
-          )}
         </div>
       )}
 

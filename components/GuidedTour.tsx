@@ -23,6 +23,7 @@ import {
   Quote,
   RotateCcw,
   Scroll,
+  Search,
   SkipBack,
   SkipForward,
   Sparkles,
@@ -158,6 +159,9 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
   const [furthestStep, setFurthestStep] = useState(0)
   const [seen, setSeen] = useState(true)
   const [voiceSheetOpen, setVoiceSheetOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
+  /** Where the list was before the search took over, to be put back after. */
+  const [pathBeforeSearch, setPathBeforeSearch] = useState<PathState | null>(null)
   /** Which face of the panel is showing: the paths, a list, or the tour. */
   const [view, setView] = useState<'overview' | 'browse' | 'tour'>('browse')
   const [pathState, setPathState] = useState<PathState>(DEFAULT_PATH_STATE)
@@ -234,6 +238,8 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
     setSelectedWonder(null)
     setPathState(loadPathState())
     setView(hasSeenOverview() ? 'browse' : 'overview')
+    setSearchOpen(false)
+    setPathBeforeSearch(null)
     setOpen(true)
     setMinimized(false)
     setSeen(true)
@@ -251,6 +257,8 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
     setStepIndex(0)
     setFurthestStep(0)
     setVoiceSheetOpen(false)
+    setSearchOpen(false)
+    setPathBeforeSearch(null)
     stopNarration()
     navigateRef.current(null)
   }, [stopNarration])
@@ -259,6 +267,41 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
     setPathState(next)
     savePathState(next)
   }, [])
+
+  /* --- search ----------------------------------------------------------- */
+
+  /**
+   * Searching is a detour, not a destination: it drops you in the full
+   * catalog so every wonder is in scope, then puts the list back the way you
+   * had it when you close the box. Nothing here is written to storage, so a
+   * search cannot leave the panel remembering the catalog next time.
+   */
+  const openSearch = useCallback(() => {
+    setPathBeforeSearch(pathState)
+    setVoiceSheetOpen(false)
+    setSearchOpen(true)
+  }, [pathState])
+
+  const closeSearch = useCallback(() => {
+    setSearchOpen(false)
+    setPathState(pathBeforeSearch ?? { ...pathState, query: '' })
+    setPathBeforeSearch(null)
+  }, [pathBeforeSearch, pathState])
+
+  const runSearch = useCallback(
+    (query: string) => {
+      setSelectedWonder(null)
+      setView('browse')
+      setPathState((current) => ({
+        ...current,
+        path: 'catalog',
+        theme: null,
+        era: null,
+        query,
+      }))
+    },
+    [],
+  )
 
   const choosePath = useCallback(
     (id: PathId) => {
@@ -337,7 +380,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
       window.removeEventListener('orientationchange', update)
       clear()
     }
-  }, [open, minimized, stepIndex, voiceSheetOpen])
+  }, [open, minimized, stepIndex, voiceSheetOpen, searchOpen])
 
   /**
    * What the current step sounds like under the chosen mode. Shared by the
@@ -443,12 +486,25 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
     const onKeyDown = (e: KeyboardEvent) => {
       const el = e.target as HTMLElement | null
       const tag = el?.tagName
-      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return
+      const typing = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT'
 
       if (e.key === 'Escape') {
+        // Escape backs out of the search before it backs out of the tour, and
+        // works from inside the search box itself.
+        if (searchOpen) {
+          e.preventDefault()
+          closeSearch()
+          return
+        }
+        if (typing) return
         e.preventDefault()
         exit()
-      } else if (isTour && e.key === 'ArrowRight' && stepIndex < lastStep) {
+        return
+      }
+
+      if (typing) return
+
+      if (isTour && e.key === 'ArrowRight' && stepIndex < lastStep) {
         e.preventDefault()
         goTo(stepIndex + 1)
       } else if (isTour && e.key === 'ArrowLeft' && stepIndex > 0) {
@@ -458,7 +514,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
-  }, [open, stepIndex, lastStep, goTo, exit, isTour])
+  }, [open, stepIndex, lastStep, goTo, exit, isTour, searchOpen, closeSearch])
 
   const progress = lastStep > 0 ? (stepIndex / lastStep) * 100 : 0
 
@@ -619,6 +675,18 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
               </p>
             </div>
             <div className="flex shrink-0 items-center gap-1">
+              {/* Kept out of the view switch below so it is here on the
+                  overview and mid-tour too, not only over a list. */}
+              <button
+                type="button"
+                onClick={() => (searchOpen ? closeSearch() : openSearch())}
+                className={`tour-icon-btn ${searchOpen ? 'tour-icon-btn-on' : ''}`}
+                aria-expanded={searchOpen}
+                aria-label="Search the wonders"
+              >
+                <Search className="h-4 w-4" aria-hidden />
+              </button>
+
               {(isTour || selectedWonder) && narration.supported && (
                 <div className="tour-speech-control flex items-center">
                   <button
@@ -693,6 +761,32 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
               </button>
             </div>
           </div>
+
+          {searchOpen && (
+            <div className="mt-2.5 flex items-center gap-1.5 rounded-lg bg-pine-800/70 px-2 dark:bg-ocean-900/60">
+              <Search
+                className="h-3.5 w-3.5 shrink-0 text-pine-300 dark:text-ocean-400"
+                aria-hidden
+              />
+              <input
+                type="search"
+                autoFocus
+                value={pathState.query}
+                onChange={(e) => runSearch(e.target.value)}
+                placeholder={`Search all ${WONDER_COUNT} wonders`}
+                aria-label="Search wonders by name, reference or place"
+                className="min-h-9 min-w-0 flex-1 bg-transparent font-sans text-xs text-pine-50 outline-none placeholder:text-pine-300 dark:text-ocean-50 dark:placeholder:text-ocean-400"
+              />
+              <button
+                type="button"
+                onClick={closeSearch}
+                aria-label="Close search"
+                className="shrink-0 text-pine-300 transition-colors hover:text-pine-50 dark:text-ocean-400 dark:hover:text-ocean-100"
+              >
+                <X className="h-3.5 w-3.5" aria-hidden />
+              </button>
+            </div>
+          )}
 
           {/* What to narrate. Sits on its own row rather than in the voice
               sheet, so switching stays one click and never gets buried. */}

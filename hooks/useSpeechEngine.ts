@@ -51,7 +51,11 @@ function writeStored(key: string, value: string): void {
 }
 
 function readNumber(key: string, min: number, max: number, fallback: number): number {
-  const raw = Number(readStored(key))
+  const stored = readStored(key)
+  // Number(null) is 0, which is a legal volume — so an unset key has to be
+  // caught before the range check or every reader starts out silent.
+  if (stored === null || stored.trim() === '') return fallback
+  const raw = Number(stored)
   return Number.isFinite(raw) && raw >= min && raw <= max ? raw : fallback
 }
 
