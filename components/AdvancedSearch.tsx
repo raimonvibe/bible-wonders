@@ -25,7 +25,7 @@ interface AdvancedSearchProps {
 }
 
 type TestamentFilter = 'all' | 'old' | 'new'
-type MatchMode = 'phrase' | 'all' | 'any'
+type MatchMode = 'smart' | 'phrase' | 'all' | 'any'
 
 export default function AdvancedSearch({
   bibleData,
@@ -38,7 +38,7 @@ export default function AdvancedSearch({
   const [debouncedQuery, setDebouncedQuery] = useState('')
   const [testament, setTestament] = useState<TestamentFilter>('all')
   const [bookId, setBookId] = useState<string>('')
-  const [matchMode, setMatchMode] = useState<MatchMode>('phrase')
+  const [matchMode, setMatchMode] = useState<MatchMode>('smart')
   const [caseSensitive, setCaseSensitive] = useState(false)
   const [showFilters, setShowFilters] = useState(false)
 
@@ -129,7 +129,7 @@ export default function AdvancedSearch({
               type="search"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search scripture… e.g. love your enemies"
+              placeholder="Jesus, Exodus 14, John 3:16, love your enemies"
               className="w-full pl-11 pr-4 py-3 rounded-xl border border-pine-600 dark:border-ocean-600 bg-pine-900/60 dark:bg-ocean-900/60 text-pine-50 dark:text-ocean-100 font-sans text-base focus:outline-none focus:ring-2 focus:ring-amber-500/50"
               autoComplete="off"
             />
@@ -202,6 +202,7 @@ export default function AdvancedSearch({
                   onChange={(event) => setMatchMode(event.target.value as MatchMode)}
                   className="w-full px-3 py-2 rounded-lg border border-pine-600 dark:border-ocean-600 bg-pine-900/60 dark:bg-ocean-900/60 text-pine-50 dark:text-ocean-100 font-sans text-sm"
                 >
+                  <option value="smart">Smart</option>
                   <option value="phrase">Exact phrase</option>
                   <option value="all">All words</option>
                   <option value="any">Any word</option>
@@ -228,7 +229,7 @@ export default function AdvancedSearch({
             <div className="text-center py-12 px-4">
               <BookOpen className="w-12 h-12 text-pine-300 dark:text-ocean-300 mx-auto mb-4" />
               <p className="text-pine-300 dark:text-ocean-400 font-sans">
-                Type a word or phrase to search the entire Bible.
+                Type a person, a phrase, or a reference like John 3:16.
               </p>
             </div>
           )}
@@ -239,7 +240,7 @@ export default function AdvancedSearch({
                 No verses found for &ldquo;{debouncedQuery}&rdquo;.
               </p>
               <p className="text-sm text-pine-300 dark:text-ocean-300 font-sans mt-2">
-                Try a different phrase, switch to &ldquo;Any word&rdquo;, or broaden your filters.
+                Try a name, a phrase, or a reference like “Exodus 14”.
               </p>
             </div>
           )}

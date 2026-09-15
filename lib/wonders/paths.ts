@@ -3,18 +3,28 @@
  * of state that survives a reload.
  *
  *   A  start-here  curated ~25, then a handoff to the full catalog
- *   B  theme       healings, nature signs, provision, …
+ *   B  theme       Wonders of Jesus, then healings, nature signs, provision, …
  *   C  era         Torah, Kingdoms, Matthew, Acts, …
  *   D  catalog     every wonder, sorted best-known
  *   E  (the sort toggle + search, available inside every list)
  *   F  (the first-visit overview, which chooses between the above)
  */
 
-import { byFamiliarity, startHere, WONDERS } from './catalog'
 import {
+  byCollection,
+  byFamiliarity,
+  byTheme,
+  searchWonders,
+  startHere,
+  WONDERS,
+} from './catalog'
+import {
+  COLLECTION_LABELS,
   ERA_LABELS,
   ERA_ORDER,
   THEME_LABELS,
+  isCollection,
+  type Collection,
   type Era,
   type Theme,
   type Wonder,
@@ -24,11 +34,14 @@ export type PathId = 'start-here' | 'theme' | 'era' | 'catalog'
 
 export type SortMode = 'bible' | 'best-known'
 
+/** A By-theme tile: a kind of wonder, or a collection that cuts across them. */
+export type ThemeFilterId = Theme | Collection
+
 export interface PathState {
   path: PathId
   sort: SortMode
   /** Active filter when path is 'theme' or 'era'; null means "show the picker". */
-  theme: Theme | null
+  theme: ThemeFilterId | null
   era: Era | null
   query: string
 }
@@ -51,7 +64,8 @@ export const PATH_LABELS: Record<PathId, string> = {
 export const PATH_BLURBS: Record<PathId, string> = {
   'start-here':
     'The best-known wonders, in a short path you can actually finish.',
-  theme: 'Healings, rescues, provision — read one kind at a time.',
+  theme:
+    'Wonders of Jesus, or healings, rescues, provision — one kind at a time.',
   era: 'Walk a stretch of the story: the Torah, the kingdoms, one Gospel.',
   catalog: 'Every wonder in the catalog, sorted however you like.',
 }
@@ -164,10 +178,10 @@ export function wondersFor(state: PathState): Wonder[] {
 
   switch (state.path) {
     case 'start-here':
-      // Curator order is the whole point of this path, so it ignores the sort.
-      return startHere()
+      list = startHere()
+      break
     case 'theme':
-      list = state.theme ? WONDERS.filter((w) => w.theme === state.theme) : []
+      list = state.theme ? wondersForThemeFilter(state.theme) : []
       break
     case 'era':
       list = state.era ? WONDERS.filter((w) => w.era === state.era) : []
@@ -177,28 +191,53 @@ export function wondersFor(state: PathState): Wonder[] {
       break
   }
 
-  const q = state.query.trim().toLowerCase()
-  if (q) {
-    list = list.filter(
-      (w) =>
-        w.title.toLowerCase().includes(q) ||
-        w.passage.label.toLowerCase().includes(q) ||
-        (w.location ?? '').toLowerCase().includes(q),
-    )
+  if (state.query.trim()) {
+    // Intersect the other way around: searchWonders already returns matches
+    // best-first, and that ranking is the whole point of searching.
+    const inScope = new Set(list.map((w) => w.id))
+    return searchWonders(state.query).filter((w) => inScope.has(w.id))
   }
 
-  return state.sort === 'best-known' ? byFamiliarity(list) : list
+  // Start Here defines its own order; re-sorting it would defeat the point.
+  return state.sort === 'best-known' && state.path !== 'start-here'
+    ? byFamiliarity(list)
+    : list
 }
 
-/** Theme filters that actually have wonders behind them, with counts. */
-export function themeOptions(): Array<{ id: Theme; label: string; count: number }> {
-  return (Object.keys(THEME_LABELS) as Theme[])
-    .map((id) => ({
+function wondersForThemeFilter(id: ThemeFilterId): Wonder[] {
+  return isCollection(id) ? byCollection(id) : byTheme(id)
+}
+
+export interface ThemeOption {
+  id: ThemeFilterId
+  label: string
+  count: number
+  kind: 'theme' | 'collection'
+}
+
+/**
+ * Tiles the By-theme picker offers, collections first.
+ *
+ * Jesus is what most readers open this path looking for, and putting it first
+ * also reads as what it is — a way through the seven kinds rather than an
+ * eighth peer.
+ */
+export function themeOptions(): ThemeOption[] {
+  const collections = (Object.keys(COLLECTION_LABELS) as Collection[]).map(
+    (id) => ({
       id,
-      label: THEME_LABELS[id],
-      count: WONDERS.filter((w) => w.theme === id).length,
-    }))
-    .filter((t) => t.count > 0)
+      label: COLLECTION_LABELS[id],
+      count: byCollection(id).length,
+      kind: 'collection' as const,
+    }),
+  )
+  const themes = (Object.keys(THEME_LABELS) as Theme[]).map((id) => ({
+    id,
+    label: THEME_LABELS[id],
+    count: byTheme(id).length,
+    kind: 'theme' as const,
+  }))
+  return [...collections, ...themes].filter((t) => t.count > 0)
 }
 
 /** Eras in reading order, not object-key order. */

@@ -138,7 +138,11 @@ export default function CatalogBrowser({
               key={t.id}
               type="button"
               onClick={() => onChange({ ...state, theme: t.id })}
-              className="inline-flex items-center gap-1.5 rounded-full border border-pine-600 bg-pine-900/60 px-3 py-1.5 font-sans text-[11px] text-pine-100 transition-colors hover:border-pine-400 hover:bg-pine-800 dark:border-ocean-700 dark:bg-ocean-900/50 dark:text-ocean-200 dark:hover:border-ocean-500"
+              className={
+                t.kind === 'collection'
+                  ? 'inline-flex items-center gap-1.5 rounded-full border border-pine-400 bg-pine-800 px-3 py-1.5 font-sans text-[11px] font-medium text-pine-50 transition-colors hover:border-pine-300 hover:bg-pine-700 dark:border-ocean-500 dark:bg-ocean-800 dark:text-ocean-50 dark:hover:border-ocean-400'
+                  : 'inline-flex items-center gap-1.5 rounded-full border border-pine-600 bg-pine-900/60 px-3 py-1.5 font-sans text-[11px] text-pine-100 transition-colors hover:border-pine-400 hover:bg-pine-800 dark:border-ocean-700 dark:bg-ocean-900/50 dark:text-ocean-200 dark:hover:border-ocean-500'
+              }
             >
               {t.label}
               <span className="text-pine-300 dark:text-ocean-400">{t.count}</span>
@@ -211,8 +215,8 @@ export default function CatalogBrowser({
 
           {list.length === 0 ? (
             <p className="rounded-xl border border-dashed border-pine-600 p-3 font-serif text-[13px] text-pine-100 dark:border-ocean-700 dark:text-ocean-200">
-              Nothing matches “{state.query}”. Try a book name like “Mark”, or a
-              reference like “Exodus 14”.
+              Nothing matches “{state.query}”. Try a person (“Jesus”), a place,
+              or a reference like “Exodus 14”.
             </p>
           ) : (
             <ul className="space-y-1.5 list-none p-0 m-0">

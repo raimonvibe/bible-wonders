@@ -6,9 +6,18 @@
  * WEB text the app ships, and enforces unique ids and ranks.
  */
 
+import { normalizeSearchText, searchTerms } from '@/lib/searchText'
 import { OLD_TESTAMENT_WONDERS } from './oldTestament'
 import { NEW_TESTAMENT_WONDERS } from './newTestament'
-import { ERA_ORDER, isAuthored, type Era, type Theme, type Wonder } from './types'
+import {
+  collectionContains,
+  ERA_ORDER,
+  isAuthored,
+  type Collection,
+  type Era,
+  type Theme,
+  type Wonder,
+} from './types'
 
 /** Bible order — this is the default reading order. */
 export const WONDERS: Wonder[] = [
@@ -63,6 +72,16 @@ export function byTheme(theme: Theme): Wonder[] {
   return WONDERS.filter((w) => w.theme === theme)
 }
 
+/**
+ * Every wonder in a collection, in Bible order.
+ *
+ * Unlike `byTheme` these overlap the kinds: the 72 wonders of Jesus are all
+ * still counted under Healings, Raisings and the rest.
+ */
+export function byCollection(collection: Collection): Wonder[] {
+  return WONDERS.filter((w) => collectionContains(collection, w))
+}
+
 export function byEra(era: Era): Wonder[] {
   return WONDERS.filter((w) => w.era === era)
 }
@@ -92,13 +111,79 @@ export function narrationForWonder(w: Wonder): string[] {
   ].filter(Boolean)
 }
 
+/**
+ * Ranked search over the catalog, best match first.
+ *
+ * Three tiers, because each simpler design is wrong on its own. Names only —
+ * title, reference, place — misses every query for a person: no card is
+ * titled "Jesus", so searching for Him returned nothing at all. Prose
+ * included flat makes "sea" return every card that mentions one in passing,
+ * ahead of the sea crossings themselves. And scattered terms alone make
+ * "Exodus 14" match Exodus 7:14 just as well as Exodus 14, because
+ * normalising a reference leaves its numbers as loose words.
+ *
+ * So: the query as a phrase in the name, then all its terms in the name,
+ * then all its terms anywhere on the card. Bible order is preserved inside
+ * each tier. Multi-word queries are AND, which is what makes "jesus
+ * leprosy" narrow rather than widen.
+ */
 export function searchWonders(query: string): Wonder[] {
-  const q = query.trim().toLowerCase()
-  if (!q) return []
-  return WONDERS.filter(
-    (w) =>
-      w.title.toLowerCase().includes(q) ||
-      w.passage.label.toLowerCase().includes(q) ||
-      (w.location ?? '').toLowerCase().includes(q),
+  const terms = searchTerms(query)
+  if (terms.length === 0) return []
+  const phrase = terms.join(' ')
+
+  const exact: Wonder[] = []
+  const named: Wonder[] = []
+  const prose: Wonder[] = []
+
+  for (const wonder of WONDERS) {
+    const name = nameText(wonder)
+    if (name.includes(phrase)) {
+      exact.push(wonder)
+    } else if (terms.every((term) => name.includes(term))) {
+      named.push(wonder)
+    } else if (terms.every((term) => proseText(wonder).includes(term))) {
+      prose.push(wonder)
+    }
+  }
+
+  return [...exact, ...named, ...prose]
+}
+
+export function wonderMatchCount(query: string): number {
+  return searchWonders(query).length
+}
+
+const nameCache = new Map<string, string>()
+const proseCache = new Map<string, string>()
+
+function nameText(wonder: Wonder): string {
+  const cached = nameCache.get(wonder.id)
+  if (cached) return cached
+  const value = normalizeSearchText(
+    [wonder.title, wonder.passage.label, wonder.passage.bookName, wonder.location ?? ''].join(
+      ' ',
+    ),
   )
+  nameCache.set(wonder.id, value)
+  return value
+}
+
+function proseText(wonder: Wonder): string {
+  const cached = proseCache.get(wonder.id)
+  if (cached) return cached
+  const value = normalizeSearchText(
+    [
+      nameText(wonder),
+      wonder.quote ?? '',
+      wonder.quoteRef ?? '',
+      wonder.whatHappened ?? '',
+      wonder.hopeMeaning ?? '',
+      wonder.reflectionQuestion ?? '',
+      wonder.distinctive ?? '',
+      ...(wonder.details ?? []),
+    ].join(' '),
+  )
+  proseCache.set(wonder.id, value)
+  return value
 }

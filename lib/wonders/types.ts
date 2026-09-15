@@ -38,6 +38,18 @@ export type Era =
   | 'john'
   | 'acts'
 
+/**
+ * A grouping that cuts across Theme rather than sitting inside it.
+ *
+ * A wonder has exactly one theme — what *kind* of thing happened. A collection
+ * answers a different question about the same card, so a healing of Jesus is
+ * still a healing, and Healings still counts it.
+ *
+ * Made an eighth Theme instead, "Wonders of Jesus" would take all 72 Gospel
+ * accounts out of the seven kinds.
+ */
+export type Collection = 'jesus'
+
 export interface Wonder {
   /** Stable kebab-case id; for parallels, suffixed with the book (`-mat`). */
   id: string
@@ -122,3 +134,37 @@ export const ERA_ORDER: Era[] = [
   'john',
   'acts',
 ]
+
+export const COLLECTION_LABELS: Record<Collection, string> = {
+  jesus: 'Wonders of Jesus',
+}
+
+/** The four Gospels, as against the Old Testament spans and Acts. */
+export const GOSPEL_ERAS: readonly Era[] = ['matthew', 'mark', 'luke', 'john']
+
+export function isGospelEra(era: Era): boolean {
+  return (
+    era === 'matthew' || era === 'mark' || era === 'luke' || era === 'john'
+  )
+}
+
+export function isCollection(id: string): id is Collection {
+  return (Object.keys(COLLECTION_LABELS) as string[]).includes(id)
+}
+
+/**
+ * Whether a wonder belongs in a collection.
+ *
+ * Jesus is not a field on a wonder: every wonder in the four Gospel eras is
+ * one He worked or stood at the centre of, and every wonder worked by the
+ * apostles is in `acts`.
+ */
+export function collectionContains(
+  collection: Collection,
+  wonder: Wonder,
+): boolean {
+  switch (collection) {
+    case 'jesus':
+      return isGospelEra(wonder.era)
+  }
+}

@@ -773,8 +773,8 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
                 autoFocus
                 value={pathState.query}
                 onChange={(e) => runSearch(e.target.value)}
-                placeholder={`Search all ${WONDER_COUNT} wonders`}
-                aria-label="Search wonders by name, reference or place"
+                placeholder={`Search people, places, references`}
+                aria-label="Search wonders by name, person, place or reference"
                 className="min-h-9 min-w-0 flex-1 bg-transparent font-sans text-xs text-pine-50 outline-none placeholder:text-pine-300 dark:text-ocean-50 dark:placeholder:text-ocean-400"
               />
               <button

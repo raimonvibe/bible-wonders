@@ -300,6 +300,37 @@ for (const [group, ids] of groups) {
   }
 }
 
+/* --- Wonders of Jesus is derived from Gospel eras, not a tagged field -----
+ * The By-theme picker offers this collection without a performer field on
+ * each card. That only stays true while apostles' wonders stay in `acts`.
+ * The counts are stated as numbers on purpose: a Gospel entry that is *not*
+ * His would join the list silently otherwise.
+ * ----------------------------------------------------------------------- */
+const GOSPEL_ERAS = new Set(['matthew', 'mark', 'luke', 'john'])
+const jesus = WONDERS.filter((w) => GOSPEL_ERAS.has(w.era))
+if (jesus.length !== 72) {
+  errors.push(
+    `Wonders of Jesus should be 72 Gospel accounts, found ${jesus.length}`,
+  )
+}
+const jesusEvents = new Set(jesus.map((w) => w.parallelGroupId ?? w.id))
+if (jesusEvents.size !== 37) {
+  errors.push(
+    `Wonders of Jesus should be 37 events, found ${jesusEvents.size}`,
+  )
+}
+if (jesus.some((w) => w.era === 'acts')) {
+  errors.push('Wonders of Jesus must not include Acts')
+}
+if (!jesus.every((w) => w.testament === 'new')) {
+  errors.push('Wonders of Jesus must all be New Testament')
+}
+for (const id of ['cana', 'lazarus', 'feeding-5000-mrk', 'resurrection-jhn']) {
+  if (!jesus.some((w) => w.id === id)) {
+    errors.push(`Wonders of Jesus is missing ${id}`)
+  }
+}
+
 console.log(`\nWonders in catalog: ${WONDERS.length}`)
 console.log(`  Old Testament: ${WONDERS.filter((w) => w.testament === 'old').length}`)
 console.log(`  New Testament: ${WONDERS.filter((w) => w.testament === 'new').length}`)

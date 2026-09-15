@@ -1,6 +1,8 @@
 'use client'
 
-import { Book, ScrollText } from 'lucide-react'
+import { useMemo, useState } from 'react'
+import { Book, ScrollText, Search } from 'lucide-react'
+import { bookMatchesQuery } from '@/lib/bibleSearch'
 
 interface BookSelectorProps {
   books: Array<{ id: string; name: string; abbreviation: string; chapters: any[] }>
@@ -9,12 +11,17 @@ interface BookSelectorProps {
 }
 
 export default function BookSelector({ books, selectedBookId, onSelectBook }: BookSelectorProps) {
+  const [query, setQuery] = useState('')
   const ntBookIds = ['MAT', 'MRK', 'LUK', 'JHN', 'ACT', 'ROM', '1CO', '2CO', 'GAL', 'EPH',
                      'PHP', 'COL', '1TH', '2TH', '1TI', '2TI', 'TIT', 'PHM', 'HEB', 'JAS',
                      '1PE', '2PE', '1JN', '2JN', '3JN', 'JUD', 'REV']
 
-  const oldTestamentBooks = books.filter(book => !ntBookIds.some(id => book.id.includes(id)))
-  const newTestamentBooks = books.filter(book => ntBookIds.some(id => book.id.includes(id)))
+  const visibleBooks = useMemo(
+    () => books.filter((book) => bookMatchesQuery(book, query)),
+    [books, query],
+  )
+  const oldTestamentBooks = visibleBooks.filter(book => !ntBookIds.some(id => book.id.includes(id)))
+  const newTestamentBooks = visibleBooks.filter(book => ntBookIds.some(id => book.id.includes(id)))
 
   const renderBookGrid = (booksList: typeof books) => (
     <div className="grid-books">
@@ -54,6 +61,26 @@ export default function BookSelector({ books, selectedBookId, onSelectBook }: Bo
 
   return (
     <div className="space-y-8">
+      <div className="relative" data-read-aloud-ignore>
+        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-pine-300 dark:text-ocean-300" />
+        <input
+          type="search"
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          placeholder="Find a book… John, Psalms, 1 Kings"
+          aria-label="Find a book by name"
+          className="w-full rounded-xl border border-pine-600 bg-pine-900/60 py-3 pl-10 pr-4 font-sans text-sm text-pine-50 placeholder:text-pine-300 focus:outline-none focus:ring-2 focus:ring-amber-500/50 dark:border-ocean-600 dark:bg-ocean-900/60 dark:text-ocean-100 dark:placeholder:text-ocean-400"
+          autoComplete="off"
+        />
+      </div>
+
+      {query.trim() && visibleBooks.length === 0 && (
+        <p className="rounded-xl border border-dashed border-pine-600 p-4 font-sans text-sm text-pine-200 dark:border-ocean-700 dark:text-ocean-300">
+          No book matches “{query}”. Try John, Psalms, or 1 Kings.
+        </p>
+      )}
+
+      {oldTestamentBooks.length > 0 && (
       <section data-read-aloud-block className="card-surface p-4 md:p-6 lg:p-8">
         <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-pine-600 dark:border-ocean-700">
           <div className="flex items-center gap-3">
@@ -73,7 +100,9 @@ export default function BookSelector({ books, selectedBookId, onSelectBook }: Bo
           {renderBookGrid(oldTestamentBooks)}
         </nav>
       </section>
+      )}
 
+      {newTestamentBooks.length > 0 && (
       <section data-read-aloud-block className="card-surface p-4 md:p-6 lg:p-8">
         <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-pine-600 dark:border-ocean-700">
           <div className="flex items-center gap-3">
@@ -93,6 +122,7 @@ export default function BookSelector({ books, selectedBookId, onSelectBook }: Bo
           {renderBookGrid(newTestamentBooks)}
         </nav>
       </section>
+      )}
     </div>
   )
 }
