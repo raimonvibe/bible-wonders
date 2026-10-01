@@ -297,6 +297,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
         path: 'catalog',
         theme: null,
         era: null,
+        jesusCategory: null,
         query,
       }))
     },

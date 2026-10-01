@@ -29,6 +29,7 @@ import {
   type Theme,
   type Wonder,
 } from './types'
+import { jesusCategoryOf, type JesusCategory } from './jesusCategories'
 
 export type PathId = 'start-here' | 'theme' | 'era' | 'catalog'
 
@@ -43,6 +44,8 @@ export interface PathState {
   /** Active filter when path is 'theme' or 'era'; null means "show the picker". */
   theme: ThemeFilterId | null
   era: Era | null
+  /** Sub-filter inside the Wonders of Jesus collection; null shows the picker. */
+  jesusCategory: JesusCategory | null
   query: string
 }
 
@@ -51,6 +54,7 @@ export const DEFAULT_PATH_STATE: PathState = {
   sort: 'bible',
   theme: null,
   era: null,
+  jesusCategory: null,
   query: '',
 }
 
@@ -182,6 +186,9 @@ export function wondersFor(state: PathState): Wonder[] {
       break
     case 'theme':
       list = state.theme ? wondersForThemeFilter(state.theme) : []
+      if (state.theme === 'jesus' && state.jesusCategory) {
+        list = list.filter((w) => jesusCategoryOf(w) === state.jesusCategory)
+      }
       break
     case 'era':
       list = state.era ? WONDERS.filter((w) => w.era === state.era) : []

@@ -14,7 +14,12 @@ import {
 } from 'lucide-react'
 import WonderCardBody, { iconFor } from '@/components/WonderCardBody'
 import type { PassageRef } from '@/lib/passages'
-import { WONDER_COUNT } from '@/lib/wonders/catalog'
+import { WONDER_COUNT, byCollection } from '@/lib/wonders/catalog'
+import {
+  JESUS_CATEGORY_LABELS,
+  JESUS_CATEGORY_ORDER,
+  jesusCategoryOf,
+} from '@/lib/wonders/jesusCategories'
 import {
   PATH_BLURBS,
   PATH_LABELS,
@@ -57,6 +62,14 @@ export default function CatalogBrowser({
   const list = useMemo(() => wondersFor(state), [state])
   const themes = useMemo(() => themeOptions(), [])
   const eras = useMemo(() => eraOptions(), [])
+  const jesusCounts = useMemo(() => {
+    const counts: Record<string, number> = {}
+    for (const w of byCollection('jesus')) {
+      const c = jesusCategoryOf(w)
+      if (c) counts[c] = (counts[c] ?? 0) + 1
+    }
+    return counts
+  }, [])
 
   /** Start Here has neither a sort toggle nor a filter to clear. */
   const showToolbar = state.path !== 'start-here' || !!state.theme || !!state.era
@@ -111,7 +124,14 @@ export default function CatalogBrowser({
               role="tab"
               aria-selected={active}
               onClick={() =>
-                onChange({ ...state, path: id, theme: null, era: null, query: '' })
+                onChange({
+                  ...state,
+                  path: id,
+                  theme: null,
+                  era: null,
+                  jesusCategory: null,
+                  query: '',
+                })
               }
               className={`flex min-h-9 items-center gap-1.5 rounded-lg px-2.5 font-sans text-[11px] font-medium transition-colors ${
                 active
@@ -137,7 +157,9 @@ export default function CatalogBrowser({
             <button
               key={t.id}
               type="button"
-              onClick={() => onChange({ ...state, theme: t.id })}
+              onClick={() =>
+                onChange({ ...state, theme: t.id, jesusCategory: null })
+              }
               className={
                 t.kind === 'collection'
                   ? 'inline-flex items-center gap-1.5 rounded-full border border-pine-400 bg-pine-800 px-3 py-1.5 font-sans text-[11px] font-medium text-pine-50 transition-colors hover:border-pine-300 hover:bg-pine-700 dark:border-ocean-500 dark:bg-ocean-800 dark:text-ocean-50 dark:hover:border-ocean-400'
@@ -175,7 +197,9 @@ export default function CatalogBrowser({
           {(state.theme || state.era) && (
             <button
               type="button"
-              onClick={() => onChange({ ...state, theme: null, era: null })}
+              onClick={() =>
+                onChange({ ...state, theme: null, era: null, jesusCategory: null })
+              }
               className="inline-flex min-h-8 items-center gap-1 rounded-lg bg-pine-800/70 px-2 font-sans text-[11px] text-pine-100 hover:bg-pine-700 dark:bg-ocean-900/60 dark:text-ocean-100 dark:hover:bg-ocean-800"
             >
               <ArrowLeft className="h-3 w-3" aria-hidden />
@@ -200,6 +224,38 @@ export default function CatalogBrowser({
             </button>
           )}
 
+        </div>
+      )}
+
+      {/* Jesus sub-categories: his wonders, grouped by kind */}
+      {state.path === 'theme' && state.theme === 'jesus' && (
+        <div
+          role="group"
+          aria-label="Categories of the wonders of Jesus"
+          className="flex flex-wrap gap-1.5"
+        >
+          {[null, ...JESUS_CATEGORY_ORDER].map((c) => {
+            const active = state.jesusCategory === c
+            const count = c
+              ? jesusCounts[c] ?? 0
+              : byCollection('jesus').length
+            return (
+              <button
+                key={c ?? 'all'}
+                type="button"
+                aria-pressed={active}
+                onClick={() => onChange({ ...state, jesusCategory: c })}
+                className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 font-sans text-[11px] transition-colors ${
+                  active
+                    ? 'border-pine-300 bg-pine-100 text-pine-900 dark:border-ocean-300 dark:bg-ocean-200 dark:text-ocean-950'
+                    : 'border-pine-600 bg-pine-900/60 text-pine-100 hover:border-pine-400 hover:bg-pine-800 dark:border-ocean-700 dark:bg-ocean-900/50 dark:text-ocean-200 dark:hover:border-ocean-500'
+                }`}
+              >
+                {c ? JESUS_CATEGORY_LABELS[c] : 'All'}
+                <span className="opacity-70">{count}</span>
+              </button>
+            )
+          })}
         </div>
       )}
 
@@ -275,7 +331,13 @@ export default function CatalogBrowser({
             <button
               type="button"
               onClick={() =>
-                onChange({ ...state, path: 'catalog', theme: null, era: null })
+                onChange({
+                  ...state,
+                  path: 'catalog',
+                  theme: null,
+                  era: null,
+                  jesusCategory: null,
+                })
               }
               className="tour-next-btn inline-flex min-h-9 items-center gap-1 rounded-xl px-3 font-sans text-xs font-semibold shadow-md"
             >
