@@ -218,7 +218,7 @@ export default function BibleApp({ bookIndex }: { bookIndex: BibleIndex }) {
       {/* Floats over the reading column, so it carries its own backdrop rather
           than letting verse text run between the two controls. */}
       <div
-        className="tour-safe-right fixed top-4 z-40 flex items-center gap-2 rounded-2xl bg-pine-900/75 p-1.5 backdrop-blur-sm dark:bg-ocean-950/75"
+        className="tour-safe-right fixed top-4 z-40 flex items-center gap-2 rounded-2xl bg-pine-900/75 p-1.5 backdrop-blur-xs dark:bg-ocean-950/75"
         data-read-aloud-ignore
       >
         <button

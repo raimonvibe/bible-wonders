@@ -1,6 +1,80 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(html.theme-ocean, html.theme-ocean *));
+
+@theme {
+  --font-serif: Merriweather, Georgia, serif;
+  --font-sans: Inter, system-ui, sans-serif;
+  --font-display: Playfair Display, Georgia, serif;
+
+  --background-image-theme-pine: linear-gradient(
+    160deg,
+    #1d4d3a 0%,
+    #163d2f 55%,
+    #0e2a20 100%
+  );
+  --background-image-theme-ocean: linear-gradient(
+    160deg,
+    #0a3d6b 0%,
+    #062a4a 55%,
+    #041d33 100%
+  );
+  --background-image-card-pine: linear-gradient(
+    145deg,
+    rgba(29, 77, 58, 0.92) 0%,
+    rgba(22, 61, 47, 0.9) 50%,
+    rgba(14, 42, 32, 0.94) 100%
+  );
+  --background-image-card-ocean: linear-gradient(
+    145deg,
+    rgba(10, 61, 107, 0.92) 0%,
+    rgba(6, 42, 74, 0.9) 50%,
+    rgba(4, 29, 51, 0.94) 100%
+  );
+
+  --color-pine-50: #eaf6f0;
+  --color-pine-100: #cfe9dc;
+  --color-pine-200: #a9d6c1;
+  --color-pine-300: #7cbfa1;
+  --color-pine-400: #52a381;
+  --color-pine-500: #358566;
+  --color-pine-600: #2a6b52;
+  --color-pine-700: #1d4d3a;
+  --color-pine-800: #163d2f;
+  --color-pine-900: #0e2a20;
+
+  --color-ocean-50: #eaf2fb;
+  --color-ocean-100: #d0e3f6;
+  --color-ocean-200: #a8caec;
+  --color-ocean-300: #79ace0;
+  --color-ocean-400: #4a8bd0;
+  --color-ocean-500: #2a70b8;
+  --color-ocean-600: #1a5a9e;
+  --color-ocean-700: #0a3d6b;
+  --color-ocean-800: #062a4a;
+  --color-ocean-900: #041d33;
+  --color-ocean-950: #02101f;
+
+  --color-accent: #f4a261;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 @layer base {
   /*
