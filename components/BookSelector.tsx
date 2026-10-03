@@ -69,7 +69,7 @@ export default function BookSelector({ books, selectedBookId, onSelectBook }: Bo
           onChange={(event) => setQuery(event.target.value)}
           placeholder="Find a book… John, Psalms, 1 Kings"
           aria-label="Find a book by name"
-          className="w-full rounded-xl border border-pine-600 bg-pine-900/60 py-3 pl-10 pr-4 font-sans text-sm text-pine-50 placeholder:text-pine-300 focus:outline-none focus:ring-2 focus:ring-amber-500/50 dark:border-ocean-600 dark:bg-ocean-900/60 dark:text-ocean-100 dark:placeholder:text-ocean-400"
+          className="w-full rounded-xl border border-pine-600 bg-pine-900/60 py-3 pl-10 pr-4 font-sans text-sm text-pine-50 placeholder:text-pine-300 focus:outline-hidden focus:ring-2 focus:ring-amber-500/50 dark:border-ocean-600 dark:bg-ocean-900/60 dark:text-ocean-100 dark:placeholder:text-ocean-400"
           autoComplete="off"
         />
       </div>

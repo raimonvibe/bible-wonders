@@ -92,7 +92,7 @@ export default function AdvancedSearch({
     >
       <button
         type="button"
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/40 backdrop-blur-xs"
         aria-label="Close search"
         onClick={onClose}
       />
@@ -130,7 +130,7 @@ export default function AdvancedSearch({
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Jesus, Exodus 14, John 3:16, love your enemies"
-              className="w-full pl-11 pr-4 py-3 rounded-xl border border-pine-600 dark:border-ocean-600 bg-pine-900/60 dark:bg-ocean-900/60 text-pine-50 dark:text-ocean-100 font-sans text-base focus:outline-none focus:ring-2 focus:ring-amber-500/50"
+              className="w-full pl-11 pr-4 py-3 rounded-xl border border-pine-600 dark:border-ocean-600 bg-pine-900/60 dark:bg-ocean-900/60 text-pine-50 dark:text-ocean-100 font-sans text-base focus:outline-hidden focus:ring-2 focus:ring-amber-500/50"
               autoComplete="off"
             />
           </div>
@@ -214,7 +214,7 @@ export default function AdvancedSearch({
                   type="checkbox"
                   checked={caseSensitive}
                   onChange={(event) => setCaseSensitive(event.target.checked)}
-                  className="w-4 h-4 rounded border-pine-500 text-amber-600 focus:ring-amber-500"
+                  className="w-4 h-4 rounded-sm border-pine-500 text-amber-600 focus:ring-amber-500"
                 />
                 <span className="text-sm font-sans text-pine-200 dark:text-ocean-300">
                   Case sensitive

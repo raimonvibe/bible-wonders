@@ -573,7 +573,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
           type="button"
           onClick={start}
           data-read-aloud-ignore
-          className="tour-fab group pointer-events-auto flex min-h-14 items-center gap-2.5 rounded-full px-4 py-3 shadow-lg transition-all hover:scale-[1.03] focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 sm:px-5"
+          className="tour-fab group pointer-events-auto flex min-h-14 items-center gap-2.5 rounded-full px-4 py-3 shadow-lg transition-all hover:scale-[1.03] focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 sm:px-5"
           aria-label="Open Wonders and Hope, a guided tour of the miracles"
         >
           {!seen && (
@@ -776,7 +776,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
                 onChange={(e) => runSearch(e.target.value)}
                 placeholder={`Search people, places, references`}
                 aria-label="Search wonders by name, person, place or reference"
-                className="min-h-9 min-w-0 flex-1 bg-transparent font-sans text-xs text-pine-50 outline-none placeholder:text-pine-300 dark:text-ocean-50 dark:placeholder:text-ocean-400"
+                className="min-h-9 min-w-0 flex-1 bg-transparent font-sans text-xs text-pine-50 outline-hidden placeholder:text-pine-300 dark:text-ocean-50 dark:placeholder:text-ocean-400"
               />
               <button
                 type="button"
@@ -840,7 +840,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
                 <button
                   type="button"
                   onClick={toggleNarration}
-                  className="listen-play-btn flex min-h-9 min-w-9 items-center justify-center rounded-full text-white shadow-sm transition-opacity hover:opacity-90"
+                  className="listen-play-btn flex min-h-9 min-w-9 items-center justify-center rounded-full text-white shadow-xs transition-opacity hover:opacity-90"
                   aria-label={
                     speechStatus === 'playing'
                       ? 'Pause narration'
@@ -981,7 +981,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
                     <select
                       value={narration.languageChoice}
                       onChange={(e) => narration.setLanguageChoice(e.target.value)}
-                      className="min-h-11 w-full rounded-xl border border-pine-600 bg-pine-800 px-3 font-sans text-xs text-pine-50 focus:border-pine-300 focus:outline-none focus:ring-2 focus:ring-pine-500/30 dark:border-ocean-600 dark:bg-ocean-800 dark:text-ocean-50 dark:focus:border-ocean-400"
+                      className="min-h-11 w-full rounded-xl border border-pine-600 bg-pine-800 px-3 font-sans text-xs text-pine-50 focus:border-pine-300 focus:outline-hidden focus:ring-2 focus:ring-pine-500/30 dark:border-ocean-600 dark:bg-ocean-800 dark:text-ocean-50 dark:focus:border-ocean-400"
                     >
                       <option value="auto">
                         Follow the page ({describeLanguage(narration.pageLanguage)})
@@ -1015,7 +1015,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
                     <select
                       value={voiceURI}
                       onChange={(e) => narration.setVoiceURI(e.target.value)}
-                      className="min-h-11 w-full rounded-xl border border-pine-600 bg-pine-800 px-3 font-sans text-xs text-pine-50 focus:border-pine-300 focus:outline-none focus:ring-2 focus:ring-pine-500/30 dark:border-ocean-600 dark:bg-ocean-800 dark:text-ocean-50 dark:focus:border-ocean-400"
+                      className="min-h-11 w-full rounded-xl border border-pine-600 bg-pine-800 px-3 font-sans text-xs text-pine-50 focus:border-pine-300 focus:outline-hidden focus:ring-2 focus:ring-pine-500/30 dark:border-ocean-600 dark:bg-ocean-800 dark:text-ocean-50 dark:focus:border-ocean-400"
                     >
                       {groupVoicesByLanguage(
                         narration.voices,
@@ -1047,7 +1047,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
                           type="button"
                           onClick={() => narration.setRate(s)}
                           aria-pressed={speechRate === s}
-                          className={`min-h-9 min-w-[3rem] rounded-lg px-2 font-sans text-xs font-medium transition-colors ${
+                          className={`min-h-9 min-w-12 rounded-lg px-2 font-sans text-xs font-medium transition-colors ${
                             speechRate === s
                               ? 'bg-pine-100 text-pine-900 dark:bg-ocean-200 dark:text-ocean-950'
                               : 'bg-pine-800 text-pine-100 hover:bg-pine-700 dark:bg-ocean-800 dark:text-ocean-100 dark:hover:bg-ocean-700'
@@ -1140,7 +1140,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
                 <h2
                   ref={headingRef}
                   tabIndex={-1}
-                  className="font-display text-2xl font-bold text-pine-50 outline-none dark:text-ocean-50"
+                  className="font-display text-2xl font-bold text-pine-50 outline-hidden dark:text-ocean-50"
                 >
                   {WONDER_COUNT} moments when the impossible gave way
                 </h2>
@@ -1268,7 +1268,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
                 <h2
                   ref={headingRef}
                   tabIndex={-1}
-                  className="font-display text-2xl font-bold text-pine-50 outline-none dark:text-ocean-50"
+                  className="font-display text-2xl font-bold text-pine-50 outline-hidden dark:text-ocean-50"
                 >
                   {MIRACLE_INTRO.title}
                 </h2>
@@ -1315,7 +1315,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
                     <h2
                       ref={headingRef}
                       tabIndex={-1}
-                      className="font-display text-xl font-bold text-pine-50 outline-none dark:text-ocean-50"
+                      className="font-display text-xl font-bold text-pine-50 outline-hidden dark:text-ocean-50"
                     >
                       {section.title}
                     </h2>
@@ -1378,7 +1378,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
                     <h2
                       ref={headingRef}
                       tabIndex={-1}
-                      className="font-display text-lg font-bold leading-tight text-pine-50 outline-none dark:text-ocean-50"
+                      className="font-display text-lg font-bold leading-tight text-pine-50 outline-hidden dark:text-ocean-50"
                     >
                       {section.synthesis.heading}
                     </h2>
@@ -1435,7 +1435,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
                   <h2
                     ref={headingRef}
                     tabIndex={-1}
-                    className="font-display text-xl font-bold text-pine-50 outline-none dark:text-ocean-50"
+                    className="font-display text-xl font-bold text-pine-50 outline-hidden dark:text-ocean-50"
                   >
                     {MIRACLE_OUTRO.title}
                   </h2>

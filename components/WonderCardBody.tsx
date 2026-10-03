@@ -93,7 +93,7 @@ export default function WonderCardBody({
           <h2
             ref={headingRef}
             tabIndex={-1}
-            className="font-display text-xl font-bold text-pine-50 outline-none dark:text-ocean-50"
+            className="font-display text-xl font-bold text-pine-50 outline-hidden dark:text-ocean-50"
           >
             {wonder.title}
           </h2>

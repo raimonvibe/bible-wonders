@@ -119,7 +119,7 @@ export default function ReadAloudToolbar() {
   if (!supported) return null
 
   return (
-    <FixedViewportLayer className="flex flex-col items-start gap-3 sm:bottom-6 sm:left-6 [&>*]:pointer-events-auto">
+    <FixedViewportLayer className="flex flex-col items-start gap-3 sm:bottom-6 sm:left-6 *:pointer-events-auto">
       <div data-read-aloud-ignore className="contents">
         <div role="status" aria-live="polite" className="sr-only">
           {statusMessage}
@@ -294,7 +294,7 @@ export default function ReadAloudToolbar() {
                         key={s}
                         type="button"
                         onClick={() => setRate(s)}
-                        className={`min-h-9 min-w-[3rem] rounded-lg px-2 text-xs font-medium font-sans transition-colors ${
+                        className={`min-h-9 min-w-12 rounded-lg px-2 text-xs font-medium font-sans transition-colors ${
                           rate === s
                             ? 'bg-pine-100 text-pine-900 dark:bg-ocean-200 dark:text-ocean-950'
                             : 'bg-pine-800 text-pine-100 hover:bg-pine-700 dark:bg-ocean-800 dark:text-ocean-100 dark:hover:bg-ocean-700'
@@ -313,7 +313,7 @@ export default function ReadAloudToolbar() {
                   <select
                     value={languageChoice}
                     onChange={(e) => setLanguageChoice(e.target.value)}
-                    className="w-full min-h-11 rounded-xl border border-pine-600 bg-pine-800 px-3 text-xs font-sans text-pine-50 focus:border-pine-300 focus:outline-none focus:ring-2 focus:ring-pine-500/30 dark:border-ocean-600 dark:bg-ocean-800 dark:text-ocean-50 dark:focus:border-ocean-400 dark:focus:ring-ocean-400/30"
+                    className="w-full min-h-11 rounded-xl border border-pine-600 bg-pine-800 px-3 text-xs font-sans text-pine-50 focus:border-pine-300 focus:outline-hidden focus:ring-2 focus:ring-pine-500/30 dark:border-ocean-600 dark:bg-ocean-800 dark:text-ocean-50 dark:focus:border-ocean-400 dark:focus:ring-ocean-400/30"
                   >
                     <option value="auto">
                       Follow the page ({describeLanguage(pageLanguage)})
@@ -341,7 +341,7 @@ export default function ReadAloudToolbar() {
                   <select
                     value={voiceURI}
                     onChange={(e) => setVoiceURI(e.target.value)}
-                    className="w-full min-h-11 rounded-xl border border-pine-600 bg-pine-800 px-3 text-xs font-sans text-pine-50 focus:border-pine-300 focus:outline-none focus:ring-2 focus:ring-pine-500/30 dark:border-ocean-600 dark:bg-ocean-800 dark:text-ocean-50 dark:focus:border-ocean-400 dark:focus:ring-ocean-400/30"
+                    className="w-full min-h-11 rounded-xl border border-pine-600 bg-pine-800 px-3 text-xs font-sans text-pine-50 focus:border-pine-300 focus:outline-hidden focus:ring-2 focus:ring-pine-500/30 dark:border-ocean-600 dark:bg-ocean-800 dark:text-ocean-50 dark:focus:border-ocean-400 dark:focus:ring-ocean-400/30"
                     aria-label="Reading voice"
                   >
                     {voices.length === 0 ? (
@@ -425,7 +425,7 @@ export default function ReadAloudToolbar() {
           ) : (
             <Headphones className="relative h-6 w-6 text-pine-50 transition-transform group-hover:scale-105 dark:text-ocean-100" />
           )}
-          <span className="absolute -right-1 -top-1 flex h-5 items-center rounded-full bg-pine-100 px-1.5 text-[9px] font-bold uppercase tracking-wide text-pine-900 shadow-sm dark:bg-ocean-100 dark:text-ocean-900">
+          <span className="absolute -right-1 -top-1 flex h-5 items-center rounded-full bg-pine-100 px-1.5 text-[9px] font-bold uppercase tracking-wide text-pine-900 shadow-xs dark:bg-ocean-100 dark:text-ocean-900">
             Listen
           </span>
         </button>
