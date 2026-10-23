@@ -20,6 +20,22 @@ updates:
           - minor
           - patch
 
+  - package-ecosystem: pub
+    directory: /bible-wonders-flutter
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: Europe/Amsterdam
+    open-pull-requests-limit: 5
+    groups:
+      flutter-dependencies:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
+
   - package-ecosystem: github-actions
     directory: /
     schedule:
