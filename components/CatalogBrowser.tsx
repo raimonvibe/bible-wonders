@@ -287,6 +287,7 @@ export default function CatalogBrowser({
                         onSelect(w)
                         onOpenPassage(w.passage)
                       }}
+                      data-narrate-item
                       className="flex w-full items-center gap-2.5 rounded-xl border border-pine-600/60 bg-pine-900/50 px-3 py-2 text-left transition-colors hover:border-pine-400 hover:bg-pine-800/70 dark:border-ocean-700/60 dark:bg-ocean-900/40 dark:hover:border-ocean-500"
                     >
                       <Icon
@@ -294,11 +295,11 @@ export default function CatalogBrowser({
                         aria-hidden
                       />
                       <span className="min-w-0 flex-1">
-                        <span className="block truncate font-sans text-[13px] font-medium text-pine-50 dark:text-ocean-50">
+                        <span data-narrate-part className="block truncate font-sans text-[13px] font-medium text-pine-50 dark:text-ocean-50">
                           {w.title}
                         </span>
                         <span className="block font-sans text-[11px] text-pine-300 dark:text-ocean-400">
-                          {w.passage.label}
+                          <span data-narrate-part>{w.passage.label}</span>
                           {!written && ' · passage only'}
                         </span>
                       </span>

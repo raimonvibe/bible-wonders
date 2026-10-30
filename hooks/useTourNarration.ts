@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useSpeechEngine, type SpeechSource } from '@/hooks/useSpeechEngine'
 
-const ENABLED_KEY = 'tour-speech-on'
 const MODE_KEY = 'tour-speech-mode'
 
 /**
@@ -17,15 +16,6 @@ const MODES: SpeechMode[] = ['tour', 'passage', 'both']
 /** Marks the stop event the tour fires at the page reader, so it can ignore it. */
 export const TOUR_SPEECH_SOURCE = 'guided-tour'
 
-function readFlag(key: string, fallback: boolean): boolean {
-  try {
-    const raw = localStorage.getItem(key)
-    return raw === null ? fallback : raw === 'true'
-  } catch {
-    return fallback
-  }
-}
-
 function writeStored(key: string, value: string): void {
   try {
     localStorage.setItem(key, value)
@@ -37,12 +27,17 @@ function writeStored(key: string, value: string): void {
 /**
  * Narration for the guided tour and the wonder cards.
  *
- * The same engine the page reader uses, so the two behave identically — the
- * tour adds only what is its own: a master on/off, and whether to read the
- * card, the passage behind it, or both.
+ * The same engine the page reader uses, on the same settings, so a voice,
+ * language or speed chosen in either is the one both read with. The tour adds
+ * only what is its own: whether the reader is listening — which carries on to
+ * the next card or step as they move — and whether to read the card, the
+ * passage behind it, or both.
+ *
+ * Listening is not remembered between visits: a page that starts talking the
+ * moment it opens is a surprise, and iPhones refuse it anyway.
  */
 export function useTourNarration() {
-  const engine = useSpeechEngine('tour-speech')
+  const engine = useSpeechEngine('read-aloud')
   const [enabled, setEnabledState] = useState(false)
   const [mode, setModeState] = useState<SpeechMode>('tour')
 
@@ -51,7 +46,6 @@ export function useTourNarration() {
   useEffect(() => {
     if (typeof window === 'undefined' || !window.speechSynthesis) return
 
-    setEnabledState(readFlag(ENABLED_KEY, false))
     try {
       const saved = localStorage.getItem(MODE_KEY) as SpeechMode | null
       if (saved && MODES.includes(saved)) setModeState(saved)
@@ -85,7 +79,6 @@ export function useTourNarration() {
   const setEnabled = useCallback(
     (next: boolean) => {
       setEnabledState(next)
-      writeStored(ENABLED_KEY, String(next))
       if (!next) stop()
     },
     [stop],

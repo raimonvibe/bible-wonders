@@ -155,6 +155,50 @@ export function getNarrationChunks(root: HTMLElement): ReadChunk[] {
   return chunks
 }
 
+/** A list row the narrator reads as one line, e.g. a wonder in the catalog. */
+const ITEM_SELECTOR = '[data-narrate-item]'
+
+const BROWSE_SELECTOR = `h1, h2, h3, h4, p, ${ITEM_SELECTOR}`
+
+/**
+ * One list row as a spoken line: its marked parts joined with a pause, so a
+ * title and its reference don't run together ("Parting of the Red Sea.
+ * Exodus 14:21–31"). Read from the DOM for the same reason as extractText.
+ */
+function extractItemText(item: HTMLElement): string {
+  const parts = Array.from(item.querySelectorAll<HTMLElement>('[data-narrate-part]'))
+    .map((part) => extractText(part))
+    .filter(Boolean)
+  return parts.length ? parts.join('. ') : extractText(item)
+}
+
+/**
+ * What the Wonders panel reads when no card is open: the headings and copy on
+ * screen, and each list row as one line. Rows are buttons, which the other
+ * readers skip as chrome — here they are the content.
+ */
+export function getBrowseChunks(root: HTMLElement): ReadChunk[] {
+  const candidates = Array.from(root.querySelectorAll<HTMLElement>(BROWSE_SELECTOR))
+    .filter((el) => {
+      const blocked = el.closest<HTMLElement>('[data-read-aloud-ignore]')
+      if (blocked && root.contains(blocked)) return false
+      if (el.matches(ITEM_SELECTOR)) return true
+      // Text inside a row is spoken with the row.
+      if (el.closest(ITEM_SELECTOR)) return false
+      return !el.closest('button')
+    })
+    .sort(compareDocumentOrder)
+
+  const chunks: ReadChunk[] = []
+  for (const element of candidates) {
+    const text = element.matches(ITEM_SELECTOR)
+      ? extractItemText(element)
+      : extractText(element)
+    if (text) chunks.push({ index: chunks.length, text, element })
+  }
+  return chunks
+}
+
 type CachedSelection = {
   text: string
   element: HTMLElement
@@ -244,10 +288,27 @@ export function highlightChunk(element: HTMLElement) {
   element.scrollIntoView({ behavior: 'smooth', block: 'center' })
 }
 
+/**
+ * Apple marks a voice's quality in its identifier, not always in its name:
+ * "com.apple.voice.premium.en-US.Zoe", "com.apple.voice.compact.en-US.Samantha".
+ * Every voice on an iPhone is local, so this is the only signal there is.
+ */
+function appleVoiceTier(voice: SpeechSynthesisVoice): 'premium' | 'enhanced' | 'compact' | null {
+  const uri = (voice.voiceURI ?? '').toLowerCase()
+  if (uri.includes('.premium.')) return 'premium'
+  if (uri.includes('.enhanced.')) return 'enhanced'
+  if (uri.includes('.compact.')) return 'compact'
+  return null
+}
+
 function voiceQualityScore(voice: SpeechSynthesisVoice): number {
   let score = 0
   if (!voice.localService) score += 10
   if (/natural|premium|enhanced|neural|online|cloud/i.test(voice.name)) score += 5
+  const tier = appleVoiceTier(voice)
+  if (tier === 'premium') score += 7
+  else if (tier === 'enhanced') score += 5
+  else if (tier === 'compact') score -= 1
   if (/google|microsoft|amazon|apple/i.test(voice.name)) score += 2
   if (voice.default) score += 1
   return score
@@ -270,7 +331,7 @@ export function sortVoices(voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice
  */
 const NOVELTY_VOICE_NAMES = new Set([
   'albert',
-  'bad news',
+  'badnews',
   'bahh',
   'bells',
   'boing',
@@ -278,13 +339,13 @@ const NOVELTY_VOICE_NAMES = new Set([
   'cellos',
   'deranged',
   'fred',
-  'good news',
+  'goodnews',
   'hysterical',
   'jester',
   'junior',
   'kathy',
   'organ',
-  'pipe organ',
+  'pipeorgan',
   'princess',
   'ralph',
   'superstar',
@@ -303,20 +364,28 @@ const NOVELTY_VOICE_NAMES = new Set([
   'shelley',
 ])
 
-/** "Grandma (Deutsch (Deutschland))" → "grandma"; "Microsoft David - English" → "microsoft david" */
+/**
+ * Letters only, so "Good News", "GoodNews" and "good-news" are one key — the
+ * name and the voiceURI spell multi-word voices differently.
+ */
+function voiceKey(value: string): string {
+  return value.toLowerCase().replace(/[^\p{L}]/gu, '')
+}
+
+/** "Grandma (Deutsch (Deutschland))" → "grandma"; "Microsoft David - English" → "microsoftdavid" */
 function baseVoiceName(name: string): string {
-  return name.split('(')[0].split(' - ')[0].trim().toLowerCase()
+  return voiceKey(name.split('(')[0].split(' - ')[0])
 }
 
 /**
- * "com.apple.speech.synthesis.voice.Bubbles" → "bubbles".
+ * "com.apple.speech.synthesis.voice.GoodNews" → "goodnews".
  *
  * Safari on iPhone, iPad and Mac can show a voice's name in the device's own
  * language, so the name alone lets a translated "Bubbles" through. The
  * voiceURI keeps Apple's English identifier whatever the device language.
  */
 function voiceURIName(uri: string): string {
-  return (uri ?? '').split('.').pop()?.trim().toLowerCase() ?? ''
+  return voiceKey((uri ?? '').split('.').pop() ?? '')
 }
 
 export function isNoveltyVoice(voice: SpeechSynthesisVoice): boolean {
@@ -340,10 +409,18 @@ export function usableVoices(
   return sortVoices(voices.filter((v) => !isNoveltyVoice(v)))
 }
 
+/**
+ * A voice as the picker shows it: its name, plus a quality note where there is
+ * one worth knowing — "Ava · Premium" rather than "Ava (en-US, Local)". The
+ * picker's group heading already names the language and region.
+ */
 export function formatVoiceLabel(voice: SpeechSynthesisVoice): string {
-  const lang = voice.lang.replace('_', '-')
-  const tag = voice.localService ? 'Local' : 'Network'
-  return `${voice.name} (${lang}, ${tag})`
+  const name = voice.name.replace(/\s*\((enhanced|premium)\)\s*$/i, '').trim()
+  const tier = appleVoiceTier(voice)
+  if (tier === 'premium' || /\(premium\)/i.test(voice.name)) return `${name} · Premium`
+  if (tier === 'enhanced' || /\(enhanced\)/i.test(voice.name)) return `${name} · Enhanced`
+  if (!voice.localService) return `${name} · Online`
+  return name
 }
 
 /** "nl-NL" → "Dutch (Netherlands)", falling back to the raw tag. */

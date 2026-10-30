@@ -7,10 +7,10 @@ import {
   ArrowRight,
   BookOpen,
   Check,
-  ChevronDown,
   ChevronLeft,
   ChevronRight,
   Compass,
+  Headphones,
   Heart,
   Languages,
   Layers,
@@ -24,12 +24,12 @@ import {
   RotateCcw,
   Scroll,
   Search,
+  SlidersHorizontal,
   SkipBack,
   SkipForward,
   Sparkles,
   Square,
   Volume2,
-  VolumeX,
   X,
 } from 'lucide-react'
 import {
@@ -75,6 +75,7 @@ import type { SpeechSource } from '@/hooks/useSpeechEngine'
 import {
   describeLanguage,
   formatVoiceLabel,
+  getBrowseChunks,
   getNarrationChunks,
   groupVoicesByLanguage,
 } from '@/lib/readAloud'
@@ -101,10 +102,15 @@ const TESTAMENT_ICONS: Record<TestamentId, IconType> = {
 
 /** Icons-only per the locked design; the label is what screen readers and the
  *  tooltip announce. */
-const SPEECH_MODES: Array<{ id: SpeechMode; label: string; Icon: IconType }> = [
-  { id: 'tour', label: 'Narrate the tour only', Icon: MessageSquareQuote },
-  { id: 'passage', label: 'Narrate the passage only', Icon: BookOpen },
-  { id: 'both', label: 'Narrate the tour, then the passage', Icon: Layers },
+const SPEECH_MODES: Array<{
+  id: SpeechMode
+  short: string
+  label: string
+  Icon: IconType
+}> = [
+  { id: 'tour', short: 'Card', label: 'Read the card only', Icon: MessageSquareQuote },
+  { id: 'passage', short: 'Passage', label: 'Read the Bible passage only', Icon: BookOpen },
+  { id: 'both', short: 'Both', label: 'Read the card, then the passage', Icon: Layers },
 ]
 
 const SEEN_KEY = 'bible-tour-seen'
@@ -177,6 +183,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
     stop: stopNarration,
     pause: pauseNarration,
     resume: resumeNarration,
+    setEnabled: setNarrationEnabled,
   } = narration
   // Held in a ref so the narration effect keys off the settings, not identity.
   const speakRef = useRef(narration.speak)
@@ -259,9 +266,9 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
     setVoiceSheetOpen(false)
     setSearchOpen(false)
     setPathBeforeSearch(null)
-    stopNarration()
+    setNarrationEnabled(false)
     navigateRef.current(null)
-  }, [stopNarration])
+  }, [setNarrationEnabled])
 
   const changePath = useCallback((next: PathState) => {
     setPathState(next)
@@ -397,8 +404,18 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
    * case the DOM cannot answer — narrating while the panel is minimized and
    * the card is unmounted.
    */
-  const segmentsForStep = useCallback((): SpeechSource => {
+  const segmentsForStep = useCallback((modeOverride?: SpeechMode): SpeechSource => {
+    const mode = modeOverride ?? speechMode
     const panel = panelRef.current
+
+    // The overview or a list: read what is on screen, each row as one line.
+    if (!isTour && !selectedWonder) {
+      const body = bodyRef.current
+      return body
+        ? getBrowseChunks(body).map((chunk) => ({ text: chunk.text, element: chunk.element }))
+        : []
+    }
+
     const cardRoot =
       panel?.querySelector<HTMLElement>(
         '[data-narrate="card"], [data-narrate="step"]',
@@ -416,7 +433,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
             : []
         ).map((text) => ({ text }))
 
-    if (speechMode === 'tour') return tour
+    if (mode === 'tour') return tour
 
     const verses: SpeechSource = Array.from(
       document.querySelectorAll<HTMLElement>('.verse-spotlight'),
@@ -434,7 +451,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
     // back to the tour text keeps those steps from being silent.
     if (!verses.length) return tour
 
-    if (speechMode === 'passage') return verses
+    if (mode === 'passage') return verses
 
     // Spoken between the two halves, and taken from the DOM for the same
     // reason everything else is — see the lead-in node in the panel.
@@ -457,14 +474,44 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
   }, [speechStatus, pauseNarration, resumeNarration])
 
   /**
-   * Speech mode: when it is on, each step is read as you arrive at it, and
-   * changing a voice, speed or mode re-reads the current step so the choice can
-   * be heard straight away.
+   * The Listen button. Speaks inside the tap itself — iPhones only let a page
+   * start talking from the gesture that asked — and turns listening on, so the
+   * next card or step is read as you arrive at it.
+   */
+  const toggleListening = useCallback(() => {
+    if (speechOn) {
+      setNarrationEnabled(false)
+      return
+    }
+    setNarrationEnabled(true)
+    setVoiceSheetOpen(false)
+    speakRef.current(segmentsRef.current())
+  }, [speechOn, setNarrationEnabled])
+
+  /** Re-read from the top so a new mode, voice or speed is heard at once. */
+  const rereadIfListening = useCallback(
+    (mode?: SpeechMode) => {
+      if (!speechOn) return
+      speakRef.current(segmentsRef.current(mode))
+    },
+    [speechOn],
+  )
+
+  const speechOnRef = useRef(speechOn)
+  speechOnRef.current = speechOn
+
+  /**
+   * While listening, each card or tour step is read as you arrive at it. Going
+   * back to a list only falls silent: reading out a list of 178 titles is
+   * something to ask for with the Listen button, not something to spring on
+   * anyone mid-browse.
    */
   useEffect(() => {
-    if (!open || !speechOn) return
-    // Nothing to read on the overview or a bare list.
-    if (!isTour && !selectedWonder) return
+    if (!open || !speechOnRef.current) return
+    if (!isTour && !selectedWonder) {
+      stopNarration()
+      return
+    }
 
     const timer = window.setTimeout(() => {
       speakRef.current(segmentsRef.current())
@@ -472,7 +519,29 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
 
     return () => window.clearTimeout(timer)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, speechOn, speechMode, speechRate, voiceURI, stepIndex, view, selectedWonder])
+  }, [open, stepIndex, view, selectedWonder])
+
+  /**
+   * One reader at a time. While the panel is open its Listen button is the
+   * one that reads — card, passage or both — so the page's own Listen button
+   * stands down (hidden by CSS off this attribute) instead of sitting beside
+   * it offering to read the page behind.
+   */
+  const panelShowing = open && !minimized
+  useEffect(() => {
+    const root = document.documentElement
+    if (!panelShowing) {
+      delete root.dataset.wondersPanel
+      return
+    }
+    root.dataset.wondersPanel = 'open'
+    window.dispatchEvent(
+      new CustomEvent('read-aloud-stop', { detail: { source: 'wonders-panel' } }),
+    )
+    return () => {
+      delete root.dataset.wondersPanel
+    }
+  }, [panelShowing])
 
   // Move focus to the new step's heading so screen readers follow along.
   useEffect(() => {
@@ -608,15 +677,27 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
           className="tour-panel-shell pointer-events-auto flex items-center gap-2 rounded-full py-2 pl-4 pr-2 shadow-lg"
         >
           {speechOn && (
-            <Volume2
-              className={`h-3.5 w-3.5 shrink-0 text-pine-300 dark:text-ocean-400 ${
-                narration.speaking ? 'tour-speaking' : ''
-              }`}
-              aria-label="Narration is on"
-            />
+            <button
+              type="button"
+              onClick={toggleNarration}
+              className="listen-play-btn flex min-h-9 min-w-9 shrink-0 items-center justify-center rounded-full text-white shadow-xs"
+              aria-label={
+                speechStatus === 'playing'
+                  ? 'Pause'
+                  : speechStatus === 'paused'
+                    ? 'Resume'
+                    : 'Read this again'
+              }
+            >
+              {speechStatus === 'playing' ? (
+                <Pause className="h-4 w-4" aria-hidden />
+              ) : (
+                <Play className="h-4 w-4 translate-x-px" aria-hidden />
+              )}
+            </button>
           )}
-          <span className="font-sans text-xs font-medium text-pine-100 dark:text-ocean-100">
-            {stepLabel}
+          <span className="min-w-0 truncate font-sans text-xs font-medium text-pine-100 dark:text-ocean-100">
+            {isTour ? stepLabel : (selectedWonder?.title ?? MIRACLE_INTRO.title)}
           </span>
           <button
             type="button"
@@ -664,7 +745,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
         <div className="shrink-0 border-b border-pine-600/70 px-4 pt-3 pb-2 dark:border-ocean-700/70">
           <div className="flex items-start justify-between gap-2">
             <div className="min-w-0">
-              <p className="font-sans text-[11px] font-semibold uppercase tracking-wider text-pine-300 dark:text-ocean-400">
+              <p className="truncate font-sans text-[11px] font-semibold uppercase tracking-wider text-pine-300 dark:text-ocean-400">
                 {MIRACLE_INTRO.title}
               </p>
               <p className="truncate font-sans text-xs text-pine-300 dark:text-ocean-300">
@@ -688,46 +769,44 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
                 <Search className="h-4 w-4" aria-hidden />
               </button>
 
-              {(isTour || selectedWonder) && narration.supported && (
-                <div className="tour-speech-control flex items-center">
+              {narration.supported && (
+                <div className="tour-listen-control flex items-center">
                   <button
                     type="button"
-                    onClick={() => {
-                      const next = !speechOn
-                      narration.setEnabled(next)
-                      if (!next) setVoiceSheetOpen(false)
-                    }}
-                    className={`tour-icon-btn ${speechOn ? 'tour-icon-btn-on' : ''}`}
+                    onClick={toggleListening}
+                    className={`tour-listen-btn ${speechOn ? 'tour-listen-btn-on' : ''}`}
                     aria-pressed={speechOn}
                     aria-label={
-                      speechOn ? 'Turn narration off' : 'Read the tour aloud'
+                      speechOn
+                        ? 'Stop listening'
+                        : selectedWonder || isTour
+                          ? 'Listen to this card'
+                          : 'Listen to this list'
                     }
                   >
                     {speechOn ? (
                       <Volume2
-                        className={`h-4 w-4 ${narration.speaking ? 'tour-speaking' : ''}`}
+                        className={`h-4 w-4 shrink-0 ${narration.speaking ? 'tour-speaking' : ''}`}
                         aria-hidden
                       />
                     ) : (
-                      <VolumeX className="h-4 w-4" aria-hidden />
+                      <Headphones className="h-4 w-4 shrink-0" aria-hidden />
                     )}
+                    {/* The same word on and off: the filled pill and the moving
+                        speaker say it is on, and a stable width keeps the
+                        header from reflowing on a phone. */}
+                    <span className="tour-listen-label">Listen</span>
                   </button>
-
-                  {/* Voice and speed stay hidden until narration is actually on. */}
-                  {speechOn && (
-                    <button
-                      type="button"
-                      onClick={() => setVoiceSheetOpen((v) => !v)}
-                      className="tour-icon-btn tour-icon-btn-slim"
-                      aria-expanded={voiceSheetOpen}
-                      aria-label="Voice and speed"
-                    >
-                      <ChevronDown
-                        className={`h-3.5 w-3.5 transition-transform ${voiceSheetOpen ? 'rotate-180' : ''}`}
-                        aria-hidden
-                      />
-                    </button>
-                  )}
+                  <button
+                    type="button"
+                    onClick={() => setVoiceSheetOpen((v) => !v)}
+                    className={`tour-icon-btn tour-icon-btn-slim ${voiceSheetOpen ? 'tour-icon-btn-on' : ''}`}
+                    aria-expanded={voiceSheetOpen}
+                    aria-label="Voice, language and speed"
+                    title="Voice, language and speed"
+                  >
+                    <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden />
+                  </button>
                 </div>
               )}
 
@@ -789,116 +868,118 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
             </div>
           )}
 
-          {/* What to narrate. Sits on its own row rather than in the voice
-              sheet, so switching stays one click and never gets buried. */}
-          {(isTour || selectedWonder) && narration.supported && speechOn && (
-            <div
-              role="radiogroup"
-              aria-label="What to narrate"
-              className="mt-2.5 flex justify-end"
-            >
-              <div className="tour-mode-group">
-                {SPEECH_MODES.map((m) => {
-                  const active = speechMode === m.id
-                  return (
-                    <button
-                      key={m.id}
-                      type="button"
-                      role="radio"
-                      aria-checked={active}
-                      title={m.label}
-                      onClick={() => narration.setMode(m.id)}
-                      className={`tour-mode-btn ${active ? 'tour-mode-btn-on' : ''}`}
-                    >
-                      <m.Icon className="h-3.5 w-3.5" aria-hidden />
-                      {/* Real text, not aria-label: page translators rewrite
-                          text nodes and `title`, but leave aria-label in
-                          English. Still icons-only on screen. */}
-                      <span className="sr-only">{m.label}</span>
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-          )}
+          {/* The player, while listening. One row of transport, then — on a
+              card or tour step, where there is a passage behind it — what to
+              read. Labelled, not icons alone: "Card / Passage / Both" has to
+              be understood at a glance. */}
+          {narration.supported && speechOn && (
+            <div className="tour-player mt-2.5 space-y-2 rounded-xl p-2">
+              <div className="flex items-center gap-2">
+                <div className="flex shrink-0 items-center gap-0.5">
+                  <button
+                    type="button"
+                    onClick={() => narration.skip(-1)}
+                    disabled={!narration.isActive || narration.currentIndex === 0}
+                    className="tour-icon-btn disabled:pointer-events-none disabled:opacity-40"
+                    aria-label="Previous line"
+                  >
+                    <SkipBack className="h-3.5 w-3.5" aria-hidden />
+                  </button>
 
-          {/* Transport. The same controls as the page reader's Listen panel —
-              pause where you are, step back over a line you missed, stop. */}
-          {(isTour || selectedWonder) && narration.supported && speechOn && (
-            <div className="mt-2 flex items-center gap-2">
-              <div className="flex shrink-0 items-center gap-0.5">
-                <button
-                  type="button"
-                  onClick={() => narration.skip(-1)}
-                  disabled={!narration.isActive || narration.currentIndex === 0}
-                  className="tour-icon-btn disabled:pointer-events-none disabled:opacity-40"
-                  aria-label="Previous line"
-                >
-                  <SkipBack className="h-3.5 w-3.5" aria-hidden />
-                </button>
+                  <button
+                    type="button"
+                    onClick={toggleNarration}
+                    className="listen-play-btn flex min-h-10 min-w-10 items-center justify-center rounded-full text-white shadow-xs transition-opacity hover:opacity-90"
+                    aria-label={
+                      speechStatus === 'playing'
+                        ? 'Pause'
+                        : speechStatus === 'paused'
+                          ? 'Resume'
+                          : 'Read this again'
+                    }
+                  >
+                    {speechStatus === 'playing' ? (
+                      <Pause className="h-4 w-4" aria-hidden />
+                    ) : (
+                      <Play className="h-4 w-4 translate-x-px" aria-hidden />
+                    )}
+                  </button>
 
-                <button
-                  type="button"
-                  onClick={toggleNarration}
-                  className="listen-play-btn flex min-h-9 min-w-9 items-center justify-center rounded-full text-white shadow-xs transition-opacity hover:opacity-90"
-                  aria-label={
-                    speechStatus === 'playing'
-                      ? 'Pause narration'
-                      : speechStatus === 'paused'
-                        ? 'Resume narration'
-                        : 'Read this aloud'
-                  }
-                >
-                  {speechStatus === 'playing' ? (
-                    <Pause className="h-4 w-4" aria-hidden />
-                  ) : (
-                    <Play className="h-4 w-4 translate-x-px" aria-hidden />
-                  )}
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => narration.skip(1)}
+                    disabled={
+                      !narration.isActive ||
+                      narration.currentIndex >= narration.chunks.length - 1
+                    }
+                    className="tour-icon-btn disabled:pointer-events-none disabled:opacity-40"
+                    aria-label="Next line"
+                  >
+                    <SkipForward className="h-3.5 w-3.5" aria-hidden />
+                  </button>
 
-                <button
-                  type="button"
-                  onClick={() => narration.skip(1)}
-                  disabled={
-                    !narration.isActive ||
-                    narration.currentIndex >= narration.chunks.length - 1
-                  }
-                  className="tour-icon-btn disabled:pointer-events-none disabled:opacity-40"
-                  aria-label="Next line"
-                >
-                  <SkipForward className="h-3.5 w-3.5" aria-hidden />
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => setNarrationEnabled(false)}
+                    className="tour-icon-btn"
+                    aria-label="Stop listening"
+                  >
+                    <Square className="h-3.5 w-3.5" aria-hidden />
+                  </button>
+                </div>
 
-                <button
-                  type="button"
-                  onClick={stopNarration}
-                  disabled={!narration.isActive}
-                  className="tour-icon-btn disabled:pointer-events-none disabled:opacity-40"
-                  aria-label="Stop narration"
-                >
-                  <Square className="h-3.5 w-3.5" aria-hidden />
-                </button>
-              </div>
-
-              <div
-                className="h-1 min-w-0 flex-1 overflow-hidden rounded-full bg-pine-700 dark:bg-ocean-800"
-                role="progressbar"
-                aria-valuenow={Math.round(narration.progress)}
-                aria-valuemin={0}
-                aria-valuemax={100}
-                aria-label="Narration progress"
-              >
                 <div
-                  className="listen-progress-bar h-full transition-all duration-300"
-                  style={{ width: `${narration.progress}%` }}
-                />
+                  className="h-1 min-w-0 flex-1 overflow-hidden rounded-full bg-pine-700 dark:bg-ocean-800"
+                  role="progressbar"
+                  aria-valuenow={Math.round(narration.progress)}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                  aria-label="Reading progress"
+                >
+                  <div
+                    className="listen-progress-bar h-full transition-all duration-300"
+                    style={{ width: `${narration.progress}%` }}
+                  />
+                </div>
+
+                <span className="shrink-0 font-sans text-[10px] tabular-nums text-pine-300 dark:text-ocean-400">
+                  {narration.isActive && narration.chunks.length > 0
+                    ? `${narration.currentIndex + 1}/${narration.chunks.length}`
+                    : 'Done'}
+                </span>
               </div>
 
-              <span className="shrink-0 font-sans text-[10px] tabular-nums text-pine-300 dark:text-ocean-400">
-                {narration.chunks.length > 0
-                  ? `${narration.currentIndex + 1}/${narration.chunks.length}`
-                  : '—'}
-              </span>
+              {(isTour || selectedWonder) && (
+                <div
+                  role="radiogroup"
+                  aria-label="What to read"
+                  className="tour-mode-group flex w-full"
+                >
+                  {SPEECH_MODES.map((m) => {
+                    const active = speechMode === m.id
+                    return (
+                      <button
+                        key={m.id}
+                        type="button"
+                        role="radio"
+                        aria-checked={active}
+                        title={m.label}
+                        onClick={() => {
+                          narration.setMode(m.id)
+                          rereadIfListening(m.id)
+                        }}
+                        className={`tour-mode-btn flex-1 gap-1.5 px-2 ${active ? 'tour-mode-btn-on' : ''}`}
+                      >
+                        <m.Icon className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                        <span className="font-sans text-[11px] font-medium">{m.short}</span>
+                        {/* Real text, not aria-label: page translators rewrite
+                            text nodes but leave aria-label in English. */}
+                        <span className="sr-only">: {m.label}</span>
+                      </button>
+                    )
+                  })}
+                </div>
+              )}
             </div>
           )}
 
@@ -963,7 +1044,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
                   aria-hidden
                 />
                 <h2 className="font-display text-base font-bold text-pine-50 dark:text-ocean-50">
-                  Narration
+                  Voice, language and speed
                 </h2>
               </div>
 
@@ -993,9 +1074,10 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
                       ))}
                     </select>
                     <span className="mt-1.5 block font-sans text-[10px] leading-relaxed text-pine-300 dark:text-ocean-300">
-                      The cards are read from the page itself, so translating
-                      the page translates the narration with it. Set a language
-                      here if the page is not detected correctly.
+                      The wonders are read from the page itself, so translating
+                      the page translates what you hear with it. Set a language
+                      here if the page is not detected correctly. Shared with
+                      the Listen button on the Bible.
                     </span>
                   </label>
 
@@ -1014,7 +1096,10 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
                     </span>
                     <select
                       value={voiceURI}
-                      onChange={(e) => narration.setVoiceURI(e.target.value)}
+                      onChange={(e) => {
+                        narration.setVoiceURI(e.target.value)
+                        rereadIfListening()
+                      }}
                       className="min-h-11 w-full rounded-xl border border-pine-600 bg-pine-800 px-3 font-sans text-xs text-pine-50 focus:border-pine-300 focus:outline-hidden focus:ring-2 focus:ring-pine-500/30 dark:border-ocean-600 dark:bg-ocean-800 dark:text-ocean-50 dark:focus:border-ocean-400"
                     >
                       {groupVoicesByLanguage(
@@ -1045,7 +1130,10 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
                         <button
                           key={s}
                           type="button"
-                          onClick={() => narration.setRate(s)}
+                          onClick={() => {
+                            narration.setRate(s)
+                            rereadIfListening()
+                          }}
                           aria-pressed={speechRate === s}
                           className={`min-h-9 min-w-12 rounded-lg px-2 font-sans text-xs font-medium transition-colors ${
                             speechRate === s
@@ -1100,13 +1188,19 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
                   <div className="flex items-center gap-2 border-t border-pine-700 pt-3 dark:border-ocean-700">
                     <button
                       type="button"
-                      onClick={() =>
-                        speakRef.current(segmentsForStep())
-                      }
+                      onClick={() => {
+                        setVoiceSheetOpen(false)
+                        if (speechOn) speakRef.current(segmentsForStep())
+                        else toggleListening()
+                      }}
                       className="flex min-h-10 items-center gap-1.5 rounded-xl px-3 font-sans text-xs btn-surface hover:shadow-md"
                     >
-                      <RotateCcw className="h-3.5 w-3.5" aria-hidden />
-                      Replay step
+                      {speechOn ? (
+                        <RotateCcw className="h-3.5 w-3.5" aria-hidden />
+                      ) : (
+                        <Headphones className="h-3.5 w-3.5" aria-hidden />
+                      )}
+                      {speechOn ? 'Read again' : 'Listen now'}
                     </button>
                     <div className="flex-1" />
                     <button
@@ -1156,13 +1250,14 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
                       key={id}
                       type="button"
                       onClick={() => choosePath(id)}
+                      data-narrate-item
                       className="flex w-full items-center gap-2.5 rounded-xl border border-pine-600/60 bg-pine-900/50 px-3 py-2.5 text-left transition-colors hover:border-pine-400 hover:bg-pine-800/70 dark:border-ocean-700/60 dark:bg-ocean-900/40 dark:hover:border-ocean-500"
                     >
                       <span className="min-w-0 flex-1">
-                        <span className="block font-sans text-[13px] font-semibold text-pine-50 dark:text-ocean-50">
+                        <span data-narrate-part className="block font-sans text-[13px] font-semibold text-pine-50 dark:text-ocean-50">
                           {PATH_LABELS[id]}
                         </span>
-                        <span className="block font-sans text-[11px] leading-snug text-pine-300 dark:text-ocean-400">
+                        <span data-narrate-part className="block font-sans text-[11px] leading-snug text-pine-300 dark:text-ocean-400">
                           {PATH_BLURBS[id]}
                         </span>
                       </span>
@@ -1179,13 +1274,14 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
                       setView('tour')
                       restart()
                     }}
+                    data-narrate-item
                     className="flex w-full items-center gap-2.5 rounded-xl border border-pine-600/60 bg-pine-900/50 px-3 py-2.5 text-left transition-colors hover:border-pine-400 hover:bg-pine-800/70 dark:border-ocean-700/60 dark:bg-ocean-900/40 dark:hover:border-ocean-500"
                   >
                     <span className="min-w-0 flex-1">
-                      <span className="block font-sans text-[13px] font-semibold text-pine-50 dark:text-ocean-50">
+                      <span data-narrate-part className="block font-sans text-[13px] font-semibold text-pine-50 dark:text-ocean-50">
                         Guided tour
                       </span>
-                      <span className="block font-sans text-[11px] leading-snug text-pine-300 dark:text-ocean-400">
+                      <span data-narrate-part className="block font-sans text-[11px] leading-snug text-pine-300 dark:text-ocean-400">
                         Fourteen wonders, walked in order, read aloud if you like.
                       </span>
                     </span>
@@ -1201,7 +1297,7 @@ export default function GuidedTour({ onNavigate }: GuidedTourProps) {
             {/* Offered, never forced: reopening the panel should not drag you
                 back somewhere without asking. */}
             {!isTour && !selectedWonder && (resumeWonder || resumeStep > 0) && (
-              <div className="mb-3 space-y-1.5 rounded-xl border border-pine-600/70 bg-pine-800/50 p-3 dark:border-ocean-700/70 dark:bg-ocean-900/40">
+              <div data-read-aloud-ignore className="mb-3 space-y-1.5 rounded-xl border border-pine-600/70 bg-pine-800/50 p-3 dark:border-ocean-700/70 dark:bg-ocean-900/40">
                 <p className="font-sans text-[11px] font-semibold uppercase tracking-wide text-pine-300 dark:text-ocean-400">
                   Pick up where you left off
                 </p>

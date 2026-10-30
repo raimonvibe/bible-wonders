@@ -50,6 +50,15 @@ function writeStored(key: string, value: string): void {
   }
 }
 
+/**
+ * Fired when one reader saves a setting, so every other reader on the same
+ * storage key picks it up at once — the voice chosen in the Listen panel is
+ * the voice the Wonders panel reads with, without a reload.
+ */
+const SETTINGS_EVENT = 'speech-settings-changed'
+
+type SettingsEventDetail = { storageKey: string; from: symbol }
+
 function readNumber(key: string, min: number, max: number, fallback: number): number {
   const stored = readStored(key)
   // Number(null) is 0, which is a legal volume — so an unset key has to be
@@ -93,6 +102,10 @@ export function useSpeechEngine(storageKey: string) {
   const languageChoiceRef = useRef(languageChoice)
   /** The language of the session in progress, fixed when it started. */
   const activeLanguageRef = useRef(SOURCE_LANGUAGE)
+  /** Identifies this reader's own settings events, so it ignores them. */
+  const instanceRef = useRef(Symbol('speech-engine'))
+  /** Bumped when another reader changes a setting, to re-pick the voice. */
+  const [settingsVersion, setSettingsVersion] = useState(0)
 
   useEffect(() => {
     settingsRef.current = { rate, pitch, volume, voiceURI }
@@ -141,19 +154,32 @@ export function useSpeechEngine(storageKey: string) {
       return
     }
 
+    const loadSettings = () => {
+      setRateState(readNumber(`${storageKey}-rate`, 0.5, 2, 1))
+      setPitchState(readNumber(`${storageKey}-pitch`, 0.5, 1.5, 1))
+      setVolumeState(readNumber(`${storageKey}-volume`, 0, 1, 1))
+      setLanguageChoiceState(readStored(`${storageKey}-language`) ?? 'auto')
+    }
+
+    const onSettingsChanged = (event: Event) => {
+      const detail = (event as CustomEvent<SettingsEventDetail>).detail
+      if (detail?.storageKey !== storageKey || detail.from === instanceRef.current) return
+      loadSettings()
+      setSettingsVersion((v) => v + 1)
+    }
+
     setSupported(true)
-    setRateState(readNumber(`${storageKey}-rate`, 0.5, 2, 1))
-    setPitchState(readNumber(`${storageKey}-pitch`, 0.5, 1.5, 1))
-    setVolumeState(readNumber(`${storageKey}-volume`, 0, 1, 1))
-    setLanguageChoiceState(readStored(`${storageKey}-language`) ?? 'auto')
+    loadSettings()
     setPageLanguage(detectPageLanguage())
 
     loadVoices()
     window.speechSynthesis.addEventListener?.('voiceschanged', loadVoices)
+    window.addEventListener(SETTINGS_EVENT, onSettingsChanged)
     const unobserve = observePageLanguage(setPageLanguage)
 
     return () => {
       window.speechSynthesis.removeEventListener?.('voiceschanged', loadVoices)
+      window.removeEventListener(SETTINGS_EVENT, onSettingsChanged)
       unobserve()
       window.speechSynthesis.cancel()
     }
@@ -168,7 +194,7 @@ export function useSpeechEngine(storageKey: string) {
     const saved = readStored(voiceKey(targetLanguage)) ?? undefined
     const next = pickVoiceForLanguage(voices, targetLanguage, saved)
     setVoiceURIState(next?.voiceURI ?? '')
-  }, [voices, targetLanguage, voiceKey])
+  }, [voices, targetLanguage, voiceKey, settingsVersion])
 
   /* --- speaking --------------------------------------------------------- */
 
@@ -270,10 +296,13 @@ export function useSpeechEngine(storageKey: string) {
       activeLanguageRef.current =
         languageChoiceRef.current === 'auto' ? detected : languageChoiceRef.current
 
+      const synth = window.speechSynthesis
+      const busy = synth.speaking || synth.pending || synth.paused
+
       sessionRef.current.generation += 1
       sessionRef.current.stopped = false
       sessionRef.current.paused = false
-      window.speechSynthesis.cancel()
+      if (busy) synth.cancel()
       clearChunkHighlights()
 
       chunksRef.current = list
@@ -281,7 +310,12 @@ export function useSpeechEngine(storageKey: string) {
       indexRef.current = 0
       setCurrentIndex(0)
 
-      window.setTimeout(() => speakChunk(0), AFTER_CANCEL)
+      // From silence, speak in this same call: Safari on iPhone and iPad only
+      // lets a page start talking from inside the tap that asked for it, and a
+      // timer can lose that. The pause after cancel() is only needed when
+      // something was actually cancelled.
+      if (busy) window.setTimeout(() => speakChunk(0), AFTER_CANCEL)
+      else speakChunk(0)
       return true
     },
     [speakChunk],
@@ -317,28 +351,40 @@ export function useSpeechEngine(storageKey: string) {
 
   /* --- settings --------------------------------------------------------- */
 
+  const saveSetting = useCallback(
+    (key: string, value: string) => {
+      writeStored(key, value)
+      window.dispatchEvent(
+        new CustomEvent<SettingsEventDetail>(SETTINGS_EVENT, {
+          detail: { storageKey, from: instanceRef.current },
+        }),
+      )
+    },
+    [storageKey],
+  )
+
   const setRate = useCallback(
     (value: number) => {
       setRateState(value)
-      writeStored(`${storageKey}-rate`, String(value))
+      saveSetting(`${storageKey}-rate`, String(value))
     },
-    [storageKey],
+    [storageKey, saveSetting],
   )
 
   const setPitch = useCallback(
     (value: number) => {
       setPitchState(value)
-      writeStored(`${storageKey}-pitch`, String(value))
+      saveSetting(`${storageKey}-pitch`, String(value))
     },
-    [storageKey],
+    [storageKey, saveSetting],
   )
 
   const setVolume = useCallback(
     (value: number) => {
       setVolumeState(value)
-      writeStored(`${storageKey}-volume`, String(value))
+      saveSetting(`${storageKey}-volume`, String(value))
     },
-    [storageKey],
+    [storageKey, saveSetting],
   )
 
   const setVoiceURI = useCallback(
@@ -348,18 +394,18 @@ export function useSpeechEngine(storageKey: string) {
       const voice = voicesRef.current.find((v) => v.voiceURI === uri)
       // Filed under the language it speaks, not the one on screen, so picking
       // a Dutch voice while reading Dutch is remembered as the Dutch choice.
-      writeStored(voiceKey(voice ? voice.lang : targetLanguage), uri)
+      saveSetting(voiceKey(voice ? voice.lang : targetLanguage), uri)
       if (voice) activeLanguageRef.current = voice.lang
     },
-    [voiceKey, targetLanguage],
+    [voiceKey, targetLanguage, saveSetting],
   )
 
   const setLanguageChoice = useCallback(
     (choice: LanguageChoice) => {
       setLanguageChoiceState(choice)
-      writeStored(`${storageKey}-language`, choice)
+      saveSetting(`${storageKey}-language`, choice)
     },
-    [storageKey],
+    [storageKey, saveSetting],
   )
 
   /* --- derived ---------------------------------------------------------- */
