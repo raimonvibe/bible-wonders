@@ -119,7 +119,7 @@ export default function ReadAloudToolbar() {
   if (!supported) return null
 
   return (
-    <FixedViewportLayer className="flex flex-col items-start gap-3 sm:bottom-6 sm:left-6 *:pointer-events-auto">
+    <FixedViewportLayer className="listen-layer flex flex-col items-start gap-3 sm:bottom-6 sm:left-6 *:pointer-events-auto">
       <div data-read-aloud-ignore className="contents">
         <div role="status" aria-live="polite" className="sr-only">
           {statusMessage}
@@ -396,7 +396,7 @@ export default function ReadAloudToolbar() {
               </div>
 
               <p className="text-center text-[10px] leading-relaxed font-sans text-pine-300 dark:text-ocean-300">
-                Highlight text first for &ldquo;Read selection&rd;. Shortcuts: Alt+R
+                Highlight text first for &ldquo;Read selection&rdquo;. Shortcuts: Alt+R
                 play/pause · Alt+S stop
               </p>
             </div>
